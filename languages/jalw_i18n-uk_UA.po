@@ -1,0 +1,142 @@
+# PLEASE TRY TO TRANSLATE THIS PLUGIN TO OTHER LANGUAGES, ANY HELP IS WELCOMED.
+# Copyright (C) 2013 jQuery Archive List Widget
+# This file is distributed under the same license as the jQuery Archive List Widget package.
+msgid ""
+msgstr ""
+"Project-Id-Version: jQuery Archive List Widget 2.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/jquery-archive-list-widget\n"
+"POT-Creation-Date: 2013-03-25 16:54:38+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-09-23 09:49+0200\n"
+"Last-Translator: Alex Popov <alxzaur@gmail.com>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.6.9\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: uk_UA\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: jquery-archive-list-widget.php:95
+msgid "Archives"
+msgstr "Архіви"
+
+#: jquery-archive-list-widget.php:149
+msgid "Title"
+msgstr "Назва"
+
+#: jquery-archive-list-widget.php:153
+msgid "Trigger Symbol"
+msgstr "Позначка"
+
+#: jquery-archive-list-widget.php:157
+msgid "Empty Space"
+msgstr "Пробіли"
+
+#: jquery-archive-list-widget.php:170
+msgid "Effect"
+msgstr "Ефект"
+
+#: jquery-archive-list-widget.php:174 jquery-archive-list-widget.php:202
+msgid "None"
+msgstr "Нічого"
+
+#: jquery-archive-list-widget.php:177
+msgid "Slide (Accordion)"
+msgstr "Розгорнути"
+
+#: jquery-archive-list-widget.php:180
+msgid "Fade"
+msgstr "Затухання"
+
+#: jquery-archive-list-widget.php:184
+msgid "Month Format"
+msgstr "Назва місяцю"
+
+#: jquery-archive-list-widget.php:188
+msgid "Full Name (January)"
+msgstr "Повна (напр. Січень)"
+
+#: jquery-archive-list-widget.php:191
+msgid "Short Name (Jan)"
+msgstr "Скорочена (напр. Січ)"
+
+#: jquery-archive-list-widget.php:194
+msgid "Number (01)"
+msgstr "Номер (напр. 01)"
+
+#: jquery-archive-list-widget.php:198
+msgid "Expand"
+msgstr "Розгорнути"
+
+#: jquery-archive-list-widget.php:205
+msgid "All"
+msgstr "Всі"
+
+#: jquery-archive-list-widget.php:208
+msgid "Current or post date"
+msgstr "Дата запису або поточна"
+
+#: jquery-archive-list-widget.php:208
+msgid "Only post date"
+msgstr "Тільки дата запису"
+
+#: jquery-archive-list-widget.php:208
+msgid "Only current date"
+msgstr "Тільки поточна дата"
+
+#: jquery-archive-list-widget.php:212
+msgid "Extra options"
+msgstr "Додатково"
+
+#: jquery-archive-list-widget.php:215
+msgid "Show number of posts"
+msgstr "Відображувати кількість записів"
+
+#: jquery-archive-list-widget.php:233
+msgid "Show only post from selected category in a category page"
+msgstr "На сторінці категорії відображувати записи тільки з неї"
+
+#: jquery-archive-list-widget.php:219
+msgid "Show posts under months"
+msgstr "Відображувати назви записів"
+
+#: jquery-archive-list-widget.php:223
+msgid "Only expand/reduce by clicking the symbol"
+msgstr "Розгортати тільки після натискання на позначці"
+
+#: jquery-archive-list-widget.php:530
+msgid "Only expand one at a the same time (accordion effect)"
+msgstr "Розширюйте їх лише в один і той же час (аккордеонний ефект)"
+
+#: jquery-archive-list-widget.php:225
+msgid "Exclude categories"
+msgstr "За виключенням категорій"
+
+#: jquery-archive-list-widget.php:351
+msgid "There are no post to show."
+msgstr "Немає записів для відображення."
+
+#. Plugin Name of the plugin/theme
+msgid "jQuery Archive List Widget"
+msgstr "jQuery Архіви"
+
+#. Plugin URI of the plugin/theme
+msgid "http://skatox.com/blog/jquery-archive-list-widget/"
+msgstr "http://skatox.com/blog/jquery-archive-list-widget/"
+
+#. Description of the plugin/theme
+msgid ""
+"A simple jQuery widget for displaying an archive list with some effects."
+msgstr ""
+"Спрощений jQuery-віджет для віддображення архіву записів з ефектом "
+"розгортання."
+
+#. Author of the plugin/theme
+msgid "Miguel Useche"
+msgstr "Miguel Useche"
+
+#. Author URI of the plugin/theme
+msgid "http://migueluseche.com/"
+msgstr "http://migueluseche.com/"

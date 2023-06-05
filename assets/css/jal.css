@@ -1,0 +1,109 @@
+.jal-show {
+    display: block;
+}
+
+.jal-hide {
+    display: none;
+}
+
+.jal-fade-in {
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    animation: fadeIn .5s linear;
+}
+
+.jal-fade-out {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    animation: fadeOut .5s linear;
+}
+.jal-slide-up {
+    height: 0;
+}
+
+.jal-slide-up, .jal-slide-down {
+    overflow: hidden;
+    transition: height .5s ease-in-out;
+}
+
+.jal-fade-in, .jal-fade-out {
+    animation-iteration-count: 1;
+}
+
+.jaw_widget.preload .jal-fade-out {
+    animation-duration: 0s;
+}
+
+body .wp-block-js-archive-list-archive-widget ul.jaw_widget,
+body .wp-block-js-archive-list-archive-widget ul.jaw_widget ul,
+body ul.jaw_widget, ul.jaw_widget ul {
+	list-style: none;
+	margin-left: 0;
+    padding-left: 0;
+}
+
+.wp-block-js-archive-list-archive-widget ul.jaw_widget li,
+.jaw_widget ul li {
+    padding-left: 1rem;
+	list-style: none;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        height: auto;
+        visibility: visible;
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+        height: auto;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        height: auto;
+        visibility: visible;
+    }
+    85% {
+        opacity: 0;
+    }
+    99% {
+        height: auto;
+        visibility: visible;
+    }
+    100% {
+        visibility: hidden;
+        height: 0;
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(100%);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        height: auto;
+        transform: scaleY(1);
+    }
+    99%{
+        height: auto;
+        transform: scaleY(0);
+    }
+    100% {
+        height: 0;
+    }
+}
+

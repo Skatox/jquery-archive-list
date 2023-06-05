@@ -1,0 +1,125 @@
+// Loading component
+.js-archive-list {
+	a, a:focus, a:hover { text-decoration: none; }
+
+	.loading {
+		display: inline-block;
+		padding-left: 5px;
+		vertical-align: middle;
+		width: 25px;
+	}
+}
+
+// Animation classes
+.jal-show {
+	display: block;
+}
+
+.jal-hide {
+	display: none;
+}
+
+.jal-fade-in {
+	opacity: 0;
+	animation: fadeIn .5s forwards;
+}
+
+.jal-fade-out {
+	opacity: 1;
+	overflow: hidden;
+	animation: fadeOut .5s forwards;
+}
+
+.jal-slide-up {
+	transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+	max-height: 0;
+}
+
+.jal-slide-down {
+	max-height: 1000px;
+	transition: max-height 1s ease-in-out;
+}
+
+
+.jal-slide-up, .jal-slide-down {
+	overflow: hidden;
+}
+
+.jal-fade-in, .jal-fade-out {
+	animation-iteration-count: 1;
+}
+
+.jaw_widget.preload .jal-fade-out {
+	animation-duration: 0s;
+}
+
+body .wp-block-js-archive-list-archive-widget ul.jaw_widget,
+body .wp-block-js-archive-list-archive-widget ul.jaw_widget ul,
+body ul.jaw_widget, ul.jaw_widget ul {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+.wp-block-js-archive-list-archive-widget ul.jaw_widget li,
+.jaw_widget ul li {
+	padding-left: 1rem;
+	list-style: none;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+				height: auto;
+    }
+		99% {
+				display: block;
+				height: auto;
+		}
+    100% {
+        opacity: 0;
+				height:0;
+				display: none;
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(100%);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        height: auto;
+        transform: scaleY(1);
+    }
+    99%{
+        height: auto;
+        transform: scaleY(0);
+    }
+    100% {
+        height: 0;
+    }
+}
+
+
+/** Bullet's padding **/
+.jaw_symbol {
+	margin-right: 0.5rem;
+}
+

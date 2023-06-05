@@ -1,0 +1,11 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+@import '../assets/css/jal.css';
+.jalw-controls .components-base-control {
+  width: 100%;
+}
+
+/*# sourceMappingURL=editor.css.map */
