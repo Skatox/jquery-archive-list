@@ -2,7 +2,8 @@
  * WordPress dependencies
  */
 import { createContext, useState } from '@wordpress/element';
-
+import useAnimation from  "../hooks/useAnimation"
+ 
 export const defaultConfig = {
 	title: '',
 	symbol: '0',
@@ -40,9 +41,11 @@ export const ConfigProvider = ( { attributes, children } ) => {
 
 		updateContextConfig( parsedConfig );
 	};
+	
+  const animationFunction = useAnimation( config.effect );
 
 	return (
-		<ConfigContext.Provider value={ { config, setConfig } }>
+		<ConfigContext.Provider value={ { config, setConfig, animationFunction } }>
 			{ children }
 		</ConfigContext.Provider>
 	);

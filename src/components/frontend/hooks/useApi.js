@@ -15,7 +15,7 @@ export default function useApi( url ) {
 	const [ loading, setLoading ] = useState( false );
 
 	/* global jalwCurrentCat, jalwCurrentPost */
-	const apiClient = async function( config, callback ) {
+	const apiClient = async function( config ) {
 		setLoading( true );
 
 		const params = new URLSearchParams( {
@@ -46,11 +46,11 @@ export default function useApi( url ) {
 			.then( ( response ) => {
 				setData( response );
 				setLoading( false );
-				if ( callback ) {
-					callback( response );
-				}
 			} )
-			.catch( ( e ) => setError( e ) );
+			.catch( ( e ) => {
+        setLoading( false );
+        setError( e );
+      });
 	};
 
 	return { apiClient, data, error, loading, setLoading };
