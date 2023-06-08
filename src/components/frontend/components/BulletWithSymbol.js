@@ -30,10 +30,10 @@ const BulletWithSymbol = ( {
 		<a
 			href={ permalink }
 			title={ title }
-			className={ expandedClass }
+			className={ `${expandedClass} jaw_symbol` }
 			onClick={ onToggle }
 		>
-			<span className="jaw_symbol">{ symbol }</span>
+			{ symbol }
 		</a>
 	);
 };

@@ -20,8 +20,7 @@ const DisplayMonth = ( { monthObj, year } ) => {
 		apiClient,
 	} = useApi( `/jalw/v1/archive/${ year }/${ monthObj.month }` );
 	const [ expand, setExpand ] = useState( false );
-  const listElement = useRef( null );
-
+	const listElement = useRef( null );
 
 	const loadPosts = async( event ) => {
 		event.preventDefault();
@@ -29,7 +28,7 @@ const DisplayMonth = ( { monthObj, year } ) => {
 			await apiClient( config, () => setExpand( ! expand ) );
 		}
 		
-    setExpand( ! expand );
+		setExpand( ! expand );
 	}
 
 	const handleLink = config.only_sym_link || ! config.showpost ? () => true : loadPosts;
@@ -54,7 +53,7 @@ const DisplayMonth = ( { monthObj, year } ) => {
 			apiClient( config );
 		}
 
-    animateList();
+		animateList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [expand] );
 
@@ -78,7 +77,7 @@ const DisplayMonth = ( { monthObj, year } ) => {
 				<Loading loading={ loading } />
 			</a>
 			{ showPosts && apiData && apiData.posts && apiData.posts.length > 0 ? (
-				<ul className="jaw_posts">
+				<ul className="jaw_posts jal-hide">
 					{ apiData.posts.map( ( postObj ) => (
 						<li key={ postObj.ID }>
 							<DisplayPost post={ postObj } />

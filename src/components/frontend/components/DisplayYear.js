@@ -55,7 +55,7 @@ const DisplayYear = ( { yearObj } ) => {
 			apiClient( config );
 		}
   
-    animateList();
+		animateList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ expand ] );
 

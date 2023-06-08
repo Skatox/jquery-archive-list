@@ -53,6 +53,7 @@ export default function useAnimation( effect ) {
 
 	const fadeToggle = ( target, duration = 500 ) => {
 		if ( window.getComputedStyle( target ).display === 'none' ) {
+			target.classList.remove( 'jal-hide' );
 			return fadeIn( target, duration );
 		}
 		return fadeOut( target, duration );
@@ -123,7 +124,8 @@ export default function useAnimation( effect ) {
 
 	const showToggle = ( target ) => {
 		if ( window.getComputedStyle( target ).display === 'none' ) {
-			target.style.removeProperty( 'display' );
+			target.style.removeProperty( 'display' )
+			target.classList.remove( 'jal-hide' );
 		} else {
 			target.style.display = 'none';
 		}
