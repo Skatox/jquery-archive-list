@@ -12,30 +12,6 @@ class JS_Archive_List_Frontend_Utils {
 	}
 
 	/**
-	 * Returns the correct CSS class to set default
-	 * visibility of the element.
-	 *
-	 * @param boolean $expand If expand year/month should be done or not.
-	 *
-	 * @return string Css class to show/hide element.
-	 */
-	public function display_class( $expand ) {
-		switch ( $this->config['effect'] ) {
-			case 'fade':
-				$cssClass = $expand ? 'jal-fade-in' : 'jal-fade-out';
-				break;
-			case 'slide':
-				$cssClass = $expand ? 'jal-slide-down' : 'jal-slide-up';
-				break;
-			default:
-				$cssClass = $expand ? 'jal-show' : 'jal-hide';
-				break;
-		}
-
-		return $cssClass;
-	}
-
-	/**
 	 * Formats month according to widget's configuration.
 	 *
 	 * @param stdClass $month Queried month from database.

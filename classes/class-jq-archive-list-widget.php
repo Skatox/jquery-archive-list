@@ -161,7 +161,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 
 		$years = $this->data_source->get_years();
 
-		$html = '<ul class="jaw_widget preload" ';
+		$html = '<ul class="jaw_widget legacy preload" ';
 		$html .= $this->print_hidden_input( 'fx_in' );
 		$html .= $this->print_hidden_input( 'ex_sym' );
 		$html .= $this->print_hidden_input( 'con_sym' );
@@ -233,7 +233,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 				$years[ $i ]->year,
 				$year_link
 			);
-			$html .= sprintf( '<span class="jaw_symbol">%s</span>&nbsp;', $symbol );
+			$html .= sprintf( '<span class="jaw_symbol">%s</span>', $symbol );
 
 			if ( $this->config['only_sym_link'] ) {
 				$html .= sprintf( '</a><a href="%s" title="%s">', $year_link, $years[ $i ]->year );
@@ -314,20 +314,15 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		$months                = $this->data_source->get_months( $year );
 		$html                  = '';
 		$frontend              = new JS_Archive_List_Frontend_Utils( $this->config );
-		$expand_list_css_class = '';
 
 		foreach ( $months as $month ) {
 			$month_url    = get_month_link( $year, $month->month );
 			$expand_month = $expand_year || $this->expand_month( $year, $month, $cur_post_year, $cur_post_month );
 
-			if ( $expand_list_css_class === '' ) {
-				$expand_list_css_class = $frontend->display_class( $expand_month );
-			}
-
 			$month_formatted = $frontend->format_month( $month );
 
 			$html .= '<li ' . ( $expand_month ? 'class="expanded"' : '' ) . '>';
-			$html .= sprintf( '<a class="jaw_month" href="%s" title="%s">', $month_url, $month_formatted );
+			$html .= sprintf( '<a class="jaw_month jaw_symbol_wrapper" href="%s" title="%s">', $month_url, $month_formatted );
 
 			if ( $this->config['showpost'] ) {
 				$sym_key = $expand_month ? 'con_sym' : 'ex_sym';
@@ -345,10 +340,10 @@ class JQ_Archive_List_Widget extends WP_Widget {
 			$html .= '</span></a>';
 
 			if ( $this->config['showpost'] ) {
-				$posts         = $this->data_source->get_posts( $year, $month->month );
-				$display_class = $frontend->display_class( $expand_month );
-				$style         = $display_class === 'jal-slide-up' ? 'style="height:0;"' : '';
-				$html          .= sprintf( '<ul class="%s" %s>', $display_class, $style );
+				$display_class = $expand_month ? '' : 'jal-hide';
+				$html          .= sprintf( '<ul class="%s">', $display_class );
+        
+        $posts = $this->data_source->get_posts( $year, $month->month );
 
 				foreach ( $posts as $post ) {
 					if ( ! empty( $post->post_title ) ) {
@@ -372,9 +367,8 @@ class JQ_Archive_List_Widget extends WP_Widget {
 
 		if ( count( $months ) ) {
 			return sprintf(
-				'<ul class="jaw_months %s" %s>%s</ul>',
-				$expand_list_css_class,
-				$expand_list_css_class === 'jal-slide-up' ? 'style="height:0;"' : '',
+				'<ul class="jaw_months %s">%s</ul>',
+				$expand_month ? '' : 'jal-hide',
 				$html
 			);
 		}
