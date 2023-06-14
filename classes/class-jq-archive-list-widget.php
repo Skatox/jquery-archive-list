@@ -161,13 +161,12 @@ class JQ_Archive_List_Widget extends WP_Widget {
 
 		$years = $this->data_source->get_years();
 
-		$html = '<ul class="jaw_widget legacy preload" ';
-		$html .= $this->print_hidden_input( 'fx_in' );
-		$html .= $this->print_hidden_input( 'ex_sym' );
-		$html .= $this->print_hidden_input( 'con_sym' );
-		$html .= $this->print_hidden_input( 'only_sym_link' );
-		$html .= $this->print_hidden_input( 'accordion' );
-		$html .= ' >';
+    $html = sprintf(
+      '<ul class="jaw_widget legacy preload" %s %s %s>',
+      $this->data_attr( 'effect' ),
+      $this->data_attr( 'ex_sym' ),
+      $this->data_attr( 'con_sym' )
+    );
 
 		if ( count( $years ) < 1 ) {
 			$html .= '<li>' . __( 'There are no post to show.', 'jalw_i18n' ) . '</li>';
@@ -383,9 +382,9 @@ class JQ_Archive_List_Widget extends WP_Widget {
 	 *
 	 * @return string Data set's HTML
 	 */
-	protected function print_hidden_input( $field_name ) {
+	protected function data_attr( $field_name ) {
 		if ( array_key_exists( $field_name, $this->config ) ) {
-			return sprintf( ' data-%s="%s" ', $field_name, $this->config[ $field_name ] );
+			return sprintf( ' data-%s="%s" ', $field_name, esc_attr($this->config[ $field_name ]) );
 		}
 	}
 
