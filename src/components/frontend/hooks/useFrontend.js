@@ -1,8 +1,8 @@
-export function useSymbol( symbol ) {
+export function useSymbol(symbol) {
 	let collapseSymbol = '';
 	let expandSymbol = '';
 
-	switch ( symbol.toString() ) {
+	switch (symbol.toString()) {
 		case '1':
 			collapseSymbol = '▼';
 			expandSymbol = '►';

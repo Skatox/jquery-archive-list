@@ -12,7 +12,12 @@ const yearObj = {
 	posts: 10,
 	title: 'title',
 	permalink: 'test-permalink',
+	expand: false,
 };
+
+const animationFunction = jest.fn();
+
+const hideOpenedLists = jest.fn();
 
 const yearMonths = {
 	months: [
@@ -43,120 +48,128 @@ const yearMonths = {
 	],
 };
 
-jest.mock( '../../components/frontend/hooks/useApi', () =>
-	jest.fn( () => ( {
+jest.mock('../../components/frontend/hooks/useApi', () =>
+	jest.fn(() => ({
 		loading: false,
 		data: null,
 		apiClient: jest.fn(),
-	} ) )
+	}))
 );
 
-describe( 'Years', () => {
-	test( 'should render month link', () => {
+describe('Years', () => {
+	test('should render month link', () => {
 		const config = defaultConfig;
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: false,
 			data: null,
 			apiClient: jest.fn(),
-		} );
+		});
 		const { getByRole } = render(
-			<ConfigContext.Provider value={ { config } }>
-				<DisplayYear yearObj={ yearObj } />
+			<ConfigContext.Provider value={{ config }}>
+				<DisplayYear yearObj={yearObj} />
 			</ConfigContext.Provider>
 		);
 
-		const link = getByRole( 'link' );
-		expect( link ).toHaveTextContent( yearObj.year );
-		expect( link ).toHaveAttribute( 'title', yearObj.title );
-		expect( link ).toHaveAttribute( 'href', yearObj.permalink );
-	} );
+		const link = getByRole('link');
+		expect(link).toHaveTextContent(yearObj.year);
+		expect(link).toHaveAttribute('title', yearObj.title);
+		expect(link).toHaveAttribute('href', yearObj.permalink);
+	});
 
-	test( 'should show loading and call function to load data', async () => {
-		useApi.mockReturnValue( {
+	test('should show loading and call function to load data', async () => {
+		useApi.mockReturnValue({
 			loading: true,
 			data: null,
 			apiClient: jest.fn(),
-		} );
+		});
 
 		const config = defaultConfig;
 		const { findByRole, getByText, queryByRole } = render(
-			<ConfigContext.Provider value={ { config } }>
-				<DisplayYear yearObj={ yearObj } />
+			<ConfigContext.Provider value={{ config }}>
+				<DisplayYear yearObj={yearObj} />
 			</ConfigContext.Provider>
 		);
 
 		// Post list should be empty
-		const monthList = queryByRole( 'list' );
-		expect( monthList ).toBeNull();
+		const monthList = queryByRole('list');
+		expect(monthList).toBeNull();
 
 		// Click link to download posts
-		fireEvent.click( getByText( yearObj.year ) );
-		expect( await findByRole( 'progressbar' ) ).toBeInTheDocument();
-		expect( useApi().apiClient ).toHaveBeenCalledTimes( 1 );
-	} );
+		fireEvent.click(getByText(yearObj.year));
+		expect(await findByRole('progressbar')).toBeInTheDocument();
+		expect(useApi().apiClient).toHaveBeenCalledTimes(1);
+	});
 
-	test( 'should render posts under month link when expanded', async () => {
+	test('should render posts under month link when expanded', async () => {
 		const config = defaultConfig;
 		config.only_sym_link = false;
 
 		// Mock API call with posts
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: false,
 			data: yearMonths,
 			apiClient: jest.fn(),
-		} );
+		});
 
 		const { container, getByText } = render(
-			<ConfigContext.Provider value={ { config } }>
-				<DisplayYear yearObj={ yearObj } />
+			<ConfigContext.Provider
+				value={{ config, animationFunction, hideOpenedLists }}
+			>
+				<DisplayYear yearObj={yearObj} />
 			</ConfigContext.Provider>
 		);
 
-		fireEvent.click( getByText( yearObj.year ) );
+		fireEvent.click(getByText(yearObj.year));
 
-		const postList = container.querySelector( 'ul.jaw_months' );
-		expect( postList.children ).toHaveLength( yearMonths.months.length );
-	} );
+		const postList = container.querySelector('ul.jaw_months');
+		expect(postList.children).toHaveLength(yearMonths.months.length);
+	});
 
-	test( 'should not render posts under month link when collapsed', () => {
+	test('should check if animation is done on expanding and collapsing', async () => {
 		const config = defaultConfig;
 		config.only_sym_link = false;
+		yearObj.expand = true;
 
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: false,
-			data: null,
+			data: yearMonths,
 			apiClient: jest.fn(),
-		} );
+		});
 
-		const { container, getByText } = render(
-			<ConfigContext.Provider value={ { config } }>
-				<DisplayYear yearObj={ yearObj } />
+		const aF = jest.fn();
+
+		const { getByText } = render(
+			<ConfigContext.Provider
+				value={{ config, animationFunction: aF, hideOpenedLists }}
+			>
+				<DisplayYear yearObj={yearObj} />
 			</ConfigContext.Provider>
 		);
-		fireEvent.click( getByText( yearObj.year ) );
-		const postList = container.querySelector( 'ul.jaw_months' );
-		expect( postList ).toBeNull();
-	} );
+		fireEvent.click(getByText(yearObj.year));
 
-	test( 'should show total posts next to link', () => {
+		// Calls twice due to opening and closing
+		expect(animationFunction).toHaveBeenCalledTimes(2);
+	});
+
+	test('should show total posts next to link', () => {
 		const config = defaultConfig;
 		config.showcount = true;
 
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: false,
 			data: null,
 			apiClient: jest.fn(),
-		} );
+		});
 
 		const { getByRole } = render(
-			<ConfigContext.Provider value={ { config } }>
-				<DisplayYear yearObj={ yearObj } />
+			<ConfigContext.Provider
+				value={{ config, animationFunction, hideOpenedLists }}
+			>
+				<DisplayYear yearObj={yearObj} />
 			</ConfigContext.Provider>
 		);
 
-		const link = getByRole( 'link' );
-		expect( link ).toHaveTextContent(
-			`${ yearObj.year } (${ yearObj.posts })`
-		);
-	} );
-} );
+		const link = getByRole('link');
+		expect(link).toHaveTextContent(`${yearObj.year} (${yearObj.posts})`);
+	});
+});

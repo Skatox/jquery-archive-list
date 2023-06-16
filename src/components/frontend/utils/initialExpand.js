@@ -1,8 +1,8 @@
 // Calculates the initial expanded state of the list.
-export function initialExpand( { config, year, month } ) {
+export function initialExpand({ config, year, month }) {
 	let initialValue;
 
-	if ( config.expand === 'all' ) {
+	if (config.expand === 'all') {
 		initialValue = true;
 	} else {
 		const currentPostMonth = config.currentPost
@@ -20,7 +20,7 @@ export function initialExpand( { config, year, month } ) {
 			'current' === config.expand || 'current_date' === config.expand;
 		const expandByCurYear = year === currentYear && expandCurrentDate;
 
-		if ( !! month ) {
+		if (!!month) {
 			const currentMonth = new Date().getMonth() + 1;
 			const expandByMonth = expandByCurYear && month === currentMonth;
 			const expandByPostMonth =

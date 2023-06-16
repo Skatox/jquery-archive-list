@@ -67,6 +67,10 @@
 	  "type": "boolean",
 	  "default": false
 	},
+	"accordion": {
+	  "type": "boolean",
+	  "default": false
+	},
 	"onlycategory": {
 	  "type": "boolean",
 	  "default": false

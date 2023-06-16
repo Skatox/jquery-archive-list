@@ -4,7 +4,6 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 class JQ_Archive_List_Widget extends WP_Widget {
 	const JS_FILENAME       = 'jal.js';
 	const CSS_FILENAME      = 'jal.css';
-	const JS_ADMIN_FILENAME = 'jal.admin.js';
 
 	/**
 	 * Class instance, used to control plugin's action from a third party plugin
@@ -22,8 +21,6 @@ class JQ_Archive_List_Widget extends WP_Widget {
 			'only_sym_link' => 0,
 			'accordion'     => 0,
 			'effect'        => 'slide',
-			'fx_in'         => 'slideDown',
-			'fx_out'        => 'slideUp',
 			'month_format'  => 'full',
 			'showpost'      => 0,
 			'showcount'     => 0,
@@ -58,6 +55,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		$self = self::instance();
 
 		add_shortcode( 'jQueryArchiveList', [ $self, 'filter' ] );
+		add_shortcode( 'JSArchiveList', [ $self, 'filter' ] ); //Backwards compatiblity
 		add_shortcode( 'JsArchiveList', [ $self, 'filter' ] );
 		add_filter( 'widget_text', 'do_shortcode' );
 		//add_filter( 'widget_types_to_hide_from_legacy_widget_block', [ $self, 'hide_jal_widget'] );
@@ -68,7 +66,6 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		}
 
 		add_action( 'wp_enqueue_scripts', [ $self, 'enqueue_scripts' ], 10, 1 );
-		add_action( 'admin_enqueue_scripts', [ $self, 'admin_enqueue_scripts' ], 10, 1 );
 	}
 
 	/**
@@ -82,19 +79,6 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		}
 
 		return self::$instance;
-	}
-
-
-	public function admin_enqueue_scripts( $hook ) {
-		if ( 'widgets.php' === $hook ) {
-			wp_enqueue_script(
-				'jquery-archive-list',
-				JAL_BASE_URL . '/assets/js/' . self::JS_ADMIN_FILENAME,
-				[ 'jquery' ],
-				JAL_VERSION,
-				true
-			);
-		}
 	}
 
 	public static function enqueue_block_scripts() {
@@ -162,7 +146,8 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		$years = $this->data_source->get_years();
 
     $html = sprintf(
-      '<ul class="jaw_widget legacy preload" %s %s %s>',
+      '<ul class="jaw_widget legacy preload" %s %s %s %s>',
+      $this->data_attr( 'accordion' ),
       $this->data_attr( 'effect' ),
       $this->data_attr( 'ex_sym' ),
       $this->data_attr( 'con_sym' )
@@ -665,7 +650,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Function which filters any [JSArchiveList] text inside post to display archive list
+	 * Function which filters any [JsArchiveList] text inside post to display archive list
 	 *
 	 * @param array $attr Short code's attributes.
 	 *

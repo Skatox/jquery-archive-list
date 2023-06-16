@@ -12,85 +12,96 @@ import Loading from './Loading';
 import DisplayMonth from './DisplayMonth';
 import useApi from '../hooks/useApi';
 
-const DisplayYear = ( { yearObj } ) => {
-	const { config, animationFunction } = useContext( ConfigContext );
+const DisplayYear = ({ yearObj }) => {
+	const { config, animationFunction, hideOpenedLists } =
+		useContext(ConfigContext);
 	const {
 		loading,
 		data: apiData,
 		apiClient,
-	} = useApi( `/jalw/v1/archive/${ yearObj.year }` );
-	const [ expand, setExpand ] = useState( yearObj.expand );
-	const listElement = useRef( null );
+	} = useApi(`/jalw/v1/archive/${yearObj.year}`);
+	const [expand, setExpand] = useState(yearObj.expand);
+	const listElement = useRef(null);
 
-	const showMonths = async ( event ) => {
+	const showMonths = async (event) => {
 		event.preventDefault();
 
-		if ( ! apiData || ! Array.isArray( apiData.months ) ) {
-			await apiClient( config ); 
+		if (!apiData || !Array.isArray(apiData.months)) {
+			await apiClient(config);
 		}
 
-		setExpand( ! expand );
+		setExpand(!expand);
 	};
 
 	// If this option is enabled, then the year link will only expand.
 	const handleLink = config.only_sym_link ? () => true : showMonths;
-	
-  let linkContent = yearObj.year;
 
-	if ( config.showcount === true ) {
-		linkContent = `${ yearObj.year } (${ yearObj.posts })`;
+	let linkContent = yearObj.year;
+
+	if (config.showcount === true) {
+		linkContent = `${yearObj.year} (${yearObj.posts})`;
 	}
 
 	const animateList = () => {
-		const archiveList = [ ...listElement.current.children ].filter(
-			( ch ) => ch.nodeName.toLowerCase() === 'ul'
+		const archiveList = [...listElement.current.children].filter(
+			(ch) => ch.nodeName.toLowerCase() === 'ul'
 		);
 
-		if ( archiveList.length > 0 )
-			animationFunction( archiveList[ 0 ] );
+		if (archiveList.length > 0) animationFunction(archiveList[0]);
 	};
 
-	useEffect( () => {
-		if ( expand && ( ! apiData || ! Array.isArray( apiData.months ) ) ) {
-			apiClient( config );
+	useEffect(() => {
+		if (
+			expand &&
+			!loading &&
+			(!apiData || !Array.isArray(apiData.months))
+		) {
+			apiClient(config);
 		}
-  
+
+		if (listElement !== undefined && hideOpenedLists) {
+			hideOpenedLists(listElement.current);
+		}
+
 		animateList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ expand ] );
+	}, [expand]);
 
-	const monthClass = yearObj.expand ? '':'jal-hide';
+	const monthClass = yearObj.expand ? '' : 'jal-hide';
+	const liClass = expand ? 'expanded' : '';
 
 	return (
-		<li ref={listElement}>
+		<li ref={listElement} className={liClass}>
 			<BulletWithSymbol
-				expanded={ expand }
-				expandSubLevel={ yearObj.expand }
-				title={ yearObj.year }
-				permalink={ yearObj.permalink }
-				onToggle={ showMonths }
+				expanded={expand}
+				expandSubLevel={yearObj.expand}
+				title={yearObj.year}
+				permalink={yearObj.permalink}
+				onToggle={showMonths}
 			/>
 			<a
-				href={ yearObj.permalink }
-				title={ yearObj.title }
-				onClick={ handleLink }
+				href={yearObj.permalink}
+				title={yearObj.title}
+				onClick={handleLink}
 			>
-				{ linkContent }
-				<Loading loading={ loading } />
+				{linkContent}
+				<Loading loading={loading} />
 			</a>
-			{ apiData && apiData.months && apiData.months.length > 0 ? (
-				<ul className={ `jaw_months jaw_month__${ yearObj.year } ${monthClass}` }>
-					{ apiData.months.map( ( monthObj ) => (
+			{apiData && apiData.months && apiData.months.length > 0 ? (
+				<ul
+					className={`jaw_months jaw_month__${yearObj.year} ${monthClass}`}
+				>
+					{apiData.months.map((monthObj) => (
 						<DisplayMonth
-							key={ yearObj.year + monthObj.month }
-							year={ yearObj.year }
-							monthObj={ monthObj }
+							key={yearObj.year + monthObj.month}
+							year={yearObj.year}
+							monthObj={monthObj}
 						/>
-					) ) }
+					))}
 				</ul>
 			) : (
 				''
-			) }
+			)}
 		</li>
 	);
 };

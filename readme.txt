@@ -3,8 +3,8 @@ Contributors: skatox
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javascript, collapse, collapsible, archive, collapsible archive, widget, gutenberg
 Requires at least: 4.7
-Tested up to: 6.2
-Stable Tag: 6.0.1
+Tested up to: 6.2.1
+Stable Tag: 6.0.5
 
 A JS widget (can be used in posts) for displaying an archive list with some effects.
 
@@ -21,7 +21,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
 1. Auto expands current/select year from posts.
 1. Select the categories to exclude
 1. Multiple instances support.
-1. Shortcode support  *[JSArchiveList]*
+1. Shortcode support  *[JsArchiveList]*
 1. Generates valid HTML code.
 1. Supports multiple languages.
 1. Compatible with most JS cache and minify plugins.
@@ -78,7 +78,7 @@ just play with the widget's classes: .jaw_symbol, .jaw_year, .jaw_month.
 
 = Can I show this list inside posts? =
 
-Yes, only write *[JSArchiveList]* anywhere inside a post or page's contest and it will be replaced for
+Yes, only write *[JsArchiveList]* anywhere inside a post or page's contest and it will be replaced for
 the archive list when rendering the content. You can add the following parameters to change its behavior:
 
 1. **showcount** ( boolean ): select if you want to show the count post inside that month/year.
@@ -88,13 +88,13 @@ the archive list when rendering the content. You can add the following parameter
 1. **ex_sym**: the expansion symbol.
 1. **con_sym**: the collapse symbol.
 1. **only_sym_link**: only expand/collapse when clicking the bullet.
-1. **fx_in** ("", "slideDown", "fadeIn"): the jQuery effect to implement.
+1. **effect** ("", "slide", "fade"): the JS effect to implement.
 1. **exclude**: IDs (comma separated) of the categories to exclude.
 1. **type**: ID of the type of the posts to show, this is if you're using custom type posts. By default will show posts.
 
 So for example:
 
-*[JSArchiveList month_format=number showpost=1 showcount=1 ex_sym=+ con_sym=- fx_in=fadeIn type=page]*
+*[JsArchiveList month_format=number showpost=1 showcount=1 ex_sym=+ con_sym=- effect=slide type=page]*
 
 Will show a widget with months as numbers, show posts under months and their count, the symbols are + and - and the effect is fadeIn. You can check source code for more information.
 
@@ -118,6 +118,14 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+
+= 6.0.5 =
+* Improved Gutenberg block to be more efficient and faster.
+* Changed block's animation from CSS to JS to increase compatibility.
+* Changed legacy widget's animation from CSS to JS to increase compatibility.
+* Fixed shortcode name and updated documentation to reflect the change.
+* Fixing shortcode parameters and values to make it work ok.
+* Adding support for accordion option for the Gutenberg block.
 
 = 6.0.1 =
 * Code migrated to Gutenberg block. Now you can use this plugin as a Gutenberg block on any modern theme.

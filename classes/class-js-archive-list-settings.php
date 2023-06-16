@@ -14,7 +14,7 @@ class Js_Archive_List_Settings {
 	 */
 	private function symbols() {
 		$symbols = [];
-		switch ( $this->config['symbol'] ) {
+		switch ((string) $this->config['symbol'] ) {
 			case '0':
 				$symbols['ex_sym']  = ' ';
 				$symbols['con_sym'] = ' ';
@@ -41,31 +41,6 @@ class Js_Archive_List_Settings {
 	}
 
 	/**
-	 * Transform saved settings to shortcode's value.
-	 *
-	 * @return array
-	 */
-	private function effects() {
-		$effects = [];
-
-		switch ( $this->config['effect'] ) {
-			case 'slide':
-				$effects['fx_in']  = 'slideDown';
-				$effects['fx_out'] = 'slideUp';
-				break;
-			case 'fade':
-				$effects['fx_in']  = 'fadeIn';
-				$effects['fx_out'] = 'fadeOut';
-				break;
-			default:
-				$effects['fx_in']  = 'none';
-				$effects['fx_out'] = 'none';
-		}
-
-		return $effects;
-	}
-
-	/**
 	 * Translated saved DB's values to the ones that this plugin uses.
 	 *
 	 * @param array $config Saved settings.
@@ -75,11 +50,13 @@ class Js_Archive_List_Settings {
 	public static function translateDbSettingsToInternal( &$config ) {
 		$jalwSettings = new self( $config );
 		$symbols      = $jalwSettings->symbols();
-		$effects      = $jalwSettings->effects();
 
-		$config['ex_sym']  = $symbols['ex_sym'];
-		$config['con_sym'] = $symbols['con_sym'];
-		$config['fx_in']   = $effects['fx_in'];
-		$config['fx_out']  = $effects['fx_out'];
+    if (empty($config['ex_sym']) && $config['ex_sym'] !== "") {
+      $config['ex_sym']  = $symbols['ex_sym'];
+    }
+
+    if (empty($config['con_sym']) && $config['con_sym'] !== "") {
+      $config['con_sym'] = $symbols['con_sym'];
+    }
 	}
 }
