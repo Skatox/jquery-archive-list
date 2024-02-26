@@ -1,15 +1,15 @@
 <?php
 /*
-  Plugin Name: JS Archive List Widget
+  Plugin Name: JS Archive List
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A widget for displaying an archive list with some effects.
-  Version: 6.0.5
+  Version: 6.0.6
   Author: Miguel Angel Useche Castro
   Author URI: https://migueluseche.com/
   Text Domain: jalw_i18n
   Domain Path: /languages
   License: GPL2
-  Copyleft 2009-2023  Miguel Angel Useche Castro (email : migueluseche@skatox.com)
+  Copyleft 2009-2024  Miguel Angel Useche Castro (email : migueluseche@skatox.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { useContext, useEffect, useRef, useState } from '@wordpress/element';
+import {useContext, useEffect, useRef, useState} from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -9,11 +9,11 @@ import { useContext, useEffect, useRef, useState } from '@wordpress/element';
 import BulletWithSymbol from './BulletWithSymbol';
 import Loading from './Loading';
 import DisplayPost from './DisplayPost';
-import { ConfigContext } from '../context/ConfigContext';
+import {ConfigContext} from '../context/ConfigContext';
 import useApi from '../hooks/useApi';
 
-const DisplayMonth = ({ monthObj, year }) => {
-	const { config, animationFunction, hideOpenedLists } =
+const DisplayMonth = ({monthObj, year}) => {
+	const {config, animationFunction, hideOpenedLists} =
 		useContext(ConfigContext);
 	const {
 		loading,
@@ -26,10 +26,11 @@ const DisplayMonth = ({ monthObj, year }) => {
 	const loadPosts = async (event) => {
 		event.preventDefault();
 		if (!apiData || !Array.isArray(apiData.posts)) {
-			await apiClient(config, () => setExpand(!expand));
+			const dataWasLoaded = await apiClient(config);
+			setExpand(dataWasLoaded);
+		} else {
+			setExpand(!expand);
 		}
-
-		setExpand(!expand);
 	};
 
 	const handleLink =
@@ -82,7 +83,7 @@ const DisplayMonth = ({ monthObj, year }) => {
 				onClick={handleLink}
 			>
 				{linkContent}
-				<Loading loading={loading} />
+				<Loading loading={loading}/>
 			</a>
 			{showPosts &&
 			apiData &&
@@ -91,7 +92,7 @@ const DisplayMonth = ({ monthObj, year }) => {
 				<ul className="jaw_posts jal-hide">
 					{apiData.posts.map((postObj) => (
 						<li key={postObj.ID}>
-							<DisplayPost post={postObj} />
+							<DisplayPost post={postObj}/>
 						</li>
 					))}
 				</ul>

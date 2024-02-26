@@ -1,10 +1,10 @@
-=== JS Archive List Widget ===
+=== JS Archive List ===
 Contributors: skatox
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javascript, collapse, collapsible, archive, collapsible archive, widget, gutenberg
 Requires at least: 4.7
-Tested up to: 6.2.1
-Stable Tag: 6.0.5
+Tested up to: 6.5
+Stable Tag: 6.0.6
 
 A JS widget (can be used in posts) for displaying an archive list with some effects.
 
@@ -118,6 +118,9 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+
+= 6.0.6 =
+* Fixed bug of changing the symbol when data was not loaded.
 
 = 6.0.5 =
 * Improved Gutenberg block to be more efficient and faster.

@@ -1,19 +1,19 @@
 /**
  * WordPress dependencies
  */
-import { useContext, useEffect, useRef, useState } from '@wordpress/element';
+import {useContext, useEffect, useRef, useState} from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
-import { ConfigContext } from '../context/ConfigContext';
+import {ConfigContext} from '../context/ConfigContext';
 import BulletWithSymbol from './BulletWithSymbol';
 import Loading from './Loading';
 import DisplayMonth from './DisplayMonth';
 import useApi from '../hooks/useApi';
 
-const DisplayYear = ({ yearObj }) => {
-	const { config, animationFunction, hideOpenedLists } =
+const DisplayYear = ({yearObj}) => {
+	const {config, animationFunction, hideOpenedLists} =
 		useContext(ConfigContext);
 	const {
 		loading,
@@ -27,10 +27,11 @@ const DisplayYear = ({ yearObj }) => {
 		event.preventDefault();
 
 		if (!apiData || !Array.isArray(apiData.months)) {
-			await apiClient(config);
+			const dataWasLoaded = await apiClient(config);
+			setExpand(dataWasLoaded);
+		} else {
+			setExpand(!expand);
 		}
-
-		setExpand(!expand);
 	};
 
 	// If this option is enabled, then the year link will only expand.
@@ -85,7 +86,7 @@ const DisplayYear = ({ yearObj }) => {
 				onClick={handleLink}
 			>
 				{linkContent}
-				<Loading loading={loading} />
+				<Loading loading={loading}/>
 			</a>
 			{apiData && apiData.months && apiData.months.length > 0 ? (
 				<ul

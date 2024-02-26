@@ -1,11 +1,9 @@
-import { fireEvent, render } from '@testing-library/react';
+import {fireEvent, getByText, render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DisplayYear from '../../components/frontend/components/DisplayYear';
-import {
-	ConfigContext,
-	defaultConfig,
-} from '../../components/frontend/context/ConfigContext';
+import {ConfigContext, defaultConfig,} from '../../components/frontend/context/ConfigContext';
 import useApi from '../../components/frontend/hooks/useApi';
+import {useSymbol} from "../../components/frontend/hooks/useFrontend";
 
 const yearObj = {
 	year: 1986,
@@ -57,6 +55,12 @@ jest.mock('../../components/frontend/hooks/useApi', () =>
 );
 
 describe('Years', () => {
+	beforeEach(() => {
+		jest.clearAllMocks();
+
+		yearObj.expand = false;
+	});
+
 	test('should render month link', () => {
 		const config = defaultConfig;
 		useApi.mockReturnValue({
@@ -64,9 +68,9 @@ describe('Years', () => {
 			data: null,
 			apiClient: jest.fn(),
 		});
-		const { getByRole } = render(
-			<ConfigContext.Provider value={{ config }}>
-				<DisplayYear yearObj={yearObj} />
+		const {getByRole} = render(
+			<ConfigContext.Provider value={{config}}>
+				<DisplayYear yearObj={yearObj}/>
 			</ConfigContext.Provider>
 		);
 
@@ -84,9 +88,9 @@ describe('Years', () => {
 		});
 
 		const config = defaultConfig;
-		const { findByRole, getByText, queryByRole } = render(
-			<ConfigContext.Provider value={{ config }}>
-				<DisplayYear yearObj={yearObj} />
+		const {findByRole, getByText, queryByRole} = render(
+			<ConfigContext.Provider value={{config}}>
+				<DisplayYear yearObj={yearObj}/>
 			</ConfigContext.Provider>
 		);
 
@@ -111,11 +115,11 @@ describe('Years', () => {
 			apiClient: jest.fn(),
 		});
 
-		const { container, getByText } = render(
+		const {container, getByText} = render(
 			<ConfigContext.Provider
-				value={{ config, animationFunction, hideOpenedLists }}
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayYear yearObj={yearObj} />
+				<DisplayYear yearObj={yearObj}/>
 			</ConfigContext.Provider>
 		);
 
@@ -136,13 +140,11 @@ describe('Years', () => {
 			apiClient: jest.fn(),
 		});
 
-		const aF = jest.fn();
-
-		const { getByText } = render(
+		const {getByText} = render(
 			<ConfigContext.Provider
-				value={{ config, animationFunction: aF, hideOpenedLists }}
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayYear yearObj={yearObj} />
+				<DisplayYear yearObj={yearObj}/>
 			</ConfigContext.Provider>
 		);
 		fireEvent.click(getByText(yearObj.year));
@@ -151,25 +153,45 @@ describe('Years', () => {
 		expect(animationFunction).toHaveBeenCalledTimes(2);
 	});
 
-	test('should show total posts next to link', () => {
+	it('should not change symbol on API error', async () => {
 		const config = defaultConfig;
-		config.showcount = true;
+		config.symbol = "1";
+		config.showcount = false;
 
 		useApi.mockReturnValue({
 			loading: false,
 			data: null,
-			apiClient: jest.fn(),
+			apiClient: jest.fn().mockResolvedValue(false),
 		});
 
-		const { getByRole } = render(
-			<ConfigContext.Provider
-				value={{ config, animationFunction, hideOpenedLists }}
-			>
-				<DisplayYear yearObj={yearObj} />
+		const {container, getByText, getByRole, queryByRole} = render(
+			<ConfigContext.Provider value={{config, animationFunction}}>
+				<DisplayYear yearObj={yearObj}/>
 			</ConfigContext.Provider>
 		);
 
-		const link = getByRole('link');
-		expect(link).toHaveTextContent(`${yearObj.year} (${yearObj.posts})`);
+		const {expandSymbol} = useSymbol(config.symbol);
+		let componentSymbol =
+			container.querySelector('.jaw_symbol').innerHTML;
+		expect(componentSymbol).toBe(expandSymbol);
+		fireEvent.click(getByText(expandSymbol));
+		componentSymbol = container.querySelector('.jaw_symbol').innerHTML;
+		expect(componentSymbol).toBe(expandSymbol);
+	});
+
+	test('should show total posts next to link', () => {
+		const config = defaultConfig;
+		config.showcount = true;
+
+		const {getByText} = render(
+			<ConfigContext.Provider
+				value={{config, animationFunction, hideOpenedLists}}
+			>
+				<DisplayYear yearObj={yearObj}/>
+			</ConfigContext.Provider>
+		);
+
+		const link = getByText(`${yearObj.year} (${yearObj.posts})`);
+		expect(link).toBeInTheDocument();
 	});
 });

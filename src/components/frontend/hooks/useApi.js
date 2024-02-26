@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { useState } from '@wordpress/element';
+import {useState} from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
 /**
@@ -46,12 +46,14 @@ export default function useApi(url) {
 			.then((response) => {
 				setData(response);
 				setLoading(false);
+				return true;
 			})
 			.catch((e) => {
-				setLoading(false);
 				setError(e);
+				setLoading(false);
+				return false;
 			});
 	};
 
-	return { apiClient, data, error, loading, setLoading };
+	return {apiClient, data, error, loading, setLoading};
 }

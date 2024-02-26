@@ -1,11 +1,9 @@
-import { fireEvent, render } from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DisplayMonth from '../../components/frontend/components/DisplayMonth';
-import {
-	ConfigContext,
-	defaultConfig,
-} from '../../components/frontend/context/ConfigContext';
+import {ConfigContext, defaultConfig,} from '../../components/frontend/context/ConfigContext';
 import useApi from '../../components/frontend/hooks/useApi';
+import {useSymbol} from "../../components/frontend/hooks/useFrontend";
 
 const year = 1986;
 const animationFunction = jest.fn();
@@ -51,9 +49,9 @@ describe('Months', () => {
 			data: null,
 			apiClient: jest.fn(),
 		});
-		const { getByRole } = render(
-			<ConfigContext.Provider value={{ config }}>
-				<DisplayMonth year={year} monthObj={monthObj} />
+		const {getByRole} = render(
+			<ConfigContext.Provider value={{config}}>
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
@@ -73,11 +71,11 @@ describe('Months', () => {
 		const config = defaultConfig;
 		config.accordion = 0;
 		config.showpost = true;
-		const { findByRole, getByText, queryByRole } = render(
+		const {findByRole, getByText, queryByRole} = render(
 			<ConfigContext.Provider
-				value={{ config, animationFunction, hideOpenedLists }}
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayMonth year={year} monthObj={monthObj} />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
@@ -102,11 +100,11 @@ describe('Months', () => {
 			apiClient: jest.fn(),
 		});
 
-		const { container, getByText } = render(
+		const {container, getByText} = render(
 			<ConfigContext.Provider
-				value={{ config, animationFunction, hideOpenedLists }}
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayMonth year={year} monthObj={monthObj} />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
@@ -128,11 +126,11 @@ describe('Months', () => {
 
 		const aF = jest.fn();
 
-		const { getByText } = render(
+		const {getByText} = render(
 			<ConfigContext.Provider
-				value={{ config, animationFunction: aF, hideOpenedLists }}
+				value={{config, animationFunction: aF, hideOpenedLists}}
 			>
-				<DisplayMonth year={year} monthObj={monthObj} />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 		fireEvent.click(getByText(monthObj.formatted_month));
@@ -152,11 +150,11 @@ describe('Months', () => {
 			apiClient: jest.fn(),
 		});
 
-		const { getByRole } = render(
+		const {getByRole} = render(
 			<ConfigContext.Provider
-				value={{ config, animationFunction, hideOpenedLists }}
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayMonth year={year} monthObj={monthObj} />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
@@ -164,5 +162,31 @@ describe('Months', () => {
 		expect(link).toHaveTextContent(
 			`${monthObj.formatted_month} (${monthObj.posts})`
 		);
+	});
+
+	it('should not change symbol on API error', async () => {
+		const config = defaultConfig;
+		config.symbol = "1";
+		config.showcount = false;
+
+		useApi.mockReturnValue({
+			loading: false,
+			data: null,
+			apiClient: jest.fn().mockResolvedValue(false),
+		});
+
+		const {container, getByText, getByRole, queryByRole} = render(
+			<ConfigContext.Provider value={{config, animationFunction, hideOpenedLists}}>
+				<DisplayMonth year={year} monthObj={monthObj}/>
+			</ConfigContext.Provider>
+		);
+
+		const {expandSymbol} = useSymbol(config.symbol);
+		let componentSymbol =
+			container.querySelector('.jaw_symbol').innerHTML;
+		expect(componentSymbol).toBe(expandSymbol);
+		fireEvent.click(getByText(monthObj.formatted_month));
+		componentSymbol = container.querySelector('.jaw_symbol').innerHTML;
+		expect(componentSymbol).toBe(expandSymbol);
 	});
 });
