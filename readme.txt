@@ -121,6 +121,7 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 
 = 6.0.6 =
 * Fixed bug of changing the symbol when data was not loaded.
+* Legacy version: added `jawl_widget_title` hook to allow changing the widget's title (helpful for translations).
 
 = 6.0.5 =
 * Improved Gutenberg block to be more efficient and faster.

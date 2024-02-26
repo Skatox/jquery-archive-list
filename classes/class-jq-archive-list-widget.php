@@ -128,7 +128,10 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		$settings = array_merge( $defaults, $args );
 		echo $settings['before_widget'];
 		echo $settings['before_title'];
-		echo apply_filters( 'widget_title', $this->config['title'] );
+
+	  $title = add_filter('jawl_widget_title', $this->config['title']);
+		echo apply_filters( 'widget_title', $title );
+
 		echo $settings['after_title'];
 		echo $this->build_html();
 		echo $settings['after_widget'];
@@ -326,7 +329,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 			if ( $this->config['showpost'] ) {
 				$display_class = $expand_month ? '' : 'jal-hide';
 				$html          .= sprintf( '<ul class="%s">', $display_class );
-        
+
         $posts = $this->data_source->get_posts( $year, $month->month );
 
 				foreach ( $posts as $post ) {
@@ -371,6 +374,8 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		if ( array_key_exists( $field_name, $this->config ) ) {
 			return sprintf( ' data-%s="%s" ', $field_name, esc_attr($this->config[ $field_name ]) );
 		}
+
+    return '';
 	}
 
 	public function update( $new_instance, $old_instance ) {
