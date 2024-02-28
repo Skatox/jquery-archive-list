@@ -40,6 +40,15 @@ body ul.jaw_widget {
 		&::before {
 			content: "";
 		}
+
+		.post-date {
+			&::before {
+				content: "—";
+				padding-right: 5px;
+			}
+
+			padding-left: 5px;
+		}
 	}
 }
 
