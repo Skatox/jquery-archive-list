@@ -3,7 +3,7 @@
   Plugin Name: JS Archive List
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A widget for displaying an archive list with some effects.
-  Version: 6.0.6
+  Version: 6.1.0
   Author: Miguel Angel Useche Castro
   Author URI: https://migueluseche.com/
   Text Domain: jalw_i18n

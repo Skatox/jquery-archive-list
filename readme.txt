@@ -4,7 +4,7 @@ Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javascript, collapse, collapsible, archive, collapsible archive, widget, gutenberg
 Requires at least: 4.7
 Tested up to: 6.5
-Stable Tag: 6.0.6
+Stable Tag: 6.1.0
 
 A JS widget (can be used in posts) for displaying an archive list with some effects.
 
@@ -119,7 +119,10 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 
 == Changelog ==
 
-= 6.0.6 =
+= 6.1.0 =
+* Added option to sort month's posts by ID, date or title.
+* Added option to add post's date to the month's post list.
+* Improved frontend code to make it more efficient and slightly faster.
 * Fixed bug of changing the symbol when data was not loaded.
 * Legacy version: added `jawl_widget_title` hook to allow changing the widget's title (helpful for translations).
 

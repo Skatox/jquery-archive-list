@@ -1,12 +1,9 @@
-import { fireEvent, render } from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DisplayMonth from '../../components/frontend/components/DisplayMonth';
-import {
-	ConfigContext,
-	defaultConfig,
-} from '../../components/frontend/context/ConfigContext';
+import {ConfigContext, defaultConfig,} from '../../components/frontend/context/ConfigContext';
 import useApi from '../../components/frontend/hooks/useApi';
-import { useSymbol } from '../../components/frontend/hooks/useFrontend';
+import {useSymbol} from '../../components/frontend/hooks/useFrontend';
 
 const year = 1986;
 const animationFunction = jest.fn();
@@ -36,162 +33,162 @@ const monthPosts = {
 	],
 };
 
-jest.mock( '../../components/frontend/hooks/useApi', () =>
-	jest.fn( () => ( {
+jest.mock('../../components/frontend/hooks/useApi', () =>
+	jest.fn(() => ({
 		loading: false,
 		data: null,
 		apiClient: jest.fn(),
-	} ) )
+	}))
 );
 
-describe( 'Months', () => {
-	test( 'should render month link', () => {
+describe('Months', () => {
+	test('should render month link', () => {
 		const config = defaultConfig;
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: false,
 			data: null,
 			apiClient: jest.fn(),
-		} );
-		const { getByRole } = render(
-			<ConfigContext.Provider value={ { config } }>
-				<DisplayMonth year={ year } monthObj={ monthObj } />
+		});
+		const {getByRole} = render(
+			<ConfigContext.Provider value={{config}}>
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
-		const link = getByRole( 'link' );
-		expect( link ).toHaveTextContent( monthObj.formatted_month );
-		expect( link ).toHaveAttribute( 'title', monthObj.title );
-		expect( link ).toHaveAttribute( 'href', monthObj.permalink );
-	} );
+		const link = getByRole('link');
+		expect(link).toHaveTextContent(monthObj.formatted_month);
+		expect(link).toHaveAttribute('title', monthObj.title);
+		expect(link).toHaveAttribute('href', monthObj.permalink);
+	});
 
-	test( 'should show loading and call function to load data', async () => {
-		useApi.mockReturnValue( {
+	test('should show loading and call function to load data', async () => {
+		useApi.mockReturnValue({
 			loading: true,
 			data: null,
 			apiClient: jest.fn(),
-		} );
+		});
 
 		const config = defaultConfig;
 		config.accordion = 0;
 		config.showpost = true;
-		const { findByRole, getByText, queryByRole } = render(
+		const {findByRole, getByText, queryByRole} = render(
 			<ConfigContext.Provider
-				value={ { config, animationFunction, hideOpenedLists } }
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayMonth year={ year } monthObj={ monthObj } />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
 		// Post list should be empty
-		const postList = queryByRole( 'list' );
-		expect( postList ).toBeNull();
+		const postList = queryByRole('list');
+		expect(postList).toBeNull();
 
 		// Click link to download posts
-		fireEvent.click( getByText( monthObj.formatted_month ) );
-		expect( await findByRole( 'progressbar' ) ).toBeInTheDocument();
-		expect( useApi().apiClient ).toHaveBeenCalledTimes( 1 );
-	} );
+		fireEvent.click(getByText(monthObj.formatted_month));
+		expect(await findByRole('progressbar')).toBeInTheDocument();
+		expect(useApi().apiClient).toHaveBeenCalledTimes(1);
+	});
 
-	test( 'should render posts under month link when expanded', async () => {
+	test('should render posts under month link when expanded', async () => {
 		const config = defaultConfig;
 		config.only_sym_link = false;
 
 		// Mock API call with posts
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: true,
 			data: monthPosts,
 			apiClient: jest.fn(),
-		} );
+		});
 
-		const { container, getByText } = render(
+		const {container, getByText} = render(
 			<ConfigContext.Provider
-				value={ { config, animationFunction, hideOpenedLists } }
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayMonth year={ year } monthObj={ monthObj } />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
-		fireEvent.click( getByText( monthObj.formatted_month ) );
+		fireEvent.click(getByText(monthObj.formatted_month));
 
-		const postList = container.querySelector( 'ul.jaw_posts' );
-		expect( postList.children ).toHaveLength( monthPosts.posts.length );
-	} );
+		const postList = container.querySelector('ul.jaw_posts');
+		expect(postList.children).toHaveLength(monthPosts.posts.length);
+	});
 
-	test( 'should not render posts under month link when collapsed', async () => {
+	test('should not render posts under month link when collapsed', async () => {
 		const config = defaultConfig;
 		config.only_sym_link = false;
 
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: false,
 			data: monthPosts,
 			apiClient: jest.fn(),
-		} );
+		});
 
 		const aF = jest.fn();
 
-		const { getByText } = render(
+		const {getByText} = render(
 			<ConfigContext.Provider
-				value={ { config, animationFunction: aF, hideOpenedLists } }
+				value={{config, animationFunction: aF, hideOpenedLists}}
 			>
-				<DisplayMonth year={ year } monthObj={ monthObj } />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
-		fireEvent.click( getByText( monthObj.formatted_month ) );
-		fireEvent.click( getByText( monthObj.formatted_month ) );
+		fireEvent.click(getByText(monthObj.formatted_month));
+		fireEvent.click(getByText(monthObj.formatted_month));
 
 		// Calls twice due to opening and closing
-		expect( animationFunction ).toHaveBeenCalledTimes( 2 );
-	} );
+		expect(animationFunction).toHaveBeenCalledTimes(2);
+	});
 
-	test( 'should show total posts next to link', () => {
+	test('should show total posts next to link', () => {
 		const config = defaultConfig;
 		config.showcount = true;
 
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: false,
 			data: null,
 			apiClient: jest.fn(),
-		} );
+		});
 
-		const { getByRole } = render(
+		const {getByRole} = render(
 			<ConfigContext.Provider
-				value={ { config, animationFunction, hideOpenedLists } }
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayMonth year={ year } monthObj={ monthObj } />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
-		const link = getByRole( 'link' );
-		expect( link ).toHaveTextContent(
-			`${ monthObj.formatted_month } (${ monthObj.posts })`
+		const link = getByRole('link');
+		expect(link).toHaveTextContent(
+			`${monthObj.formatted_month} (${monthObj.posts})`
 		);
-	} );
+	});
 
-	it( 'should not change symbol on API error', async () => {
+	it('should not change symbol on API error', async () => {
 		const config = defaultConfig;
 		config.symbol = '1';
 		config.showcount = false;
 
-		useApi.mockReturnValue( {
+		useApi.mockReturnValue({
 			loading: false,
 			data: null,
-			apiClient: jest.fn().mockResolvedValue( false ),
-		} );
+			apiClient: jest.fn().mockResolvedValue(false),
+		});
 
-		const { container, getByText } = render(
+		const {container, getByText} = render(
 			<ConfigContext.Provider
-				value={ { config, animationFunction, hideOpenedLists } }
+				value={{config, animationFunction, hideOpenedLists}}
 			>
-				<DisplayMonth year={ year } monthObj={ monthObj } />
+				<DisplayMonth year={year} monthObj={monthObj}/>
 			</ConfigContext.Provider>
 		);
 
-		const { expandSymbol } = useSymbol( config.symbol );
+		const {expandSymbol} = useSymbol(config.symbol);
 		let componentSymbol =
-			container.querySelector( '.jaw_symbol' ).innerHTML;
-		expect( componentSymbol ).toBe( expandSymbol );
-		fireEvent.click( getByText( monthObj.formatted_month ) );
-		componentSymbol = container.querySelector( '.jaw_symbol' ).innerHTML;
-		expect( componentSymbol ).toBe( expandSymbol );
-	} );
-} );
+			container.querySelector('.jaw_symbol').innerHTML;
+		expect(componentSymbol).toBe(expandSymbol);
+		fireEvent.click(getByText(monthObj.formatted_month));
+		componentSymbol = container.querySelector('.jaw_symbol').innerHTML;
+		expect(componentSymbol).toBe(expandSymbol);
+	});
+});
