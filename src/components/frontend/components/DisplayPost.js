@@ -1,7 +1,7 @@
-const DisplayPost = ({ post }) => {
+const DisplayPost = ( { post } ) => {
 	return (
-		<a href={post.permalink} title={post.post_title}>
-			{post.post_title}
+		<a href={ post.permalink } title={ post.post_title }>
+			{ post.post_title }
 		</a>
 	);
 };

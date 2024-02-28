@@ -2,93 +2,117 @@
   "$schema": "https://json.schemastore.org/block.json",
   "apiVersion": 2,
   "name": "js-archive-list/archive-widget",
-  "version": "1.0",
+  "version": "2.0",
   "title": "JS Archive List",
   "category": "widgets",
   "icon": "list-view",
-  "description": "A widget for displaying an archive list with some effects.",
+  "description": "A block for displaying an archive list with some effects.",
   "textdomain": "jalw_i18n",
   "editorScript": "file:index.js",
   "editorStyle": "file:index.css",
   "viewScript": "file:view.js",
   "style": "file:style-index.css",
   "supports": {
-	"multiple": true
+    "multiple": true
   },
   "attributes": {
-	"title": {
-	  "type": "string",
-	  "default": ""
-	},
-	"symbol": {
-	  "type": "string",
-	  "enum": [
-		"0",
-		"1",
-		"2",
-		"3"
-	  ],
-	  "default": "0"
-	},
-	"effect": {
-	  "type": "string",
-	  "enum": [
-		"none",
-		"slide",
-		"fade"
-	  ],
-	  "default": "none"
-	},
-	"month_format": {
-	  "type": "string",
-	  "enum": [
-		"full",
-		"short",
-		"number"
-	  ],
-	  "default": "full"
-	},
-	"expand": {
-	  "type": "string",
-	  "enum": [
-		"",
-		"all",
-		"current",
-		"current_post",
-		"current_date"
-	  ],
-	  "default": ""
-	},
-	"showcount": {
-	  "type": "boolean",
-	  "default": false
-	},
-	"showpost": {
-	  "type": "boolean",
-	  "default": false
-	},
-	"accordion": {
-	  "type": "boolean",
-	  "default": false
-	},
-	"onlycategory": {
-	  "type": "boolean",
-	  "default": false
-	},
-	"only_sym_link": {
-	  "type": "boolean",
-	  "default": false
-	},
-	"include_or_exclude": {
-	  "type": "string",
-	  "enum": [
-		"exclude",
-		"include"
-	  ],
-	  "default": "include"
-	},
-	"categories": {
-	  "type": "array"
-	}
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "symbol": {
+      "type": "string",
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "default": "0"
+    },
+    "effect": {
+      "type": "string",
+      "enum": [
+        "none",
+        "slide",
+        "fade"
+      ],
+      "default": "none"
+    },
+    "month_format": {
+      "type": "string",
+      "enum": [
+        "full",
+        "short",
+        "number"
+      ],
+      "default": "full"
+    },
+    "expand": {
+      "type": "string",
+      "enum": [
+        "",
+        "all",
+        "current",
+        "current_post",
+        "current_date"
+      ],
+      "default": ""
+    },
+    "showcount": {
+      "type": "boolean",
+      "default": false
+    },
+    "showpost": {
+      "type": "boolean",
+      "default": false
+    },
+    "sortpost": {
+      "type": "string",
+      "default": "id_asc",
+      "enum": [
+        "name_asc",
+        "name_desc",
+        "id_asc",
+        "id_desc",
+        "date_asc",
+        "date_desc"
+      ]
+    },
+    "show_post_date": {
+      "type": "boolean",
+      "default": false
+    },
+    "show_day_archive": {
+      "type": "boolean",
+      "default": false
+    },
+    "hide_from_year": {
+      "type": "string",
+      "default": ""
+    },
+    "accordion": {
+      "type": "boolean",
+      "default": false
+    },
+    "onlycategory": {
+      "type": "boolean",
+      "default": false
+    },
+    "only_sym_link": {
+      "type": "boolean",
+      "default": false
+    },
+    "include_or_exclude": {
+      "type": "string",
+      "enum": [
+        "exclude",
+        "include"
+      ],
+      "default": "include"
+    },
+    "categories": {
+      "type": "array"
+    }
   }
 }

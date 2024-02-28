@@ -62,7 +62,7 @@ class JQ_Archive_List_DataSource {
 	 * @return bool Show only current category.
 	 */
 	private function only_show_cur_category() {
-		return !empty($this->config['onlycategory']);
+		return ! empty( $this->config['onlycategory'] );
 	}
 
 	protected function build_sql_where( $year = null, $month = null ) {
@@ -85,12 +85,13 @@ class JQ_Archive_List_DataSource {
 		}
 
 		if ( $this->only_show_cur_category() ) {
-		// Leave config when removing legacy code.
+			// Leave config when removing legacy code.
 			$query_cat = get_query_var( 'cat' );
-			$categories_ids = empty($query_cat) ? $this->config['onlycategory'] : $query_cat;
+			$categories_ids = empty( $query_cat ) ? $this->config['onlycategory'] : $query_cat;
 
-			if (( $this->legacy && is_category() || !$this->legacy ))
+			if ( ( $this->legacy && is_category() || ! $this->legacy ) ) {
 				$where .= sprintf( 'AND %s.term_id IN (%s) ', $wpdb->term_taxonomy, $categories_ids );
+			}
 		}
 
 		if ( $this->has_filtering_categories() || $this->only_show_cur_category() ) {
@@ -107,10 +108,31 @@ class JQ_Archive_List_DataSource {
 			return null;
 		}
 
+		$order_by = explode( '_', $this->config['sort'] );
+
 		return $wpdb->get_results( sprintf(
-			'SELECT DISTINCT ID, post_title, post_name FROM %s %s %s ORDER BY post_date DESC',
-			$wpdb->posts, $this->build_sql_join(), $this->build_sql_where( $year, $month )
+			'SELECT DISTINCT ID, post_title, post_name, post_date FROM %s %s %s ORDER BY %s %s',
+			$wpdb->posts, $this->build_sql_join(), $this->build_sql_where( $year, $month ),
+			$this->query_val_to_field_name( $order_by[0] ),
+			$order_by[1]
 		) );
+	}
+
+	/**
+	 * Maps the query value to the correct DB field.
+	 *
+	 * @param string $query_value received field name from the frontend.
+	 *
+	 * @return string DB field name.
+	 */
+	private function query_val_to_field_name( $query_value ): string {
+		$map = [
+			'id'   => 'ID',
+			'name' => 'post_title',
+			'date' => 'post_date',
+		];
+
+		return $map[ $query_value ];
 	}
 
 	public function year_should_be_expanded( $year, $cur_post_year, $cur_post_month, $expandConfig ): bool {
@@ -130,7 +152,7 @@ class JQ_Archive_List_DataSource {
 	public function month_should_be_expanded( $year, $monthObj, $cur_post_year, $cur_post_month, $expandConfig ): bool {
 		$jalw_obj = JQ_Archive_List_Widget::instance();
 
-		return  $jalw_obj->expand_month( $year, $monthObj, $cur_post_year, $cur_post_month, $expandConfig );
+		return $jalw_obj->expand_month( $year, $monthObj, $cur_post_year, $cur_post_month, $expandConfig );
 	}
 
 	public function get_months( $year ) {

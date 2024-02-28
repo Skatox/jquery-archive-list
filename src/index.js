@@ -12,7 +12,7 @@ import save from './save';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-registerBlockType('js-archive-list/archive-widget', {
+registerBlockType( 'js-archive-list/archive-widget', {
 	category: 'widgets',
 	/**
 	 * @see ./edit.js
@@ -23,4 +23,4 @@ registerBlockType('js-archive-list/archive-widget', {
 	 * @see ./save.js
 	 */
 	save,
-});
+} );

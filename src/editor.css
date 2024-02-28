@@ -3,9 +3,8 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-@import '../assets/css/jal.css';
-.jalw-controls .components-base-control {
-  width: 100%;
-}
+@import "../assets/css/jal.css";
 
-/*# sourceMappingURL=editor.css.map */
+.jalw-controls .components-base-control {
+	width: 100%;
+}

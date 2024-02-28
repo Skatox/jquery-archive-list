@@ -8,7 +8,7 @@ class JS_Archive_List_Rest_Endpoints {
 	public $config = [];
 
 	public function register_routes() {
-		$version   = '1';
+		$version = '1';
 		$namespace = 'jalw/v' . $version;
 
 		register_rest_route( $namespace, '/archive', [
@@ -37,12 +37,12 @@ class JS_Archive_List_Rest_Endpoints {
 	 */
 	private function build_config( $request ) {
 		$include_or_exclude = $request->get_param( 'exclusionType' ) ?? 'include';
-		$categories         = $request->get_param( 'cats' ) ?? '';
+		$categories = $request->get_param( 'cats' ) ?? '';
 
 		if ( $include_or_exclude === 'include' ) {
 			$included = $categories;
 			$excluded = [];
-	} else {
+		} else {
 			$included = [];
 			$excluded = $categories;
 		}
@@ -54,6 +54,7 @@ class JS_Archive_List_Rest_Endpoints {
 			'included'     => $included,
 			'excluded'     => $excluded,
 			'month_format' => $request->get_param( 'monthFormat' ) ?? 'number',
+			'sort'         => $request->get_param( 'sort' ) ?? 'id_asc',
 		];
 	}
 
@@ -65,13 +66,13 @@ class JS_Archive_List_Rest_Endpoints {
 	 * @return WP_Error|WP_REST_Response Request with the data.
 	 */
 	public function get_years( $request ) {
-		$config      = $this->build_config( $request );
+		$config = $this->build_config( $request );
 		$data_source = new JQ_Archive_List_DataSource( $config );
-		$years       = $data_source->get_years();
+		$years = $data_source->get_years();
 
 		foreach ( $years as $key => $yearObject ) {
 			$years[ $key ]->permalink = get_year_link( $yearObject->year );
-			$years[ $key ]->expand    = $data_source->year_should_be_expanded(
+			$years[ $key ]->expand = $data_source->year_should_be_expanded(
 				$yearObject->year,
 				$request->get_param( 'postYear' ),
 				$request->get_param( 'postMonth' ),
@@ -93,17 +94,17 @@ class JS_Archive_List_Rest_Endpoints {
 	 */
 	public function get_months( $request ) {
 		$config = $this->build_config( $request );
-		$year   = $request->get_param( 'year' ) ?? null;
+		$year = $request->get_param( 'year' ) ?? null;
 
 		$data_source = new JQ_Archive_List_DataSource( $config );
-		$months      = $data_source->get_months( $year );
+		$months = $data_source->get_months( $year );
 
 		$formatter = new JS_Archive_List_Frontend_Utils( $config );
 
 		foreach ( $months as $key => $monthObject ) {
 			$months[ $key ]->formatted_month = $formatter->format_month( $monthObject );
-			$months[ $key ]->permalink       = get_month_link( $year, $monthObject->month );
-			$months[ $key ]->expand          = $data_source->month_should_be_expanded(
+			$months[ $key ]->permalink = get_month_link( $year, $monthObject->month );
+			$months[ $key ]->expand = $data_source->month_should_be_expanded(
 				$year,
 				$monthObject,
 				$request->get_param( 'postYear' ),
@@ -118,12 +119,12 @@ class JS_Archive_List_Rest_Endpoints {
 	}
 
 	public function get_posts( $request ) {
-		$year  = $request->get_param( 'year' );
+		$year = $request->get_param( 'year' );
 		$month = $request->get_param( 'month' );
 
-		$config      = $this->build_config( $request );
+		$config = $this->build_config( $request );
 		$data_source = new JQ_Archive_List_DataSource( $config );
-		$posts       = $data_source->get_posts( $year, $month );
+		$posts = $data_source->get_posts( $year, $month );
 
 		foreach ( $posts as $key => $post ) {
 			$post->permalink = get_permalink( $post->ID );

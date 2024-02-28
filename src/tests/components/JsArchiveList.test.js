@@ -26,73 +26,73 @@ const yearList = {
 	],
 };
 
-jest.mock('../../components/frontend/hooks/useApi', () =>
-	jest.fn(() => ({
+jest.mock( '../../components/frontend/hooks/useApi', () =>
+	jest.fn( () => ( {
 		loading: false,
 		data: null,
 		apiClient: jest.fn(),
-	}))
+	} ) )
 );
 
-describe('Main component', () => {
-	test('should display no years found', () => {
-		useApi.mockReturnValue({
+describe( 'Main component', () => {
+	test( 'should display no years found', () => {
+		useApi.mockReturnValue( {
 			loading: false,
 			data: { years: [] },
 			apiClient: jest.fn(),
-		});
+		} );
 
 		const setConfig = jest.fn();
 		const config = defaultConfig;
 
 		const { getByRole } = render(
-			<ConfigContext.Provider value={{ config, setConfig }}>
-				<JsArchiveList attributes={{}} />
+			<ConfigContext.Provider value={ { config, setConfig } }>
+				<JsArchiveList attributes={ {} } />
 			</ConfigContext.Provider>
 		);
 
-		const link = getByRole('list');
-		expect(link).toHaveTextContent(noFoundText);
-	});
+		const link = getByRole( 'list' );
+		expect( link ).toHaveTextContent( noFoundText );
+	} );
 
-	test('should display list of years', async () => {
-		useApi.mockReturnValue({
+	test( 'should display list of years', async () => {
+		useApi.mockReturnValue( {
 			loading: true,
 			data: yearList,
 			apiClient: jest.fn(),
-		});
+		} );
 
 		const setConfig = jest.fn();
 		const config = defaultConfig;
 
 		const { container } = render(
-			<ConfigContext.Provider value={{ config, setConfig }}>
-				<JsArchiveList attributes={{}} />
+			<ConfigContext.Provider value={ { config, setConfig } }>
+				<JsArchiveList attributes={ {} } />
 			</ConfigContext.Provider>
 		);
 
 		// Post list should be empty
-		const postList = container.querySelector('ul.jaw_widget');
-		expect(postList.children).toHaveLength(yearList.years.length);
-	});
+		const postList = container.querySelector( 'ul.jaw_widget' );
+		expect( postList.children ).toHaveLength( yearList.years.length );
+	} );
 
-	test('should display widget title', async () => {
-		useApi.mockReturnValue({
+	test( 'should display widget title', async () => {
+		useApi.mockReturnValue( {
 			loading: true,
 			data: null,
 			apiClient: jest.fn(),
-		});
+		} );
 
 		const setConfig = jest.fn();
 		const config = defaultConfig;
 		config.title = testTitle;
 
 		const { getByText } = render(
-			<ConfigContext.Provider value={{ config, setConfig }}>
-				<JsArchiveList attributes={{}} />
+			<ConfigContext.Provider value={ { config, setConfig } }>
+				<JsArchiveList attributes={ {} } />
 			</ConfigContext.Provider>
 		);
 
-		expect(getByText(testTitle)).toBeInTheDocument();
-	});
-});
+		expect( getByText( testTitle ) ).toBeInTheDocument();
+	} );
+} );

@@ -1,6 +1,11 @@
 // Loading component
 .js-archive-list {
-	a, a:focus, a:hover { text-decoration: none; }
+
+	a,
+	a:focus,
+	a:hover {
+		text-decoration: none;
+	}
 
 	.loading {
 		display: inline-block;
@@ -15,9 +20,10 @@
 }
 
 .widget_jaw_widget ul.jaw_widget,
+ul.jaw_widget ul,
 body .wp-block-js-archive-list-archive-widget ul.jaw_widget,
 body .wp-block-js-archive-list-archive-widget ul.jaw_widget ul,
-body ul.jaw_widget, ul.jaw_widget ul {
+body ul.jaw_widget {
 	list-style: none;
 	margin-left: 0;
 	padding-left: 0;
@@ -26,14 +32,15 @@ body ul.jaw_widget, ul.jaw_widget ul {
 .widget_jaw_widget ul.jaw_widget,
 .wp-block-js-archive-list-archive-widget ul.jaw_widget,
 .jaw_widget ul {
-  li {
-    padding-left: 1rem;
-    list-style: none;
 
-    &:before {
-      content: '';
-    }
-  }
+	li {
+		padding-left: 1rem;
+		list-style: none;
+
+		&::before {
+			content: "";
+		}
+	}
 }
 
 /** Bullet's padding **/

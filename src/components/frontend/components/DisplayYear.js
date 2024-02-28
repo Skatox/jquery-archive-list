@@ -1,36 +1,36 @@
 /**
  * WordPress dependencies
  */
-import {useContext, useEffect, useRef, useState} from '@wordpress/element';
+import { useContext, useEffect, useRef, useState } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
-import {ConfigContext} from '../context/ConfigContext';
+import { ConfigContext } from '../context/ConfigContext';
 import BulletWithSymbol from './BulletWithSymbol';
 import Loading from './Loading';
 import DisplayMonth from './DisplayMonth';
 import useApi from '../hooks/useApi';
 
-const DisplayYear = ({yearObj}) => {
-	const {config, animationFunction, hideOpenedLists} =
-		useContext(ConfigContext);
+const DisplayYear = ( { yearObj } ) => {
+	const { config, animationFunction, hideOpenedLists } =
+		useContext( ConfigContext );
 	const {
 		loading,
 		data: apiData,
 		apiClient,
-	} = useApi(`/jalw/v1/archive/${yearObj.year}`);
-	const [expand, setExpand] = useState(yearObj.expand);
-	const listElement = useRef(null);
+	} = useApi( `/jalw/v1/archive/${ yearObj.year }` );
+	const [ expand, setExpand ] = useState( yearObj.expand );
+	const listElement = useRef( null );
 
-	const showMonths = async (event) => {
+	const showMonths = async ( event ) => {
 		event.preventDefault();
 
-		if (!apiData || !Array.isArray(apiData.months)) {
-			const dataWasLoaded = await apiClient(config);
-			setExpand(dataWasLoaded);
+		if ( ! apiData || ! Array.isArray( apiData.months ) ) {
+			const dataWasLoaded = await apiClient( config );
+			setExpand( dataWasLoaded );
 		} else {
-			setExpand(!expand);
+			setExpand( ! expand );
 		}
 	};
 
@@ -39,70 +39,70 @@ const DisplayYear = ({yearObj}) => {
 
 	let linkContent = yearObj.year;
 
-	if (config.showcount === true) {
-		linkContent = `${yearObj.year} (${yearObj.posts})`;
+	if ( config.showcount === true ) {
+		linkContent = `${ yearObj.year } (${ yearObj.posts })`;
 	}
 
 	const animateList = () => {
-		const archiveList = [...listElement.current.children].filter(
-			(ch) => ch.nodeName.toLowerCase() === 'ul'
+		const archiveList = [ ...listElement.current.children ].filter(
+			( ch ) => ch.nodeName.toLowerCase() === 'ul'
 		);
 
-		if (archiveList.length > 0) animationFunction(archiveList[0]);
+		if ( archiveList.length > 0 ) animationFunction( archiveList[ 0 ] );
 	};
 
-	useEffect(() => {
+	useEffect( () => {
 		if (
 			expand &&
-			!loading &&
-			(!apiData || !Array.isArray(apiData.months))
+			! loading &&
+			( ! apiData || ! Array.isArray( apiData.months ) )
 		) {
-			apiClient(config);
+			apiClient( config );
 		}
 
-		if (listElement !== undefined && hideOpenedLists) {
-			hideOpenedLists(listElement.current);
+		if ( listElement !== undefined && hideOpenedLists ) {
+			hideOpenedLists( listElement.current );
 		}
 
 		animateList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [expand]);
+	}, [ expand ] );
 
 	const monthClass = yearObj.expand ? '' : 'jal-hide';
 	const liClass = expand ? 'expanded' : '';
 
 	return (
-		<li ref={listElement} className={liClass}>
+		<li ref={ listElement } className={ liClass }>
 			<BulletWithSymbol
-				expanded={expand}
-				expandSubLevel={yearObj.expand}
-				title={yearObj.year}
-				permalink={yearObj.permalink}
-				onToggle={showMonths}
+				expanded={ expand }
+				expandSubLevel={ yearObj.expand }
+				title={ yearObj.year }
+				permalink={ yearObj.permalink }
+				onToggle={ showMonths }
 			/>
 			<a
-				href={yearObj.permalink}
-				title={yearObj.title}
-				onClick={handleLink}
+				href={ yearObj.permalink }
+				title={ yearObj.title }
+				onClick={ handleLink }
 			>
-				{linkContent}
-				<Loading loading={loading}/>
+				{ linkContent }
+				<Loading loading={ loading } />
 			</a>
-			{apiData && apiData.months && apiData.months.length > 0 ? (
+			{ apiData && apiData.months && apiData.months.length > 0 ? (
 				<ul
-					className={`jaw_months jaw_month__${yearObj.year} ${monthClass}`}
+					className={ `jaw_months jaw_month__${ yearObj.year } ${ monthClass }` }
 				>
-					{apiData.months.map((monthObj) => (
+					{ apiData.months.map( ( monthObj ) => (
 						<DisplayMonth
-							key={yearObj.year + monthObj.month}
-							year={yearObj.year}
-							monthObj={monthObj}
+							key={ yearObj.year + monthObj.month }
+							year={ yearObj.year }
+							monthObj={ monthObj }
 						/>
-					))}
+					) ) }
 				</ul>
 			) : (
 				''
-			)}
+			) }
 		</li>
 	);
 };

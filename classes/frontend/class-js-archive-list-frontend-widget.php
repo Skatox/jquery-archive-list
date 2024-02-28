@@ -35,28 +35,28 @@ class JS_Archive_List_Frontend_Widget {
 		$year = '';
 		$month = '';
 
-		if (is_single()) {
+		if ( is_single() ) {
 			global $post;
 
 			if ( $post instanceof \WP_Post ) {
-				list( $year, $month ) = explode( '-', $post->post_date );
+				[ $year, $month ] = explode( '-', $post->post_date );
 			}
 		}
 
 		// If page is a category page, it prints the category list to send it the backend.
-		if (is_category()) {
+		if ( is_category() ) {
 			$categories = get_the_category( get_the_ID() );
 
-			if (is_array($categories) && count($categories) > 0) {
-				$category_ids = array();
+			if ( is_array( $categories ) && count( $categories ) > 0 ) {
+				$category_ids = [];
 
-				foreach ($categories as $cat) {
+				foreach ( $categories as $cat ) {
 					$category_ids[] = $cat->term_id;
 				}
 
 				printf(
 					'<script type="text/javascript">var jalwCurrentCat="%s";</script>',
-					implode(',', $category_ids)
+					implode( ',', $category_ids )
 				);
 			}
 		}
@@ -97,29 +97,33 @@ class JS_Archive_List_Frontend_Widget {
 		$buffer = '';
 
 		foreach ( $this->attributes as $key => $value ) {
-			$buffer .= ' data-' . esc_attr($key) . '="' . esc_attr( $value ) . '"';
+			$buffer .= ' data-' . esc_attr( $key ) . '="' . esc_attr( $value ) . '"';
 		}
 
 		return $buffer;
 	}
 
-	private function set_attributes( $block_attributes = array() ) {
-		$this->attributes = array(
+	private function set_attributes( $block_attributes = [] ) {
+		$this->attributes = [
 			'title'              => $block_attributes['title'] ?? '',
 			'symbol'             => $block_attributes['symbol'] ?? '0',
 			'effect'             => $block_attributes['effect'] ?? 'none',
 			'month_format'       => $block_attributes['month_format'] ?? 'full',
 			'expand'             => $block_attributes['expand'] ?? '',
-			'showcount'          => (int)( $block_attributes['showcount'] ?? 0 ),
-			'showpost'           => (int)( $block_attributes['showpost'] ?? 0 ),
-			'onlycategory'       => (int)( $block_attributes['onlycategory'] ?? 0 ),
-			'only_sym_link'      => (int)( $block_attributes['only_sym_link'] ?? 0 ),
-			'accordion'          => (int)( $block_attributes['accordion'] ?? 0 ),
+			'showcount'          => (int) ( $block_attributes['showcount'] ?? 0 ),
+			'showpost'           => (int) ( $block_attributes['showpost'] ?? 0 ),
+			'sortpost'           => $block_attributes['sortpost'] ?? 'id_asc',
+			'show_post_date'     => (int) ( $block_attributes['show_post_date'] ?? 0 ),
+			'show_day_archive'   => (int) ( $block_attributes['show_day_archive'] ?? 0 ),
+			'hide_from_year'     => $block_attributes['hide_from_year'] ?? '',
+			'onlycategory'       => (int) ( $block_attributes['onlycategory'] ?? 0 ),
+			'only_sym_link'      => (int) ( $block_attributes['only_sym_link'] ?? 0 ),
+			'accordion'          => (int) ( $block_attributes['accordion'] ?? 0 ),
 			'include_or_exclude' => $block_attributes['include_or_exclude'] ?? 'include',
 			'categories'         => isset( $block_attributes['categories'] )
 				? implode( ',', $block_attributes['categories'] )
 				: '',
-		);
+		];
 	}
 }
 
