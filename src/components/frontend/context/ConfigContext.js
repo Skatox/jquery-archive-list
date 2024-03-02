@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import {createContext, useEffect, useState} from '@wordpress/element';
+import { createContext, useEffect, useState } from '@wordpress/element';
 import useAnimation from '../hooks/useAnimation';
 
 export const defaultConfig = {
@@ -31,7 +31,7 @@ export const ConfigProvider = ({ attributes, children }) => {
 	const [config, updateContextConfig] = useState(initialConfig);
 
 	const setConfig = (newConfig) => {
-		const parsedConfig = {...newConfig};
+		const parsedConfig = { ...newConfig };
 
 		/* global jalwCurrentPost */
 		if (typeof jalwCurrentPost !== 'undefined') {
@@ -45,21 +45,16 @@ export const ConfigProvider = ({ attributes, children }) => {
 			parsedConfig.show_post_date,
 			10
 		);
-		parsedConfig.only_sym_link = !!parseInt(
-			parsedConfig.only_sym_link,
-			10
-		);
+		parsedConfig.only_sym_link = !!parseInt(parsedConfig.only_sym_link, 10);
 		parsedConfig.show_day_archive = !!parseInt(
 			parsedConfig.show_day_archive,
 			10
 		);
 
-		updateContextConfig((prevState) => ({...prevState, ...parsedConfig}));
+		updateContextConfig((prevState) => ({ ...prevState, ...parsedConfig }));
 	};
 
-	const {animationFunction, hideOpenedLists} = useAnimation(
-		config.effect
-	);
+	const { animationFunction, hideOpenedLists } = useAnimation(config.effect);
 
 	useEffect(() => {
 		setConfig(attributes);
@@ -67,7 +62,7 @@ export const ConfigProvider = ({ attributes, children }) => {
 
 	return (
 		<ConfigContext.Provider
-			value={{config, setConfig, animationFunction, hideOpenedLists}}
+			value={{ config, setConfig, animationFunction, hideOpenedLists }}
 		>
 			{children}
 		</ConfigContext.Provider>

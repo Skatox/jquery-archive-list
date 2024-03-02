@@ -111,7 +111,7 @@ class JQ_Archive_List_DataSource {
 		$order_by = explode( '_', $this->config['sort'] );
 
 		return $wpdb->get_results( sprintf(
-			'SELECT DISTINCT ID, post_title, post_name, post_date FROM %s %s %s ORDER BY %s %s',
+			'SELECT DISTINCT ID, post_title, post_name, post_date, "false" as expanded FROM %s %s %s ORDER BY %s %s',
 			$wpdb->posts, $this->build_sql_join(), $this->build_sql_where( $year, $month ),
 			$this->query_val_to_field_name( $order_by[0] ),
 			$order_by[1]

@@ -1,5 +1,5 @@
-const Loading = ( { loading } ) => {
-	if ( loading ) {
+const Loading = ({ loading }) => {
+	if (loading) {
 		return (
 			<div className="loading" role="progressbar">
 				<svg

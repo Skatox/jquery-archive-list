@@ -102,7 +102,7 @@ class JS_Archive_List_Rest_Endpoints {
 		$formatter = new JS_Archive_List_Frontend_Utils( $config );
 
 		foreach ( $months as $key => $monthObject ) {
-			$months[ $key ]->formatted_month = $formatter->format_month( $monthObject );
+			$months[ $key ]->title = $formatter->format_month( $monthObject );
 			$months[ $key ]->permalink = get_month_link( $year, $monthObject->month );
 			$months[ $key ]->expand = $data_source->month_should_be_expanded(
 				$year,

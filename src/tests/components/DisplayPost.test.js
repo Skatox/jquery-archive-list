@@ -1,15 +1,18 @@
 // DisplayPost.test.js
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import '@testing-library/jest-dom/extend-expect';
-import {ConfigContext, defaultConfig} from '../../components/frontend/context/ConfigContext';
-import DisplayPost from '../../components/frontend/components/DisplayPost';
+import {
+	ConfigContext,
+	defaultConfig,
+} from '../../components/frontend/context/ConfigContext';
+import DisplayPost from '../../components/frontend/components/displayers/DisplayPost';
 
 const animationFunction = jest.fn();
 
 jest.mock('@wordpress/date', () => ({
 	dateI18n: (format, date) => date,
-	getSettings: jest.fn().mockReturnValue({formats: {date: 'Y-m-d'}}),
+	getSettings: jest.fn().mockReturnValue({ formats: { date: 'Y-m-d' } }),
 }));
 
 const post = {
@@ -28,8 +31,8 @@ describe('Post', () => {
 		const config = defaultConfig;
 
 		render(
-			<ConfigContext.Provider value={{config, animationFunction}}>
-				<DisplayPost post={post}/>
+			<ConfigContext.Provider value={{ config, animationFunction }}>
+				<DisplayPost post={post} />
 			</ConfigContext.Provider>
 		);
 
@@ -44,11 +47,11 @@ describe('Post', () => {
 	});
 
 	test('should display the post link with date', () => {
-		const config = {...defaultConfig, show_post_date: true};
+		const config = { ...defaultConfig, show_post_date: true };
 
-		const { getByText}=render(
-			<ConfigContext.Provider value={{config, animationFunction}}>
-				<DisplayPost post={post}/>
+		const { getByText } = render(
+			<ConfigContext.Provider value={{ config, animationFunction }}>
+				<DisplayPost post={post} />
 			</ConfigContext.Provider>
 		);
 
@@ -56,11 +59,11 @@ describe('Post', () => {
 	});
 
 	test('should not display the post link with date', () => {
-		const config = {...defaultConfig, show_post_date: false};
+		const config = { ...defaultConfig, show_post_date: false };
 
-		const { queryByText}=render(
-			<ConfigContext.Provider value={{config, animationFunction}}>
-				<DisplayPost post={post}/>
+		const { queryByText } = render(
+			<ConfigContext.Provider value={{ config, animationFunction }}>
+				<DisplayPost post={post} />
 			</ConfigContext.Provider>
 		);
 

@@ -4,9 +4,9 @@
 import { ConfigProvider } from './context/ConfigContext';
 import JsArchiveList from './JsArchiveList';
 
-const App = ( { attributes } ) => {
+const App = ({ attributes }) => {
 	return (
-		<ConfigProvider attributes={ attributes }>
+		<ConfigProvider attributes={attributes}>
 			<JsArchiveList />
 		</ConfigProvider>
 	);

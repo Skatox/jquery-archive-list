@@ -3,15 +3,15 @@
  */
 import { useEffect, useState } from '@wordpress/element';
 
-export default function useAnimation( effect ) {
+export default function useAnimation(effect) {
 	const supportsRequestAnimation =
 		typeof window.requestAnimationFrame === 'function';
 
-	const fadeIn = ( element, duration = 500 ) => {
-		element.style.removeProperty( 'display' );
-		let display = window.getComputedStyle( element ).display;
+	const fadeIn = (element, duration = 500) => {
+		element.style.removeProperty('display');
+		let display = window.getComputedStyle(element).display;
 
-		if ( display === 'none' ) {
+		if (display === 'none') {
 			display = 'block';
 		}
 
@@ -20,30 +20,30 @@ export default function useAnimation( effect ) {
 		let last = +new Date();
 		const tick = function () {
 			element.style.opacity =
-				+element.style.opacity + ( new Date() - last ) / duration;
+				+element.style.opacity + (new Date() - last) / duration;
 			last = +new Date();
-			if ( +element.style.opacity < 1 ) {
-				if ( supportsRequestAnimation )
-					window.requestAnimationFrame( tick );
-				else setTimeout( tick, 16 );
+			if (+element.style.opacity < 1) {
+				if (supportsRequestAnimation)
+					window.requestAnimationFrame(tick);
+				else setTimeout(tick, 16);
 			}
 		};
 		tick();
 	};
 
-	const fadeOut = ( element, duration = 500 ) => {
+	const fadeOut = (element, duration = 500) => {
 		element.style.display = '';
 		element.style.opacity = 1;
 		let last = +new Date();
 		const tick = function () {
 			element.style.opacity = Number(
-				+element.style.opacity - ( new Date() - last ) / duration
-			).toFixed( 4 );
+				+element.style.opacity - (new Date() - last) / duration
+			).toFixed(4);
 			last = +new Date();
-			if ( -element.style.opacity <= 0 ) {
-				if ( supportsRequestAnimation )
-					window.requestAnimationFrame( tick );
-				else setTimeout( tick, 16 );
+			if (-element.style.opacity <= 0) {
+				if (supportsRequestAnimation)
+					window.requestAnimationFrame(tick);
+				else setTimeout(tick, 16);
 			} else {
 				element.style.display = 'none';
 			}
@@ -51,15 +51,15 @@ export default function useAnimation( effect ) {
 		tick();
 	};
 
-	const fadeToggle = ( target, duration = 500 ) => {
-		if ( window.getComputedStyle( target ).display === 'none' ) {
-			target.classList.remove( 'jal-hide' );
-			return fadeIn( target, duration );
+	const fadeToggle = (target, duration = 500) => {
+		if (window.getComputedStyle(target).display === 'none') {
+			target.classList.remove('jal-hide');
+			return fadeIn(target, duration);
 		}
-		return fadeOut( target, duration );
+		return fadeOut(target, duration);
 	};
 
-	const slideUp = ( target, duration = 500 ) => {
+	const slideUp = (target, duration = 500) => {
 		target.style.transitionProperty = 'height, margin, padding';
 		target.style.transitionDuration = duration + 'ms';
 		target.style.boxSizing = 'border-box';
@@ -70,24 +70,24 @@ export default function useAnimation( effect ) {
 		target.style.paddingBottom = 0;
 		target.style.marginTop = 0;
 		target.style.marginBottom = 0;
-		window.setTimeout( () => {
+		window.setTimeout(() => {
 			target.style.display = 'none';
-			target.style.removeProperty( 'height' );
-			target.style.removeProperty( 'padding-top' );
-			target.style.removeProperty( 'padding-bottom' );
-			target.style.removeProperty( 'margin-top' );
-			target.style.removeProperty( 'margin-bottom' );
-			target.style.removeProperty( 'overflow' );
-			target.style.removeProperty( 'transition-duration' );
-			target.style.removeProperty( 'transition-property' );
-		}, duration );
+			target.style.removeProperty('height');
+			target.style.removeProperty('padding-top');
+			target.style.removeProperty('padding-bottom');
+			target.style.removeProperty('margin-top');
+			target.style.removeProperty('margin-bottom');
+			target.style.removeProperty('overflow');
+			target.style.removeProperty('transition-duration');
+			target.style.removeProperty('transition-property');
+		}, duration);
 	};
 
-	const slideDown = ( target, duration = 500 ) => {
-		target.style.removeProperty( 'display' );
-		let display = window.getComputedStyle( target ).display;
+	const slideDown = (target, duration = 500) => {
+		target.style.removeProperty('display');
+		let display = window.getComputedStyle(target).display;
 
-		if ( display === 'none' ) {
+		if (display === 'none') {
 			display = 'block';
 		}
 
@@ -103,65 +103,65 @@ export default function useAnimation( effect ) {
 		target.style.transitionProperty = 'height, margin, padding';
 		target.style.transitionDuration = duration + 'ms';
 		target.style.height = height + 'px';
-		target.style.removeProperty( 'padding-top' );
-		target.style.removeProperty( 'padding-bottom' );
-		target.style.removeProperty( 'margin-top' );
-		target.style.removeProperty( 'margin-bottom' );
-		window.setTimeout( () => {
-			target.style.removeProperty( 'height' );
-			target.style.removeProperty( 'overflow' );
-			target.style.removeProperty( 'transition-duration' );
-			target.style.removeProperty( 'transition-property' );
-		}, duration );
+		target.style.removeProperty('padding-top');
+		target.style.removeProperty('padding-bottom');
+		target.style.removeProperty('margin-top');
+		target.style.removeProperty('margin-bottom');
+		window.setTimeout(() => {
+			target.style.removeProperty('height');
+			target.style.removeProperty('overflow');
+			target.style.removeProperty('transition-duration');
+			target.style.removeProperty('transition-property');
+		}, duration);
 	};
 
-	const slideToggle = ( target, duration = 500 ) => {
-		if ( window.getComputedStyle( target ).display === 'none' ) {
-			return slideDown( target, duration );
+	const slideToggle = (target, duration = 500) => {
+		if (window.getComputedStyle(target).display === 'none') {
+			return slideDown(target, duration);
 		}
-		return slideUp( target, duration );
+		return slideUp(target, duration);
 	};
 
-	const showToggle = ( target ) => {
-		if ( window.getComputedStyle( target ).display === 'none' ) {
-			target.style.removeProperty( 'display' );
-			target.classList.remove( 'jal-hide' );
+	const showToggle = (target) => {
+		if (window.getComputedStyle(target).display === 'none') {
+			target.style.removeProperty('display');
+			target.classList.remove('jal-hide');
 		} else {
 			target.style.display = 'none';
 		}
 	};
 
-	const hideOpenedLists = ( listRoot ) => {
-		if ( listRoot === undefined ) return;
-		if ( ! listRoot.classList.contains( 'expanded' ) ) return;
+	const hideOpenedLists = (listRoot) => {
+		if (listRoot === undefined) return;
+		if (!listRoot.classList.contains('expanded')) return;
 
 		// Expanded siblings
-		const expandedSiblings = [ ...listRoot.parentElement.children ].filter(
-			( ch ) => {
+		const expandedSiblings = [...listRoot.parentElement.children].filter(
+			(ch) => {
 				return (
 					listRoot !== ch &&
 					ch.nodeName.toLowerCase() === 'li' &&
-					ch.classList.contains( 'expanded' )
+					ch.classList.contains('expanded')
 				);
 			}
 		);
 
-		expandedSiblings.forEach( ( expandedList ) => {
-			if ( expandedList !== listRoot ) {
+		expandedSiblings.forEach((expandedList) => {
+			if (expandedList !== listRoot) {
 				expandedList
-					.querySelectorAll( ':scope > .jaw_symbol' )
-					.forEach( ( toggler ) => toggler.click() );
+					.querySelectorAll(':scope > .jaw_symbol')
+					.forEach((toggler) => toggler.click());
 			}
-		} );
+		});
 	};
 
-	const [ animationFunction, setAnimationFunction ] = useState( null );
+	const [animationFunction, setAnimationFunction] = useState(null);
 
-	useEffect( () => {
-		setAnimationFunction( () => {
+	useEffect(() => {
+		setAnimationFunction(() => {
 			let animationFn;
 
-			switch ( effect ) {
+			switch (effect) {
 				case 'fade':
 					animationFn = fadeToggle;
 					break;
@@ -174,10 +174,10 @@ export default function useAnimation( effect ) {
 			}
 
 			return animationFn;
-		} );
+		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ effect ] );
+	}, [effect]);
 
 	return { animationFunction, hideOpenedLists };
 }

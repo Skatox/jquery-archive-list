@@ -13,10 +13,10 @@ const monthObj = {
 	permalink: 'https://test.dev/',
 };
 
-describe( 'Expand/Collapse symbol', () => {
-	test( 'should display collapse symbol when expanded', () => {
+describe('Expand/Collapse symbol', () => {
+	test('should display collapse symbol when expanded', () => {
 		let i;
-		for ( i = 1; i <= 3; i++ ) {
+		for (i = 1; i <= 3; i++) {
 			const expand = true;
 			const config = defaultConfig;
 			config.symbol = i.toString();
@@ -25,26 +25,26 @@ describe( 'Expand/Collapse symbol', () => {
 			const {collapseSymbol} = useSymbol(i);
 
 			const { container } = render(
-				<ConfigContext.Provider value={ { config } }>
+				<ConfigContext.Provider value={{ config }}>
 					<BulletWithSymbol
-						expanded={ expand }
-						expandSubLevel={ monthObj.expand }
-						title={ monthObj.month }
-						permalink={ monthObj.permalink }
-						onToggle={ null }
+						expanded={expand}
+						expandSubLevel={monthObj.expand}
+						title={monthObj.month}
+						permalink={monthObj.permalink}
+						onToggle={null}
 					/>
 				</ConfigContext.Provider>
 			);
 
 			const componentSymbol =
-				container.querySelector( '.jaw_symbol' ).innerHTML;
-			expect( componentSymbol ).toBe( collapseSymbol );
+				container.querySelector('.jaw_symbol').innerHTML;
+			expect(componentSymbol).toBe(collapseSymbol);
 		}
-	} );
+	});
 
-	test( 'should display expand symbol when collapsed', () => {
+	test('should display expand symbol when collapsed', () => {
 		let i;
-		for ( i = 1; i <= 3; i++ ) {
+		for (i = 1; i <= 3; i++) {
 			const expand = false;
 			const config = defaultConfig;
 			config.symbol = i.toString();
@@ -53,39 +53,39 @@ describe( 'Expand/Collapse symbol', () => {
 			const {expandSymbol} = useSymbol(i);
 
 			const { container } = render(
-				<ConfigContext.Provider value={ { config } }>
+				<ConfigContext.Provider value={{ config }}>
 					<BulletWithSymbol
-						expanded={ expand }
-						expandSubLevel={ monthObj.expand }
-						title={ monthObj.month }
-						permalink={ monthObj.permalink }
-						onToggle={ null }
+						expanded={expand}
+						expandSubLevel={monthObj.expand}
+						title={monthObj.month}
+						permalink={monthObj.permalink}
+						onToggle={null}
 					/>
 				</ConfigContext.Provider>
 			);
 
 			const componentSymbol =
-				container.querySelector( '.jaw_symbol' ).innerHTML;
-			expect( componentSymbol ).toBe( expandSymbol );
+				container.querySelector('.jaw_symbol').innerHTML;
+			expect(componentSymbol).toBe(expandSymbol);
 		}
-	} );
+	});
 
-	test( 'should be hidden if no symbol is selected in config', () => {
+	test('should be hidden if no symbol is selected in config', () => {
 		const config = defaultConfig;
 		config.symbol = 0;
 
 		const { queryByRole } = render(
-			<ConfigContext.Provider value={ { config } }>
+			<ConfigContext.Provider value={{ config }}>
 				<BulletWithSymbol
-					expanded={ false }
-					expandSubLevel={ monthObj.expand }
-					title={ monthObj.month }
-					permalink={ monthObj.permalink }
-					onToggle={ null }
+					expanded={false}
+					expandSubLevel={monthObj.expand}
+					title={monthObj.month}
+					permalink={monthObj.permalink}
+					onToggle={null}
 				/>
 			</ConfigContext.Provider>
 		);
 
-		expect( queryByRole( 'link' ) ).toBeNull();
-	} );
-} );
+		expect(queryByRole('link')).toBeNull();
+	});
+});

@@ -1,14 +1,14 @@
 /**
  * WordPress dependencies
  */
-import {useState} from '@wordpress/element';
+import { useState } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
-import DisplayYear from './DisplayYear';
+import DisplayYear from './displayers/DisplayYear';
 
-const ShowOlderYears = ({years}) => {
+const ShowOlderYears = ({ years }) => {
 	const [showYears, setShowYears] = useState(false);
 
 	const handleShowYears = (evt) => {
@@ -20,11 +20,13 @@ const ShowOlderYears = ({years}) => {
 		<>
 			{showYears ? (
 				years.map((yearObj) => (
-					<DisplayYear yearObj={yearObj} key={yearObj.year}/>
+					<DisplayYear yearObj={yearObj} key={yearObj.year} />
 				))
 			) : (
 				<li>
-					<a href="#show" onClick={handleShowYears} role="link">Show Older Years</a>
+					<a href="#show" onClick={handleShowYears}>
+						Show Older Years
+					</a>
 				</li>
 			)}
 		</>
