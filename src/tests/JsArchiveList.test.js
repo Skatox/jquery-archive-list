@@ -3,9 +3,9 @@ import '@testing-library/jest-dom/extend-expect';
 import {
 	ConfigContext,
 	defaultConfig,
-} from '../../components/frontend/context/ConfigContext';
-import useApi from '../../components/frontend/hooks/useApi';
-import JsArchiveList from '../../components/frontend/JsArchiveList';
+} from '../components/frontend/context/ConfigContext';
+import useApi from '../components/frontend/hooks/useApi';
+import JsArchiveList from '../components/frontend/JsArchiveList';
 
 const testTitle = 'Test Title';
 const noFoundText = 'There are no post to show.';
@@ -26,7 +26,7 @@ const yearList = {
 	],
 };
 
-jest.mock('../../components/frontend/hooks/useApi', () =>
+jest.mock('../components/frontend/hooks/useApi', () =>
 	jest.fn(() => ({
 		loading: false,
 		data: null,

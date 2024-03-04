@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from '@wordpress/element';
 import { ConfigContext } from '../../context/ConfigContext';
 import DisplayMonth from './DisplayMonth';
 import useApi from '../../hooks/useApi';
-import ListWithAnimation from './ListWithAnimation';
+import ListWithAnimation from '../ListWithAnimation';
 
 const DisplayYear = ({ yearObj }) => {
 	const { config } = useContext(ConfigContext);
@@ -18,7 +18,7 @@ const DisplayYear = ({ yearObj }) => {
 		data: apiData,
 		apiClient,
 	} = useApi(`/jalw/v1/archive/${yearObj.year}`);
-	const [expand, setExpand] = useState(yearObj.expand);
+	const [expand, setExpand] = useState(false);
 
 	const loadMonths = async (event) => {
 		event.preventDefault();
@@ -50,8 +50,6 @@ const DisplayYear = ({ yearObj }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [expand]);
 
-	const monthClass = 'months ' + (yearObj.expand ? '' : 'jal-hide');
-
 	return (
 		<ListWithAnimation
 			items={apiData ? apiData.months : []}
@@ -62,10 +60,11 @@ const DisplayYear = ({ yearObj }) => {
 				onClick: handleLink,
 			}}
 			expand={expand}
+			initialExpand={yearObj.expand}
 			loading={loading}
 			rootLink={{ ...yearObj, onClick: loadMonths }}
 			showToggleSymbol={true}
-			subListCustomClass={monthClass}
+			subListCustomClass="jaw_months"
 		>
 			{(item) => (
 				<DisplayMonth

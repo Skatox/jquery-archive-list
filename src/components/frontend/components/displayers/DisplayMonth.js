@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from '@wordpress/element';
  */
 import { ConfigContext } from '../../context/ConfigContext';
 import useApi from '../../hooks/useApi';
-import ListWithAnimation from './ListWithAnimation';
+import ListWithAnimation from '../ListWithAnimation';
 import DisplayPost from './DisplayPost';
 import DisplayDay from './DisplayDay';
 import { dateI18n } from '@wordpress/date';
@@ -48,14 +48,15 @@ const DisplayMonth = ({ monthObj, year }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [expand]);
 
-	const subListClass = config.show_day_archive ? 'days' : 'posts';
-	const subListCustomClass = `${subListClass} ${monthObj.expand ? '' : 'jal-hide'}`;
+	const subListCustomClass = config.show_day_archive
+		? 'jawl_days'
+		: 'jaw_posts';
 
 	let items;
 
 	if (apiData && apiData.posts) {
 		items = config.show_day_archive
-			? groupPostsByDay(apiData.posts)
+			? groupPostsByDay(config, apiData.posts)
 			: apiData.posts;
 	} else {
 		items = [];
@@ -71,6 +72,7 @@ const DisplayMonth = ({ monthObj, year }) => {
 				onClick: handleLink,
 			}}
 			expand={expand}
+			initialExpand={monthObj.expand}
 			loading={loading}
 			rootLink={{ ...monthObj, onClick: loadPosts }}
 			showToggleSymbol={config.showpost}
@@ -80,14 +82,16 @@ const DisplayMonth = ({ monthObj, year }) => {
 				config.show_day_archive ? (
 					<DisplayDay key={item.ID} dayObj={item} />
 				) : (
-					<DisplayPost key={item.ID} post={item} />
+					<li key={item.ID}>
+						<DisplayPost post={item} />
+					</li>
 				)
 			}
 		</ListWithAnimation>
 	);
 };
 
-const groupPostsByDay = (posts) => {
+const groupPostsByDay = (config, posts) => {
 	if (!posts) return [];
 
 	const groupedByDays = posts.reduce((acc, post) => {
@@ -98,7 +102,7 @@ const groupPostsByDay = (posts) => {
 				ID: day,
 				title: day,
 				permalink: '#',
-				expand: false,
+				expand: config.expand === 'all',
 				posts: [],
 				onClick: () => false,
 			};

@@ -1,26 +1,20 @@
 /**
  * WordPress dependencies
  */
-import { useContext, useState } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 
 /**
  * Internal dependencies
  */
 import DisplayPost from './DisplayPost';
-import { ConfigContext } from '../../context/ConfigContext';
-
-import ListWithAnimation from './ListWithAnimation';
+import ListWithAnimation from '../ListWithAnimation';
 
 const DisplayDay = ({ dayObj }) => {
-	const { config } = useContext(ConfigContext);
-	const expandAll = config.expand === 'all';
-	const [expand, setExpand] = useState(expandAll);
+	const [expand, setExpand] = useState(false);
 
-	const togglePostList = () => {
+	const loadPosts = async () => {
 		setExpand(!expand);
 	};
-
-	const subListCustomClass = 'posts' + (expandAll ? '' : 'jal-hide');
 
 	return (
 		<ListWithAnimation
@@ -29,20 +23,21 @@ const DisplayDay = ({ dayObj }) => {
 				content: dayObj.title,
 				href: '#',
 				title: dayObj.title,
-				onClick: togglePostList,
+				onClick: loadPosts,
 			}}
 			expand={expand}
+			initialExpand={dayObj.expand}
 			loading={false}
 			rootLink={{
-				expand: false,
+				...dayObj,
 				title: dayObj.title,
-				onClick: togglePostList,
+				onClick: loadPosts,
 			}}
-			showToggleSymbol={false}
-			subListCustomClass={subListCustomClass}
+			showToggleSymbol={true}
+			subListCustomClass="posts"
 		>
 			{(item) => (
-				<li>
+				<li key={item.ID}>
 					<DisplayPost post={item} />
 				</li>
 			)}

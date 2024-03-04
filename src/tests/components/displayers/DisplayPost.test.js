@@ -5,8 +5,8 @@ import '@testing-library/jest-dom/extend-expect';
 import {
 	ConfigContext,
 	defaultConfig,
-} from '../../components/frontend/context/ConfigContext';
-import DisplayPost from '../../components/frontend/components/displayers/DisplayPost';
+} from '../../../components/frontend/context/ConfigContext';
+import DisplayPost from '../../../components/frontend/components/displayers/DisplayPost';
 
 const animationFunction = jest.fn();
 
