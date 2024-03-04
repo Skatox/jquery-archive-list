@@ -39,11 +39,17 @@ This plugin provides a widget and a filter to display a collapsible archive list
 * Title: title of the widget.
 * Trigger Symbol:  characters to be displayed as bullet.
 * Effect: Effect to use.
-* Expand: when to expand the content of the list.
 * Month Format:  month's display format of the month.
+* Expand: when to expand the content of the list.
+* Hide years from before: older years will be hidden under a  link. To save space in the page on old sites.
+* Show days inside month list: group posts by day.
 * Show number of posts: display how many post are published in the year or in the month.
-* Show posts under months:  show post's title under months.
+* Show only posts from selected category: show only posts from the selected category when visiting a category page.
 * Only expand/reduce by clicking the symbol: select if animations start when click the link or just the bullet.
+* Only expand one at the same time: select if you want to have only one expanded at the same time.
+* Show posts under months:  show post's title under months.
+* Show post date next to post title: show post's date next to post title.
+* Sort posts by: select how to sort the posts under months.
 * Include or Exclude categories: Select the categories to include or exclude.
 
 == Frequently Asked Questions ==
@@ -78,8 +84,9 @@ just play with the widget's classes: .jaw_symbol, .jaw_year, .jaw_month.
 
 = Can I show this list inside posts? =
 
-Yes, only write *[JsArchiveList]* anywhere inside a post or page's contest and it will be replaced for
-the archive list when rendering the content. You can add the following parameters to change its behavior:
+Yes, just add the *JS Archive List* block or add a shortcode block and write *[JsArchiveList]* anywhere inside a post
+or page's contest and it will be replaced for the archive list when rendering the content. You can add the following
+parameters to change its behavior:
 
 1. **showcount** ( boolean ): select if you want to show the count post inside that month/year.
 1. **showpost** ( boolean ): show post's titles under months.
@@ -122,6 +129,8 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 = 6.1.0 =
 * Added option to sort month's posts by ID, date or title.
 * Added option to add post's date to the month's post list.
+* New option to display posts grouped by day.
+* New option to hide older years in a toggle (good for old sites).
 * Improved frontend code to make it more efficient and slightly faster.
 * Fixed bug of changing the symbol when data was not loaded.
 * Legacy version: added `jawl_widget_title` hook to allow changing the widget's title (helpful for translations).
