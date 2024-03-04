@@ -1,7 +1,7 @@
 === JS Archive List ===
 Contributors: skatox
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
-Tags: jquery, ajax, javascript, collapse, collapsible, archive, collapsible archive, widget, gutenberg
+Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
 Tested up to: 6.5
 Stable Tag: 6.1.0
