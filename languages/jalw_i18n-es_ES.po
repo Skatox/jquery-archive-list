@@ -1,138 +1,271 @@
-# PLEASE TRY TO TRANSLATE THIS PLUGIN TO OTHER LANGUAGES, ANY HELP IS WELCOMED.
-# Copyright (C) 2013 jQuery Archive List Widget
-# This file is distributed under the same license as the jQuery Archive List Widget package.
+# Translation of Plugins - JS Archive List - Development (trunk) in Spanish (Spain)
+# This file is distributed under the same license as the Plugins - JS Archive List - Development (trunk) package.
 msgid ""
 msgstr ""
-"Project-Id-Version: jQuery Archive List Widget 2.0\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/jquery-archive-list-widget\n"
-"POT-Creation-Date: 2013-03-25 16:54:38+00:00\n"
+"PO-Revision-Date: 2023-04-28 23:17:44+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Miguel Useche <migueluseche@skatox.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.0-rc.1\n"
+"Language: es\n"
+"Project-Id-Version: Plugins - JS Archive List - Development (trunk)\n"
 
-#: jquery-archive-list-widget.php:95
-msgid "Archives"
-msgstr "Archivos"
+#: build/index.js:1317 src/edit.js:242 build/index.js:1220
+msgid "Date (DESC)"
+msgstr "Fecha (ASC)"
 
-#: jquery-archive-list-widget.php:149
-msgid "Title"
-msgstr "T&iacute;tulo"
+#: build/index.js:1314 src/edit.js:238 build/index.js:1216
+msgid "Date (ASC)"
+msgstr "Fecha (DESC)"
 
-#: jquery-archive-list-widget.php:153
-msgid "Trigger Symbol"
-msgstr "S&iacute;mbolo"
+#: build/index.js:1311 src/edit.js:234 build/index.js:1212
+msgid "Name (DESC)"
+msgstr "Nombre (DESC)"
 
-#: jquery-archive-list-widget.php:157
-msgid "Empty Space"
-msgstr "Espacio vac&iacute;o"
+#: build/index.js:1308 src/edit.js:230 build/index.js:1208
+msgid "Name (ASC)"
+msgstr "Nombre (ASC)"
 
-#: jquery-archive-list-widget.php:170
-msgid "Effect"
-msgstr "Efecto"
+#: build/index.js:1305 src/edit.js:226 build/index.js:1204
+msgid "ID (DESC)"
+msgstr "ID (DESC)"
 
-#: jquery-archive-list-widget.php:174
-msgid "None"
-msgstr "Ninguno"
+#: build/index.js:1302 src/edit.js:222 build/index.js:1200
+msgid "ID (ASC)"
+msgstr "ID (ASC)"
 
-#: jquery-archive-list-widget.php:177
-msgid "Slide (Accordion)"
-msgstr "Deslizamiento (Acorde&oacute;n)"
+#: build/index.js:1295 src/edit.js:212 build/index.js:1190
+msgid "Sort posts by"
+msgstr "Ordernar entradas por"
 
-#: jquery-archive-list-widget.php:180
-msgid "Fade"
-msgstr "Desvanecer"
+#: build/index.js:1289 src/edit.js:201 build/index.js:1179
+msgid "Show post date next to post title"
+msgstr "Mostrar la fecha de la entrada junto al título de la entrada"
 
-#: jquery-archive-list-widget.php:184
-msgid "Month Format"
-msgstr "Formato del Mes"
+#: build/index.js:1280 src/edit.js:189 build/index.js:1167
+msgid "Display posts"
+msgstr "Mostar entradas"
 
-#: jquery-archive-list-widget.php:188
-msgid "Full Name (January)"
-msgstr "Nombre completo (Enero)"
+#: build/index.js:1262 src/edit.js:158 build/index.js:1136
+msgid "Show only posts from selected category in a category page"
+msgstr "Solo mostrar entradas de la categoría seleccionada en una página de categoría"
 
-#: jquery-archive-list-widget.php:191
-msgid "Short Name (Jan)"
-msgstr "Nombre corto (Ene)"
+#: build/index.js:1250 src/edit.js:140 build/index.js:1118
+msgid "Show days inside month list"
+msgstr "Mostrar días dentro de la lista de meses"
 
-#: jquery-archive-list-widget.php:194
-msgid "Number (01)"
-msgstr "N&uacute;mero (01)"
+#: build/index.js:1238 src/edit.js:126 build/index.js:1104
+msgid "Leave empty to show all years"
+msgstr "Dejar vacío para mostrar todos los años"
 
-#: jquery-archive-list-widget.php:198
-msgid "Expand"
-msgstr "Expandir"
+#: build/index.js:1233 src/edit.js:123 build/index.js:1101
+msgid "Hide years from before"
+msgstr "Ocultar años anteriores"
 
-#: jquery-archive-list-widget.php:234
-msgid "Post type"
-msgstr "Tipo de entrada"
+#. Plugin Name of the plugin
+#: jquery-archive-list-widget.php
+msgid "JS Archive List"
+msgstr "JS Listado de Archivos"
 
-#: jquery-archive-list-widget.php:205
-msgid "All"
-msgstr "Todo"
+#: build/index.js:153 build/view.js:117
+#: src/components/frontend/JsArchiveList.js:89 build/index.js:138
+#: build/view.js:105
+msgid "Cannot load posts."
+msgstr "No se pueden cargar las entradas."
 
-#: jquery-archive-list-widget.php:208
-msgid "Current or post date"
-msgstr "Fecha actual o la de la entrada"
+#: build/index.js:146 build/view.js:110
+#: src/components/frontend/JsArchiveList.js:65 build/index.js:114
+#: build/view.js:81
+msgid "Loading…"
+msgstr "Cargando…"
 
-#: jquery-archive-list-widget.php:208
-msgid "Only post date"
-msgstr "Sólo fecha de la entrada"
+#: build/block.json src/block.json
+msgctxt "block description"
+msgid "A block for displaying an archive list with some effects."
+msgstr ""
 
-#: jquery-archive-list-widget.php:208
-msgid "Only current date"
-msgstr "Sólo la fecha actual"
+#: build/block.json src/block.json
+msgctxt "block title"
+msgid "JS Archive List"
+msgstr "JS Archive List"
 
-#: jquery-archive-list-widget.php:233
+#: build/index.js:1329 src/edit.js:266 build/index.js:1244
+msgid "Exclude the following categories "
+msgstr "Excluir las siguientes categorías"
+
+#: build/index.js:1323 src/edit.js:258 build/index.js:1236
+msgid "Include or exclude"
+msgstr "Incluir o excluir"
+
+#: build/index.js:1320 src/edit.js:253 build/index.js:1231
+msgid "Category management"
+msgstr "Gestión de categorías"
+
+#: build/index.js:1149 src/edit.js:38 build/index.js:1016
+msgid "General options"
+msgstr "Opciones generales"
+
+#: build/index.js:43 src/components/admin/CategoryPicker.js:24
+#: build/index.js:24
+msgid "Loading categories…"
+msgstr "Cargando categorías…"
+
+#: classes/class-jq-archive-list-widget.php:637
+msgid "Include categories"
+msgstr "Incluir categorías"
+
+#: classes/class-jq-archive-list-widget.php:613
+msgid "Exclude the following categories"
+msgstr "Excluir las siguientes categorías"
+
+#: classes/class-jq-archive-list-widget.php:601 build/index.js:1326
+#: src/edit.js:262 build/index.js:1240
+msgid "Include the following categories"
+msgstr "Incluir las siguientes categorías"
+
+#: classes/class-jq-archive-list-widget.php:582 build/index.js:1274
+#: src/edit.js:178 build/index.js:1156
+msgid "Only expand one at a the same time (accordion effect)"
+msgstr "Solo ampliar uno al mismo tiempo (efecto acordeón)"
+
+#: classes/class-jq-archive-list-widget.php:484 build/index.js:1206
+#: src/edit.js:92 build/index.js:1070
+msgid "Number( 01 )"
+msgstr "Número (01)"
+
+#. Author of the plugin
+#: jquery-archive-list-widget.php
+msgid "Miguel Angel Useche Castro"
+msgstr "Miguel Ángel Useche Castro"
+
+#. Author URI of the plugin
+#: jquery-archive-list-widget.php
+msgid "https://migueluseche.com/"
+msgstr "https://migueluseche.com/"
+
+#. Description of the plugin
+#: jquery-archive-list-widget.php classes/class-jq-archive-list-widget.php:40
+msgid "A widget for displaying an archive list with some effects."
+msgstr "Un widget para mostrar un listado de archivos con algunos efectos.\t\t"
+
+#. Plugin URI of the plugin
+#: jquery-archive-list-widget.php
+msgid "http://skatox.com/blog/jquery-archive-list-widget/"
+msgstr "https://skatox.com/blog/jquery-archive-list-widget/"
+
+#: classes/class-jq-archive-list-widget.php:160 build/index.js:148
+#: build/view.js:112 src/components/frontend/JsArchiveList.js:73
+#: build/index.js:122 build/view.js:89
+msgid "There are no post to show."
+msgstr "No hay entradas para mostrar."
+
+#: classes/class-jq-archive-list-widget.php:620
+msgid "Exclude categories"
+msgstr "Excluir categorías"
+
+#: classes/class-jq-archive-list-widget.php:571 build/index.js:1268
+#: src/edit.js:168 build/index.js:1146
+msgid "Only expand / reduce by clicking the symbol"
+msgstr "Solo ampliar/reducir haciendo clic en el símbolo"
+
+#: classes/class-jq-archive-list-widget.php:560
 msgid "Show only post from selected category in a category page"
-msgstr "Visualizar solo entradas de la categor&iacute;a seleccionada en páginas de categor&iacute;as"
+msgstr "Mostrar solo las entradas de la categoría seleccionada en una página de categoría"
 
-#: jquery-archive-list-widget.php:208
-msgid "Current month"
-msgstr "Mes actual"
-
-#: jquery-archive-list-widget.php:212
-msgid "Extra options"
-msgstr "Opciones adicionales"
-
-#: jquery-archive-list-widget.php:215
-msgid "Show number of posts"
-msgstr "Mostrar n&uacute;mero de entradas"
-
-#: jquery-archive-list-widget.php:219
+#: classes/class-jq-archive-list-widget.php:550 build/index.js:1283
+#: src/edit.js:192 build/index.js:1170
 msgid "Show posts under months"
 msgstr "Mostrar entradas debajo del mes"
 
-#: jquery-archive-list-widget.php:223
-msgid "Only expand/reduce by clicking the symbol"
-msgstr "Solo expandir/contraer haciendo clic en el s&iacute;mbolo"
+#: classes/class-jq-archive-list-widget.php:540 build/index.js:1256
+#: src/edit.js:151 build/index.js:1129
+msgid "Show number of posts"
+msgstr "Mostrar el número de entradas"
 
-#: jquery-archive-list-widget.php:225
-msgid "Exclude categories"
-msgstr "Categorías a excluir"
+#: classes/class-jq-archive-list-widget.php:532 build/index.js:1247
+#: src/edit.js:137 build/index.js:1115
+msgid "Extra options"
+msgstr "Opciones adicionales"
 
-#: jquery-archive-list-widget.php:351
-msgid "There are no post to show."
-msgstr "No hay entradas a mostrar."
+#: classes/class-jq-archive-list-widget.php:515 build/index.js:1240
+#: src/edit.js:129 build/index.js:1107
+msgid "Post type"
+msgstr "Tipo de contenido"
 
-#. Plugin Name of the plugin/theme
-msgid "jQuery Archive List Widget"
-msgstr ""
+#: classes/class-jq-archive-list-widget.php:510 build/index.js:1228
+#: src/edit.js:116 build/index.js:1094
+msgid "Only current date"
+msgstr "Solo la fecha actual"
 
-#. Plugin URI of the plugin/theme
-msgid "http://skatox.com/blog/jquery-archive-list-widget/"
-msgstr ""
+#: classes/class-jq-archive-list-widget.php:506 build/index.js:1225
+#: src/edit.js:112 build/index.js:1090
+msgid "Only post date"
+msgstr "Solo fecha de la entrada"
 
-#. Description of the plugin/theme
-msgid "A simple jQuery widget for displaying an archive list with some effects."
-msgstr "Un sencillo widget de jQuery para mostrar una lista de archivos con algunos efectos."
+#: classes/class-jq-archive-list-widget.php:502 build/index.js:1222
+#: src/edit.js:108 build/index.js:1086
+msgid "Current or post date"
+msgstr "Fecha actual o la de la entrada"
 
-#. Author of the plugin/theme
-msgid "Miguel Useche"
-msgstr ""
+#: classes/class-jq-archive-list-widget.php:498 build/index.js:1219
+#: src/edit.js:104 build/index.js:1082
+msgid "All"
+msgstr "Todo"
 
-#. Author URI of the plugin/theme
-msgid "http://migueluseche.com/"
-msgstr ""
+#: classes/class-jq-archive-list-widget.php:488 build/index.js:1209
+#: src/edit.js:97 build/index.js:1075
+msgid "Expand"
+msgstr "Ampliar"
+
+#: classes/class-jq-archive-list-widget.php:480 build/index.js:1203
+#: src/edit.js:88 build/index.js:1066
+msgid "Short Name( Jan )"
+msgstr "Nombre corto (Ene)"
+
+#: classes/class-jq-archive-list-widget.php:476 build/index.js:1200
+#: src/edit.js:84 build/index.js:1062
+msgid "Full Name( January )"
+msgstr "Nombre completo (Enero)"
+
+#: classes/class-jq-archive-list-widget.php:468 build/index.js:1193
+#: src/edit.js:78 build/index.js:1056
+msgid "Month Format"
+msgstr "Formato del mes"
+
+#: classes/class-jq-archive-list-widget.php:464 build/index.js:1190
+#: src/edit.js:73 build/index.js:1051
+msgid "Fade"
+msgstr "Desvanecer"
+
+#: classes/class-jq-archive-list-widget.php:461 build/index.js:1187
+#: src/edit.js:69 build/index.js:1047
+msgid "Slide( Accordion )"
+msgstr "Deslizamiento (Acordeón)"
+
+#: classes/class-jq-archive-list-widget.php:458
+#: classes/class-jq-archive-list-widget.php:495 build/index.js:1184
+#: build/index.js:1216 src/edit.js:65 src/edit.js:101 build/index.js:1043
+#: build/index.js:1079
+msgid "None"
+msgstr "Ninguno"
+
+#: classes/class-jq-archive-list-widget.php:451 build/index.js:1177
+#: src/edit.js:59 build/index.js:1037
+msgid "Effect"
+msgstr "Efecto"
+
+#: classes/class-jq-archive-list-widget.php:438 build/index.js:1165
+#: src/edit.js:51 build/index.js:1029
+msgid "Empty Space"
+msgstr "Espacio vacío"
+
+#: classes/class-jq-archive-list-widget.php:431 build/index.js:1158
+#: src/edit.js:45 build/index.js:1023
+msgid "Trigger Symbol"
+msgstr "Símbolo de activación"
+
+#: classes/class-jq-archive-list-widget.php:423 build/index.js:1152
+#: src/edit.js:40 build/index.js:1018
+msgid "Title"
+msgstr "Título"
