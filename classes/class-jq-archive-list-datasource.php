@@ -108,7 +108,8 @@ class JQ_Archive_List_DataSource {
 			return null;
 		}
 
-		$order_by = explode( '_', $this->config['sort'] );
+		$sort = isset($this->config['sort']) ? $this->config['sort'] : 'date_desc';
+		$order_by = explode( '_', $sort );
 
 		return $wpdb->get_results( sprintf(
 			'SELECT DISTINCT ID, post_title, post_name, post_date, "false" as expanded FROM %s %s %s ORDER BY %s %s',

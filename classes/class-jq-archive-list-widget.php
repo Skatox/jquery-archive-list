@@ -129,7 +129,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		echo $settings['before_widget'];
 		echo $settings['before_title'];
 
-	  $title = add_filter('jawl_widget_title', $this->config['title']);
+	  $title = apply_filters('jawl_widget_title', $this->config['title']);
 		echo apply_filters( 'widget_title', $title );
 
 		echo $settings['after_title'];
