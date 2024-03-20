@@ -4,7 +4,7 @@ Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
 Tested up to: 6.5
-Stable Tag: 6.1.2
+Stable Tag: 6.1.3
 
 A JS widget (can be used in posts) for displaying an archive list with some effects.
 
@@ -125,6 +125,11 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+
+= 6.1.3 =
+* Legacy widget: solving settings save bug when changing checkboxes.
+* Legacy widget: solving settings load when using the widget mode.
+* Legacy widget: rewriting clicking event function to avoid bugs and issues with certain settings.
 
 = 6.1.2 =
 * Solved scrolling bug when clickin day's link.
