@@ -5,6 +5,8 @@ Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
 Tested up to: 6.5.3
 Stable Tag: 6.1.4
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 A JS widget (can be used in posts) for displaying an archive list with some effects.
 
@@ -125,6 +127,9 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+
+= 6.1.4 =
+* Solving a bug when expand was selected to all and no symbol was set.
 
 = 6.1.3 =
 * Legacy widget: solving settings save bug when changing checkboxes.
