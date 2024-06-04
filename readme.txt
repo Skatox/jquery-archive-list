@@ -3,8 +3,8 @@ Contributors: skatox
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
-Tested up to: 6.5
-Stable Tag: 6.1.3
+Tested up to: 6.5.3
+Stable Tag: 6.1.4
 
 A JS widget (can be used in posts) for displaying an archive list with some effects.
 

@@ -3,7 +3,7 @@
   Plugin Name: JS Archive List
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A widget for displaying an archive list with some effects.
-  Version: 6.1.3
+  Version: 6.1.4
   Author: Miguel Angel Useche Castro
   Author URI: https://migueluseche.com/
   Text Domain: jalw_i18n
@@ -35,7 +35,7 @@ if ( ! defined( 'JAL_BASE_URL' ) ) {
 	define( 'JAL_BASE_URL', plugin_dir_url( __FILE__ ) );
 }
 if ( ! defined( 'JAL_VERSION' ) ) {
-	define( 'JAL_VERSION', '6.1.3' );
+	define( 'JAL_VERSION', '6.1.4' );
 }
 
 require_once( 'admin/class-jaw-walker-category-checklist.php' );

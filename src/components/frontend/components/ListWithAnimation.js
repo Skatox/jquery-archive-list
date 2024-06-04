@@ -45,7 +45,9 @@ const ListWithAnimation = ({
 
 	useEffect(() => {
 		if (listElement && !!initialExpand) {
-			listElement.current.children[0].click();
+			if (showToggleSymbol && listElement.current.children[0]) {
+				listElement.current.children[0].click();
+			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
