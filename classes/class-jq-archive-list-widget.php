@@ -110,8 +110,6 @@ class JQ_Archive_List_Widget extends WP_Widget {
 	 * @param array $instance Current widget instance, there may be multiple widgets at the same time.
 	 */
 	public function widget( $args, $instance ) {
-		$instance['excluded'] = empty( $instance['excluded'] ) ? [] : implode( ',', unserialize( $instance['excluded'] ) );
-		$instance['included'] = empty( $instance['included'] ) ? [] : implode( ',', unserialize( $instance['included'] ) );
 		$instance['type'] = empty( $instance['type'] ) ? 'post' : $instance['type'];
 		$this->config = $instance;
 		$this->data_source = new JQ_Archive_List_DataSource( $this->config, true );
@@ -407,8 +405,8 @@ class JQ_Archive_List_Widget extends WP_Widget {
 			$new_instance['included'] = [];
 		}
 
-		$instance['excluded'] = ! empty( $new_instance['excluded'] ) ? serialize( $new_instance['excluded'] ) : [];
-		$instance['included'] = ! empty( $new_instance['included'] ) ? serialize( $new_instance['included'] ) : [];
+		$instance['excluded'] = ! empty( $new_instance['excluded'] ) ? $new_instance['excluded'] : [];
+		$instance['included'] = ! empty( $new_instance['included'] ) ? $new_instance['included'] : [];
 
 		Js_Archive_List_Settings::translateDbSettingsToInternal( $instance );
 
@@ -633,7 +631,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
               <div style="height: 200px; overflow-y: scroll;">
 				  <?php
 				  $walker = new JAW_Walker_Category_Checklist( $this->get_field_name( 'excluded' ), $this->get_field_id( 'excluded' ) );
-				  $excluded = is_string( $instance['excluded'] ) ? unserialize( $instance['excluded'] ) : [];
+				  $excluded = $instance['excluded'] ?? [];
 				  wp_category_checklist( 0, 0, $excluded, null, $walker ); ?>
               </div>
             </dd>
@@ -650,7 +648,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
               <div style="height: 200px; overflow-y: scroll;">
 				  <?php
 				  $walker = new JAW_Walker_Category_Checklist( $this->get_field_name( 'included' ), $this->get_field_id( 'included' ) );
-				  $included = is_string( $instance['included'] ) ? unserialize( $instance['included'] ) : [];
+				  $included = $instance['included'] ?? [];
 				  wp_category_checklist( 0, 0, $included, null, $walker ); ?>
               </div>
             </dd>

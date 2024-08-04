@@ -79,14 +79,16 @@ class JQ_Archive_List_DataSource {
 		}
 
 		if ( ! empty( $this->config['included'] ) ) {
-			$where .= sprintf( 'AND %s.term_id IN (%s)', $wpdb->term_taxonomy, $this->config['included'] );
+			$ids   = is_array( $this->config['included'] ) ? implode( ',', $this->config['included'] ) : $this->config['included'];
+			$where .= sprintf( 'AND %s.term_id IN (%s)', $wpdb->term_taxonomy, $ids );
 		} elseif ( ! empty( $this->config['excluded'] ) ) {
-			$where .= sprintf( 'AND %s.term_id NOT IN (%s)', $wpdb->term_taxonomy, $this->config['excluded'] );
+			$ids   = is_array( $this->config['excluded'] ) ? implode( ',', $this->config['excluded'] ) : $this->config['excluded'];
+			$where .= sprintf( 'AND %s.term_id NOT IN (%s)', $wpdb->term_taxonomy, $ids );
 		}
 
 		if ( $this->only_show_cur_category() ) {
 			// Leave config when removing legacy code.
-			$query_cat = get_query_var( 'cat' );
+			$query_cat      = get_query_var( 'cat' );
 			$categories_ids = empty( $query_cat ) ? $this->config['onlycategory'] : $query_cat;
 
 			if ( ( $this->legacy && is_category() || ! $this->legacy ) ) {
@@ -108,7 +110,7 @@ class JQ_Archive_List_DataSource {
 			return null;
 		}
 
-		$sort = isset($this->config['sort']) ? $this->config['sort'] : 'date_desc';
+		$sort     = isset( $this->config['sort'] ) ? $this->config['sort'] : 'date_desc';
 		$order_by = explode( '_', $sort );
 
 		return $wpdb->get_results( sprintf(
@@ -137,7 +139,7 @@ class JQ_Archive_List_DataSource {
 	}
 
 	public function year_should_be_expanded( $year, $cur_post_year, $cur_post_month, $expandConfig ): bool {
-		$months = $this->get_months( $year );
+		$months   = $this->get_months( $year );
 		$jalw_obj = JQ_Archive_List_Widget::instance();
 
 		foreach ( $months as $month ) {
@@ -168,4 +170,3 @@ class JQ_Archive_List_DataSource {
 	}
 
 }
-

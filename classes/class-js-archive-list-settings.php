@@ -5,6 +5,14 @@ class Js_Archive_List_Settings {
 
 	public function __construct( $settings ) {
 		$this->config = $settings;
+
+		if ( is_string( $settings['included'] ) ) {
+			$this->config['included'] = unserialize( $settings['included'] );
+		}
+
+		if ( is_string( $settings['excluded'] ) ) {
+			$this->config['excluded'] = unserialize( $settings['excluded'] );
+		}
 	}
 
 	/**
@@ -14,7 +22,7 @@ class Js_Archive_List_Settings {
 	 */
 	private function symbols() {
 		$symbols = [];
-		switch ((string) $this->config['symbol'] ) {
+		switch ( (string) $this->config['symbol'] ) {
 			case '0':
 				$symbols['ex_sym']  = ' ';
 				$symbols['con_sym'] = ' ';
@@ -51,12 +59,12 @@ class Js_Archive_List_Settings {
 		$jalwSettings = new self( $config );
 		$symbols      = $jalwSettings->symbols();
 
-    if (empty($config['ex_sym']) && $config['ex_sym'] !== "") {
-      $config['ex_sym']  = $symbols['ex_sym'];
-    }
+		if ( empty( $config['ex_sym'] ) && $config['ex_sym'] !== "" ) {
+			$config['ex_sym'] = $symbols['ex_sym'];
+		}
 
-    if (empty($config['con_sym']) && $config['con_sym'] !== "") {
-      $config['con_sym'] = $symbols['con_sym'];
-    }
+		if ( empty( $config['con_sym'] ) && $config['con_sym'] !== "" ) {
+			$config['con_sym'] = $symbols['con_sym'];
+		}
 	}
 }
