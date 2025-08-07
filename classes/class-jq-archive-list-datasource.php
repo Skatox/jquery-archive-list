@@ -1,142 +1,186 @@
 <?php
+declare(strict_types=1);
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 /**
  * Class to load required information from DB.
+ *
+ * @property array $config Configuration options for data source
+ * @property bool $legacy Legacy mode flag
  */
 class JQ_Archive_List_DataSource {
-	public $config;
-	public $legacy;
+    /**
+     * @var array Configuration options
+     */
+    private $config;
+    /**
+     * @var bool Legacy mode flag
+     */
+    private $legacy;
 
-	public function __construct( $config = [], $legacy = false ) {
-		$this->config = $config;
-		$this->legacy = $legacy;
-	}
+    /**
+     * Constructor
+     *
+     * @param array $config
+     * @param bool $legacy
+     */
+    public function __construct(array $config = [], bool $legacy = false) {
+        $this->config = $config;
+        $this->legacy = $legacy;
+    }
 
-	public function get_years() {
-		global $wpdb;
-		$sql = sprintf(
-			'SELECT JAL.year, COUNT(JAL.ID) as `posts` FROM (
-		       		SELECT DISTINCT YEAR(post_date) AS `year`, ID
-					FROM  %s %s %s) JAL
-				GROUP BY JAL.year ORDER BY JAL.year DESC',
-			$wpdb->posts,
-			$this->build_sql_join(),
-			$this->build_sql_where()
-		);
+    /**
+     * Get years and post counts
+     *
+     * @return array|null
+     */
+    public function get_years(): ?array {
+        global $wpdb;
 
-		return $wpdb->get_results( $sql );
-	}
+        list($where_clause, $where_args) = $this->build_sql_where();
 
-	protected function build_sql_join() {
-		global $wpdb;
+        $sql = "SELECT JAL.year, COUNT(JAL.ID) as `posts` FROM (
+                SELECT DISTINCT YEAR(post_date) AS `year`, ID
+                FROM  {$wpdb->posts} {$this->build_sql_join()} WHERE {$where_clause}) JAL
+            GROUP BY JAL.year ORDER BY JAL.year DESC";
 
-		$join = '';
+        $results = $wpdb->get_results($wpdb->prepare($sql, ...$where_args));
+        return is_array($results) ? $results : null;
+    }
 
-		if ( $this->has_filtering_categories() || $this->only_show_cur_category() ) {
-			$join = sprintf( ' LEFT JOIN %s ON(%s.ID = %s.object_id)',
-				$wpdb->term_relationships, $wpdb->posts, $wpdb->term_relationships
-			);
+    /**
+     * Build SQL JOIN clause
+     *
+     * @return string
+     */
+    protected function build_sql_join(): string {
+        global $wpdb;
+        $join = '';
+        if ($this->has_filtering_categories() || $this->only_show_cur_category()) {
+            $join = sprintf(' LEFT JOIN %s ON(%s.ID = %s.object_id)',
+                $wpdb->term_relationships, $wpdb->posts, $wpdb->term_relationships
+            );
+            $join .= sprintf(' LEFT JOIN %s ON(%s.term_taxonomy_id = %s.term_taxonomy_id)',
+                $wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->term_taxonomy
+            );
+        }
+        return apply_filters('getarchives_join', $join, []);
+    }
 
-			$join .= sprintf( ' LEFT JOIN %s ON(%s.term_taxonomy_id = %s.term_taxonomy_id)',
-				$wpdb->term_taxonomy, $wpdb->term_relationships, $wpdb->term_taxonomy
-			);
-		}
+    /**
+     * Check if user selected categories for inclusion or exclusion.
+     *
+     * @return bool
+     */
+    private function has_filtering_categories(): bool {
+        return !empty($this->config['included']) || !empty($this->config['excluded']);
+    }
 
-		return apply_filters( 'getarchives_join', $join, [] );
-	}
+    /**
+     * Returns if the option to show only current categories was selected and current page is a category page.
+     *
+     * @return bool
+     */
+    private function only_show_cur_category(): bool {
+        return !empty($this->config['onlycategory']);
+    }
 
-	/**
-	 * Check if user selected categories for inclusion or exclusion.
-	 *
-	 * @return bool If there are saved categories for including/excluding.
-	 */
-	private function has_filtering_categories() {
-		return ! empty( $this->config['included'] ) || ! empty( $this->config['excluded'] );
-	}
+    /**
+     * Build SQL WHERE clause
+     *
+     * @param int|null $year
+     * @param int|null $month
+     * @return array
+     */
+    protected function build_sql_where(?int $year = null, ?int $month = null): array {
+        global $wpdb;
+        $where_parts  = [];
+        $prepare_args = [];
+        $where_parts[] = 'post_title != %s';
+        $prepare_args[] = '';
+        $where_parts[] = 'post_type = %s';
+        $prepare_args[] = $this->config['type'] ?? 'post';
+        $where_parts[] = 'post_status = %s';
+        $prepare_args[] = 'publish';
+        if ($year) {
+            $where_parts[] = 'YEAR(post_date) = %d';
+            $prepare_args[] = $year;
+        }
+        if ($month) {
+            $where_parts[] = 'MONTH(post_date) = %d';
+            $prepare_args[] = $month;
+        }
+        $ids_key = !empty($this->config['included']) ? 'included' : (!empty($this->config['excluded']) ? 'excluded' : null);
+        if ($ids_key) {
+            $ids = is_array($this->config[$ids_key]) ? $this->config[$ids_key] : explode(',', $this->config[$ids_key]);
+            $ids = array_map('intval', $ids);
+            $placeholders = implode(', ', array_fill(0, count($ids), '%d'));
+            $operator = $ids_key === 'included' ? 'IN' : 'NOT IN';
+            $where_parts[] = sprintf('%s.term_id %s (%s)', $wpdb->term_taxonomy, $operator, $placeholders);
+            $prepare_args = array_merge($prepare_args, $ids);
+        }
+        if ($this->only_show_cur_category()) {
+            $query_cat = get_query_var('cat');
+            $categories_ids = empty($query_cat) ? $this->config['onlycategory'] : $query_cat;
+            $categories_ids = is_array($categories_ids) ? $categories_ids : explode(',', $categories_ids);
+            $categories_ids = array_map('intval', $categories_ids);
+            if (($this->legacy && is_category()) || !$this->legacy) {
+                $placeholders = implode(', ', array_fill(0, count($categories_ids), '%d'));
+                $where_parts[] = sprintf('%s.term_id IN (%s)', $wpdb->term_taxonomy, $placeholders);
+                $prepare_args = array_merge($prepare_args, $categories_ids);
+            }
+        }
+        if ($this->has_filtering_categories() || $this->only_show_cur_category()) {
+            $where_parts[] = $wpdb->term_taxonomy . '.taxonomy=%s';
+            $prepare_args[] = 'category';
+        }
+        $where_clause_fragment = implode(' AND ', $where_parts);
+        $where_clause_fragment = apply_filters('getarchives_where', $where_clause_fragment, []);
+        return [$where_clause_fragment, $prepare_args];
+    }
 
-	/**
-	 * Returns if the option to show only current categories
-	 * was selected and current page is a category page.
-	 *
-	 * @return bool Show only current category.
-	 */
-	private function only_show_cur_category() {
-		return ! empty( $this->config['onlycategory'] );
-	}
+    /**
+     * Get posts for a given year and month
+     *
+     * @param int $year
+     * @param int $month
+     * @return array|null
+     */
+    public function get_posts(int $year, int $month): ?array {
+        global $wpdb;
+        if ($year <= 0 || $month <= 0 || $month > 12) {
+            return null;
+        }
+        $sort = $this->config['sort'] ?? 'date_desc';
+        $order_by = explode('_', $sort);
+        $order_direction = strtoupper($order_by[1] ?? 'DESC');
+        if (!in_array($order_direction, ['ASC', 'DESC'], true)) {
+            $order_direction = 'DESC';
+        }
+        list($where_clause, $where_args) = $this->build_sql_where( $year, $month);
+        $order_field = $this->query_val_to_field_name($order_by[0] ?? 'date');
+        $sql = "SELECT DISTINCT ID, post_title, post_name, post_date, 'false' as expanded FROM {$wpdb->posts} {$this->build_sql_join()} WHERE {$where_clause} ORDER BY {$order_field} {$order_direction}";
+        $results = $wpdb->get_results($wpdb->prepare($sql, ...$where_args));
+        return is_array($results) ? $results : null;
+    }
 
-	protected function build_sql_where( $year = null, $month = null ) {
-		global $wpdb;
-
-		$where = sprintf( 'WHERE post_title != \'\' AND post_type = \'%s\' AND post_status = \'publish\' ', $this->config['type'] );
-
-		if ( $year ) {
-			$where .= sprintf( 'AND YEAR(post_date) = %s ', $year );
-		}
-
-		if ( $month ) {
-			$where .= sprintf( 'AND MONTH(post_date) = %s ', $month );
-		}
-
-		if ( ! empty( $this->config['included'] ) ) {
-			$ids   = is_array( $this->config['included'] ) ? implode( ',', $this->config['included'] ) : $this->config['included'];
-			$where .= sprintf( 'AND %s.term_id IN (%s)', $wpdb->term_taxonomy, $ids );
-		} elseif ( ! empty( $this->config['excluded'] ) ) {
-			$ids   = is_array( $this->config['excluded'] ) ? implode( ',', $this->config['excluded'] ) : $this->config['excluded'];
-			$where .= sprintf( 'AND %s.term_id NOT IN (%s)', $wpdb->term_taxonomy, $ids );
-		}
-
-		if ( $this->only_show_cur_category() ) {
-			// Leave config when removing legacy code.
-			$query_cat      = get_query_var( 'cat' );
-			$categories_ids = empty( $query_cat ) ? $this->config['onlycategory'] : $query_cat;
-
-			if ( ( $this->legacy && is_category() || ! $this->legacy ) ) {
-				$where .= sprintf( 'AND %s.term_id IN (%s) ', $wpdb->term_taxonomy, $categories_ids );
-			}
-		}
-
-		if ( $this->has_filtering_categories() || $this->only_show_cur_category() ) {
-			$where .= 'AND ' . $wpdb->term_taxonomy . '.taxonomy=\'category\' ';
-		}
-
-		return apply_filters( 'getarchives_where', $where, [] );
-	}
-
-	public function get_posts( $year, $month ) {
-		global $wpdb;
-
-		if ( empty( $year ) || empty( $month ) ) {
-			return null;
-		}
-
-		$sort     = isset( $this->config['sort'] ) ? $this->config['sort'] : 'date_desc';
-		$order_by = explode( '_', $sort );
-
-		return $wpdb->get_results( sprintf(
-			'SELECT DISTINCT ID, post_title, post_name, post_date, "false" as expanded FROM %s %s %s ORDER BY %s %s',
-			$wpdb->posts, $this->build_sql_join(), $this->build_sql_where( $year, $month ),
-			$this->query_val_to_field_name( $order_by[0] ),
-			$order_by[1]
-		) );
-	}
-
-	/**
-	 * Maps the query value to the correct DB field.
-	 *
-	 * @param string $query_value received field name from the frontend.
-	 *
-	 * @return string DB field name.
-	 */
-	private function query_val_to_field_name( $query_value ): string {
-		$map = [
-			'id'   => 'ID',
-			'name' => 'post_title',
-			'date' => 'post_date',
-		];
-
-		return $map[ $query_value ];
-	}
+    /**
+     * Maps the query value to the correct DB field.
+     *
+     * @param string $query_value
+     * @return string
+     */
+    protected function query_val_to_field_name(string $query_value): string {
+        switch ($query_value) {
+            case 'title':
+                return 'post_title';
+            case 'name':
+                return 'post_name';
+            case 'date':
+            default:
+                return 'post_date';
+        }
+    }
 
 	public function year_should_be_expanded( $year, $cur_post_year, $cur_post_month, $expandConfig ): bool {
 		$months   = $this->get_months( $year );
@@ -160,13 +204,13 @@ class JQ_Archive_List_DataSource {
 
 	public function get_months( $year ) {
 		global $wpdb;
+        list($where_clause, $where_args) = $this->build_sql_where(intval($year));
+        $sql = "SELECT JAL.year, JAL.month, COUNT(JAL.ID) as `posts` FROM (
+                SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, ID
+                FROM {$wpdb->posts} {$this->build_sql_join()} WHERE {$where_clause}) JAL
+            GROUP BY JAL.year, JAL.month ORDER BY JAL.year, JAL.month DESC";
 
-		return $wpdb->get_results( sprintf(
-			'SELECT JAL.year, JAL.month, COUNT(JAL.ID) as `posts` FROM (
-					SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`,ID FROM %s %s %s)
-				JAL GROUP BY JAL.year, JAL.month ORDER BY JAL.year,JAL.month DESC',
-			$wpdb->posts, $this->build_sql_join(), $this->build_sql_where( $year )
-		) );
+        return $wpdb->get_results($wpdb->prepare($sql, ...$where_args));
 	}
 
 }

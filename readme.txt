@@ -4,7 +4,7 @@ Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
 Tested up to: 6.6.1
-Stable Tag: 6.1.5
+Stable Tag: 6.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,9 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+= 6.1.6 =
+* Improve plugin's backend code to be more efficient, secure and faster.
+* Solving the bug of loading the text domain at the wrong time.
 
 = 6.1.5 =
 * Legacy widget: solving include/exclude not working in new WordPress installations.

@@ -235,7 +235,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		return $html;
 	}
 
-	private function year_should_be_expanded( $year, $cur_post_year, $cur_post_month ): bool {
+	public function year_should_be_expanded( $year, $cur_post_year, $cur_post_month ): bool {
 		if ( $this->config['expand'] === 'all' ) {
 			return true;
 		}
@@ -680,6 +680,6 @@ function jal_register_widget() {
 	register_widget( 'JQ_Archive_List_Widget' );
 }
 
-add_action( 'plugins_loaded', [ 'JQ_Archive_List_Widget', 'init' ] );
+add_action( 'init', [ 'JQ_Archive_List_Widget', 'init' ] );
 add_action( 'enqueue_block_editor_assets', [ 'JQ_Archive_List_Widget', 'enqueue_block_scripts' ], 10, 1 );
 add_action( 'widgets_init', 'jal_register_widget' );
