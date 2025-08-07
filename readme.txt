@@ -3,7 +3,7 @@ Contributors: skatox
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
-Tested up to: 6.6.1
+Tested up to: 6.8.2
 Stable Tag: 6.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
