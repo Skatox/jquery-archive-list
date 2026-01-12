@@ -3,8 +3,8 @@ Contributors: skatox
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
-Tested up to: 6.8.2
-Stable Tag: 6.1.6
+Tested up to: 7.0
+Stable Tag: 6.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,19 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+= 6.1.7 = 
+* Updating development libraries to be up to date.
+* Updating jest config to use the same rendered as the WP dependency code.
+* Escaped post titles in legacy HTML output to prevent injection in classes/class-jq-archive-list-widget.php.
+* Stopped duplicate id="app" and mounted React for all block instances via .jalw-archive-list in classes/frontend/class-js-archive-list-frontend-widget.php and
+  src/view.js.
+* Removed post type settings from legacy and block widgets and ignore any saved block type attributes during render.
+* Fixed boolean parsing for editor preview config in src/components/frontend/context/ConfigContext.js.
+* Fixed category archive context to use the queried term in classes/frontend/class-js-archive-list-frontend-widget.php.
+* Removed stray console logging in assets/js/jal.js.
+* Avoided PHP notice for missing include-or-exclude and escaped widget title in form in classes/class-jq-archive-list-widget.php.
+* Ensured include/exclude category selection supports multiple categories for legacy and block widgets.
+
 = 6.1.6 =
 * Improve plugin's backend code to be more efficient, secure and faster.
 * Solving the bug of loading the text domain at the wrong time.

@@ -110,7 +110,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 	 * @param array $instance Current widget instance, there may be multiple widgets at the same time.
 	 */
 	public function widget( $args, $instance ) {
-		$instance['type'] = empty( $instance['type'] ) ? 'post' : $instance['type'];
+		$instance['type'] = 'post';
 		$this->config = $instance;
 		$this->data_source = new JQ_Archive_List_DataSource( $this->config, true );
 		wp_reset_postdata();
@@ -330,18 +330,18 @@ class JQ_Archive_List_Widget extends WP_Widget {
 
 				$posts = $this->data_source->get_posts( $year, $month->month );
 
-				foreach ( $posts as $post ) {
-					if ( ! empty( $post->post_title ) ) {
-						$active_class = get_the_ID() === $post->ID ? 'class="active"' : '';
-						$html .= sprintf( '<li %s>', $active_class );
+			foreach ( $posts as $post ) {
+				if ( ! empty( $post->post_title ) ) {
+					$active_class = get_the_ID() === $post->ID ? 'class="active"' : '';
+					$html .= sprintf( '<li %s>', $active_class );
 
-						$html .= sprintf(
-							'<a class="jw_post" href="%s" title="%s">%s</a>',
-							get_permalink( $post->ID ),
-							htmlspecialchars( $post->post_title ),
-							$post->post_title
-						);
-					}
+					$html .= sprintf(
+						'<a class="jw_post" href="%s" title="%s">%s</a>',
+						get_permalink( $post->ID ),
+						esc_attr( $post->post_title ),
+						esc_html( $post->post_title )
+					);
+				}
 
 					$html .= '</li>';
 				}
@@ -394,19 +394,20 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		$instance['only_sym_link'] = $this->boolean_to_int( $new_instance, 'only_sym_link' );
 		$instance['accordion'] = $this->boolean_to_int( $new_instance, 'accordion' );
 		$instance['expand'] = $new_instance['expand'];
-		$instance['type'] = ! empty( $new_instance['type'] ) ? stripslashes( $new_instance['type'] ) : 'post';
+		$instance['type'] = 'post';
 
-		$instance['include-or-exclude'] = $new_instance['include-or-exclude'] ?? 'exclude';
+		$include_or_exclude = $new_instance['include-or-exclude'] ?? 'exclude';
+		$instance['include-or-exclude'] = $include_or_exclude;
 
-		if ( $new_instance['include-or-exclude'] === 'include' ) {
-			$new_instance['excluded'] = [];
+		$instance['excluded'] = $this->normalize_categories( $new_instance['excluded'] ?? [] );
+		$instance['included'] = $this->normalize_categories( $new_instance['included'] ?? [] );
+
+		if ( $include_or_exclude === 'include' ) {
+			$instance['excluded'] = [];
 		}
-		if ( $new_instance['include-or-exclude'] === 'exclude' ) {
-			$new_instance['included'] = [];
+		if ( $include_or_exclude === 'exclude' ) {
+			$instance['included'] = [];
 		}
-
-		$instance['excluded'] = ! empty( $new_instance['excluded'] ) ? $new_instance['excluded'] : [];
-		$instance['included'] = ! empty( $new_instance['included'] ) ? $new_instance['included'] : [];
 
 		Js_Archive_List_Settings::translateDbSettingsToInternal( $instance );
 
@@ -415,6 +416,28 @@ class JQ_Archive_List_Widget extends WP_Widget {
 
 	private function boolean_to_int( $config, $attribute ) {
 		return isset( $config[ $attribute ] ) ? (int) $config[ $attribute ] : 0;
+	}
+
+	private function normalize_categories( $categories ) {
+		if ( empty( $categories ) ) {
+			return [];
+		}
+
+		if ( is_string( $categories ) ) {
+			$categories = explode( ',', $categories );
+		}
+
+		if ( ! is_array( $categories ) ) {
+			return [];
+		}
+
+		$categories = array_map( 'intval', $categories );
+
+		return array_values(
+			array_filter( $categories, static function ( $category_id ) {
+				return $category_id > 0;
+			} )
+		);
 	}
 
 	public function form( $instance ) {
@@ -427,7 +450,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
           <input
             name="<?php echo $this->get_field_name( 'title' ); ?>"
             type="text"
-            value="<?php _e( $instance['title'], 'jalw_i18n' ); ?>"
+            value="<?php echo esc_attr( $instance['title'] ); ?>"
           />
         </dd>
         <dt><strong><?php _e( 'Trigger Symbol', 'jalw_i18n' ); ?></strong></dt>
@@ -514,23 +537,6 @@ class JQ_Archive_List_Widget extends WP_Widget {
           </select>
         </dd>
 
-        <dt><strong><?php _e( 'Post type', 'jalw_i18n' ); ?></strong></dt>
-        <dd>
-          <select
-            id="<?php echo $this->get_field_id( 'type' ); ?>"
-            name="<?php echo $this->get_field_name( 'type' ); ?>"
-            class="js-jaw-type"
-          >
-			  <?php
-			  $types = get_post_types( null, 'objects' );
-
-			  foreach ( $types as $type_id => $type ) {
-				  $checked = $instance['type'] == $type_id ? selected( true, true, false ) : '';
-				  echo "<option value=\"{$type_id}\" {$checked}>{$type->label}</option>";
-			  } ?>
-          </select>
-        </dd>
-
         <dt><strong><?php _e( 'Extra options', 'jalw_i18n' ); ?></strong></dt>
         <dd>
           <input
@@ -587,7 +593,6 @@ class JQ_Archive_List_Widget extends WP_Widget {
 			  <?php _e( 'Only expand one at a the same time (accordion effect)', 'jalw_i18n' ); ?>
           </label>
         </dd>
-		  <?php $style_view = 'post' === $instance['type'] ? 'block' : 'none'; ?>
         <dt class="jaw-include-or-exclude">
           <strong>Category management</strong>
         </dt>
@@ -620,13 +625,13 @@ class JQ_Archive_List_Widget extends WP_Widget {
           <dl>
             <dt
               class="jaw-exclude <?php echo $this->get_field_id( 'excluded' ) ?>"
-              style="display:<?php echo $includeCategories ? 'none' : $style_view; ?>"
+              style="display:<?php echo $includeCategories ? 'none' : 'block'; ?>"
             >
               <strong><?php _e( 'Exclude categories', 'jalw_i18n' ); ?></strong>
             </dt>
             <dd
               class="jaw-exclude <?php echo $this->get_field_id( 'excluded' ) ?>"
-              style="display:<?php echo $includeCategories ? 'none' : $style_view; ?>"
+              style="display:<?php echo $includeCategories ? 'none' : 'block'; ?>"
             >
               <div style="height: 200px; overflow-y: scroll;">
 				  <?php
@@ -637,13 +642,13 @@ class JQ_Archive_List_Widget extends WP_Widget {
             </dd>
             <dt
               class="jaw-include <?php echo $this->get_field_id( 'included' ) ?>"
-              style="display:<?php echo ! $includeCategories ? 'none' : $style_view; ?>"
+              style="display:<?php echo ! $includeCategories ? 'none' : 'block'; ?>"
             >
               <strong><?php _e( 'Include categories', 'jalw_i18n' ); ?></strong>
             </dt>
             <dd
               class="jaw-include <?php echo $this->get_field_id( 'included' ) ?>"
-              style="display:<?php echo ! $includeCategories ? 'none' : $style_view; ?>"
+              style="display:<?php echo ! $includeCategories ? 'none' : 'block'; ?>"
             >
               <div style="height: 200px; overflow-y: scroll;">
 				  <?php

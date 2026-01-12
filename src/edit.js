@@ -125,12 +125,6 @@ export default function Edit({ attributes, setAttributes }) {
                 onChange={(val) => setAttributes({ hide_from_year: val })}
                 placeholder={__("Leave empty to show all years", "jalw")}
               />
-              <SelectControl
-                label={__("Post type", "jalw")}
-                value={attributes.expand}
-                onChange={(val) => setAttributes({ expand: val })}
-                options={[]}
-              />
             </PanelBody>
           </Panel>
           <Panel>

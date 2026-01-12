@@ -160,7 +160,6 @@ function jsArchiveListAnimate(clickedObj, listElements, options) {
 }
 
 function jsArchiveHideOpenedLists(clickedElement) {
-  console.log("HIde opened Lists");
   const listRoot = clickedElement.closest("ul");
 
   if (listRoot === null) return;

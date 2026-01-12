@@ -45,18 +45,11 @@ class JS_Archive_List_Frontend_Widget {
 
 		// If page is a category page, it prints the category list to send it the backend.
 		if ( is_category() ) {
-			$categories = get_the_category( get_the_ID() );
-
-			if ( is_array( $categories ) && count( $categories ) > 0 ) {
-				$category_ids = [];
-
-				foreach ( $categories as $cat ) {
-					$category_ids[] = $cat->term_id;
-				}
-
+			$category_id = get_queried_object_id();
+			if ( $category_id ) {
 				printf(
 					'<script type="text/javascript">var jalwCurrentCat="%s";</script>',
-					implode( ',', $category_ids )
+					(int) $category_id
 				);
 			}
 		}
@@ -80,9 +73,12 @@ class JS_Archive_List_Frontend_Widget {
 
 		wp_enqueue_script( 'js-archive-list-archive-widget-view-script' );
 
+		$container_id = wp_unique_id( 'jalw-archive-' );
+
 		return sprintf(
-			'<div id="app" %s %s></div>',
-			get_block_wrapper_attributes(),
+			'<div id="%s" %s %s></div>',
+			esc_attr( $container_id ),
+			get_block_wrapper_attributes( [ 'class' => 'jalw-archive-list' ] ),
 			$this->print_attributes()
 		);
 	}
@@ -104,6 +100,21 @@ class JS_Archive_List_Frontend_Widget {
 	}
 
 	private function set_attributes( $block_attributes = [] ) {
+		$categories = $block_attributes['categories'] ?? '';
+		if ( is_string( $categories ) ) {
+			$categories = explode( ',', $categories );
+		}
+		if ( is_array( $categories ) ) {
+			$categories = array_values(
+				array_filter(
+					array_map( 'intval', $categories ),
+					static function ( $category_id ) {
+						return $category_id > 0;
+					}
+				)
+			);
+		}
+
 		$this->attributes = [
 			'title'              => $block_attributes['title'] ?? '',
 			'symbol'             => $block_attributes['symbol'] ?? '0',
@@ -120,9 +131,7 @@ class JS_Archive_List_Frontend_Widget {
 			'only_sym_link'      => (int) ( $block_attributes['only_sym_link'] ?? 0 ),
 			'accordion'          => (int) ( $block_attributes['accordion'] ?? 0 ),
 			'include_or_exclude' => $block_attributes['include_or_exclude'] ?? 'include',
-			'categories'         => isset( $block_attributes['categories'] )
-				? implode( ',', $block_attributes['categories'] )
-				: '',
+			'categories'         => ! empty( $categories ) ? implode( ',', $categories ) : '',
 		];
 	}
 }

@@ -17,7 +17,24 @@ class JQ_Archive_List_Block {
 		$attributes = $block_attributes;
 
 		/** Transforms excluded categories from array to comma separated */
+		if ( array_key_exists( 'type', $attributes ) ) {
+			unset( $attributes['type'] );
+		}
+
 		$categories = $attributes['categories'] ?? [];
+		if ( is_string( $categories ) ) {
+			$categories = explode( ',', $categories );
+		}
+		if ( is_array( $categories ) ) {
+			$categories = array_values(
+				array_filter(
+					array_map( 'intval', $categories ),
+					static function ( $category_id ) {
+						return $category_id > 0;
+					}
+				)
+			);
+		}
 
 		if ( is_array( $categories ) && ! empty( $categories ) ) {
 			$attributes[ $attributes['include_or_exclude'] ] = implode( ',', $categories );
@@ -50,7 +67,7 @@ class JQ_Archive_List_Block {
 		if ( ! empty( $title ) ) {
 			$widget_title = sprintf(
 				'<div class="widget-title"><h3>%s<span class="in-widget-title"></span></h3></div>',
-				$title
+				esc_html( $title )
 			);
 		} else {
 			$widget_title = null;

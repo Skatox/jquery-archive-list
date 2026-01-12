@@ -10,6 +10,7 @@ export const defaultConfig = {
 	effect: 'none',
 	month_format: 'full',
 	expand: 'none',
+	type: 'post',
 	showcount: false,
 	showpost: false,
 	sortpost: 'id_asc',
@@ -38,18 +39,12 @@ export const ConfigProvider = ({ attributes, children }) => {
 			parsedConfig.currentPost = jalwCurrentPost;
 		}
 
-		parsedConfig.accordion = !!parseInt(parsedConfig.accordion, 10);
-		parsedConfig.showcount = !!parseInt(parsedConfig.showcount, 10);
-		parsedConfig.showpost = !!parseInt(parsedConfig.showpost, 10);
-		parsedConfig.show_post_date = !!parseInt(
-			parsedConfig.show_post_date,
-			10
-		);
-		parsedConfig.only_sym_link = !!parseInt(parsedConfig.only_sym_link, 10);
-		parsedConfig.show_day_archive = !!parseInt(
-			parsedConfig.show_day_archive,
-			10
-		);
+		parsedConfig.accordion = !!Number(parsedConfig.accordion);
+		parsedConfig.showcount = !!Number(parsedConfig.showcount);
+		parsedConfig.showpost = !!Number(parsedConfig.showpost);
+		parsedConfig.show_post_date = !!Number(parsedConfig.show_post_date);
+		parsedConfig.only_sym_link = !!Number(parsedConfig.only_sym_link);
+		parsedConfig.show_day_archive = !!Number(parsedConfig.show_day_archive);
 
 		updateContextConfig((prevState) => ({ ...prevState, ...parsedConfig }));
 	};
