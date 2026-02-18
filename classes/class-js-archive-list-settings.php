@@ -29,8 +29,8 @@ class Js_Archive_List_Settings {
 		} elseif ( is_string( $raw_ids ) ) {
 			$trimmed = trim( $raw_ids );
 
-			if ( '' !== $trimmed ) {
-				$parsed = @unserialize( $trimmed, [ 'allowed_classes' => false ] );
+			if ( '' !== $trimmed && is_serialized( $trimmed ) ) {
+				$parsed = unserialize( $trimmed, [ 'allowed_classes' => false ] );
 
 				if ( false !== $parsed || 'b:0;' === $trimmed ) {
 					$ids = is_array( $parsed ) ? $parsed : [];
