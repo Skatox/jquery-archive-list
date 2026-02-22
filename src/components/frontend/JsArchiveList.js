@@ -62,7 +62,7 @@ const JsArchiveList = () => {
 			{loading ? (
 				<div>
 					<Loading loading={loading} />
-					{__('Loading…', 'jalw')}
+					{__('Loading…', 'jquery-archive-list-widget')}
 				</div>
 			) : (
 				''
@@ -70,7 +70,7 @@ const JsArchiveList = () => {
 			{apiData && apiData.years ? (
 				<ul className="jaw_widget">
 					{yearsToShow.current.length === 0 ? (
-						<li>{__('There are no post to show.', 'jalw')}</li>
+						<li>{__('There are no post to show.', 'jquery-archive-list-widget')}</li>
 					) : (
 						yearsToShow.current.map((yearObj) => (
 							<DisplayYear key={yearObj.year} yearObj={yearObj} />
@@ -86,7 +86,7 @@ const JsArchiveList = () => {
 				''
 			)}
 			{(loaded || error) && !apiData
-				? __('Cannot load posts.', 'jalw')
+				? __('Cannot load posts.', 'jquery-archive-list-widget')
 				: ''}
 		</div>
 	);

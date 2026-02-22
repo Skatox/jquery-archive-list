@@ -35,20 +35,20 @@ export default function Edit({ attributes, setAttributes }) {
       <InspectorControls key="setting">
         <div className="jalw-controls">
           <Panel>
-            <PanelBody title={__("General options", "jalw")} initialOpen={true}>
+            <PanelBody title={__("General options", "jquery-archive-list-widget")} initialOpen={true}>
               <TextControl
-                label={__("Title", "jalw")}
+                label={__("Title", "jquery-archive-list-widget")}
                 value={attributes.title}
                 onChange={(val) => setAttributes({ title: val })}
               />
               <SelectControl
-                label={__("Trigger Symbol", "jalw")}
+                label={__("Trigger Symbol", "jquery-archive-list-widget")}
                 value={attributes.symbol}
                 onChange={(val) => setAttributes({ symbol: val })}
                 options={[
                   {
                     value: "0",
-                    label: __("Empty Space", "jalw"),
+                    label: __("Empty Space", "jquery-archive-list-widget"),
                   },
                   { value: "1", label: "► ▼" },
                   { value: "2", label: "(+) (–)" },
@@ -56,82 +56,82 @@ export default function Edit({ attributes, setAttributes }) {
                 ]}
               />
               <SelectControl
-                label={__("Effect", "jalw")}
+                label={__("Effect", "jquery-archive-list-widget")}
                 value={attributes.effect}
                 onChange={(val) => setAttributes({ effect: val })}
                 options={[
                   {
                     value: "none",
-                    label: __("None", "jalw"),
+                    label: __("None", "jquery-archive-list-widget"),
                   },
                   {
                     value: "slide",
-                    label: __("Slide( Accordion )", "jalw"),
+                    label: __("Slide( Accordion )", "jquery-archive-list-widget"),
                   },
                   {
                     value: "fade",
-                    label: __("Fade", "jalw"),
+                    label: __("Fade", "jquery-archive-list-widget"),
                   },
                 ]}
               />
               <SelectControl
-                label={__("Month Format", "jalw")}
+                label={__("Month Format", "jquery-archive-list-widget")}
                 value={attributes.month_format}
                 onChange={(val) => setAttributes({ month_format: val })}
                 options={[
                   {
                     value: "full",
-                    label: __("Full Name( January )", "jalw"),
+                    label: __("Full Name( January )", "jquery-archive-list-widget"),
                   },
                   {
                     value: "short",
-                    label: __("Short Name( Jan )", "jalw"),
+                    label: __("Short Name( Jan )", "jquery-archive-list-widget"),
                   },
                   {
                     value: "number",
-                    label: __("Number( 01 )", "jalw"),
+                    label: __("Number( 01 )", "jquery-archive-list-widget"),
                   },
                 ]}
               />
               <SelectControl
-                label={__("Expand", "jalw")}
+                label={__("Expand", "jquery-archive-list-widget")}
                 value={attributes.expand}
                 onChange={(val) => setAttributes({ expand: val })}
                 options={[
-                  { value: "", label: __("None", "jalw") },
+                  { value: "", label: __("None", "jquery-archive-list-widget") },
                   {
                     value: "all",
-                    label: __("All", "jalw"),
+                    label: __("All", "jquery-archive-list-widget"),
                   },
                   {
                     value: "current",
-                    label: __("Current or post date", "jalw"),
+                    label: __("Current or post date", "jquery-archive-list-widget"),
                   },
                   {
                     value: "current_post",
-                    label: __("Only post date", "jalw"),
+                    label: __("Only post date", "jquery-archive-list-widget"),
                   },
                   {
                     value: "current_date",
-                    label: __("Only current date", "jalw"),
+                    label: __("Only current date", "jquery-archive-list-widget"),
                   },
                 ]}
               />
               <TextControl
                 type="number"
                 step="1"
-                label={__("Hide years from before", "jalw")}
+                label={__("Hide years from before", "jquery-archive-list-widget")}
                 value={attributes.hide_from_year}
                 onChange={(val) => setAttributes({ hide_from_year: val })}
-                placeholder={__("Leave empty to show all years", "jalw")}
+                placeholder={__("Leave empty to show all years", "jquery-archive-list-widget")}
               />
             </PanelBody>
           </Panel>
           <Panel>
-            <PanelBody title={__("Extra options", "jalw")} initialOpen={false}>
+            <PanelBody title={__("Extra options", "jquery-archive-list-widget")} initialOpen={false}>
               <PanelRow>
                 <CheckboxControl
-                  label={__("Show days inside month list", "jalw")}
+                  label={__("Show days inside month list", "jquery-archive-list-widget")}
                   checked={attributes.show_day_archive}
                   onChange={(val) =>
                     setAttributes({
@@ -142,7 +142,7 @@ export default function Edit({ attributes, setAttributes }) {
               </PanelRow>
               <PanelRow>
                 <CheckboxControl
-                  label={__("Show number of posts", "jalw")}
+                  label={__("Show number of posts", "jquery-archive-list-widget")}
                   checked={attributes.showcount}
                   onChange={(val) => setAttributes({ showcount: val })}
                 />
@@ -151,7 +151,7 @@ export default function Edit({ attributes, setAttributes }) {
                 <CheckboxControl
                   label={__(
                     "Show only posts from selected category in a category page",
-                    "jalw",
+                    "jquery-archive-list-widget",
                   )}
                   checked={attributes.onlycategory}
                   onChange={(val) => setAttributes({ onlycategory: val })}
@@ -161,7 +161,7 @@ export default function Edit({ attributes, setAttributes }) {
                 <CheckboxControl
                   label={__(
                     "Only expand / reduce by clicking the symbol",
-                    "jalw",
+                    "jquery-archive-list-widget",
                   )}
                   checked={attributes.only_sym_link}
                   onChange={(val) => setAttributes({ only_sym_link: val })}
@@ -171,7 +171,7 @@ export default function Edit({ attributes, setAttributes }) {
                 <CheckboxControl
                   label={__(
                     "Only expand one at a the same time (accordion effect)",
-                    "jalw",
+                    "jquery-archive-list-widget",
                   )}
                   checked={attributes.accordion}
                   onChange={(val) => setAttributes({ accordion: val })}
@@ -180,10 +180,10 @@ export default function Edit({ attributes, setAttributes }) {
             </PanelBody>
           </Panel>
           <Panel>
-            <PanelBody title={__("Display posts", "jalw")} initialOpen={false}>
+            <PanelBody title={__("Display posts", "jquery-archive-list-widget")} initialOpen={false}>
               <PanelRow>
                 <CheckboxControl
-                  label={__("Show posts under months", "jalw")}
+                  label={__("Show posts under months", "jquery-archive-list-widget")}
                   checked={attributes.showpost}
                   onChange={(val) => setAttributes({ showpost: val })}
                 />
@@ -192,7 +192,7 @@ export default function Edit({ attributes, setAttributes }) {
                 <>
                   <PanelRow>
                     <CheckboxControl
-                      label={__("Show post date next to post title", "jalw")}
+                      label={__("Show post date next to post title", "jquery-archive-list-widget")}
                       checked={attributes.show_post_date}
                       onChange={(val) =>
                         setAttributes({
@@ -203,7 +203,7 @@ export default function Edit({ attributes, setAttributes }) {
                   </PanelRow>
                   <PanelRow>
                     <SelectControl
-                      label={__("Sort posts by", "jalw")}
+                      label={__("Sort posts by", "jquery-archive-list-widget")}
                       value={attributes.sortpost}
                       onChange={(val) =>
                         setAttributes({
@@ -213,27 +213,27 @@ export default function Edit({ attributes, setAttributes }) {
                       options={[
                         {
                           value: "id_asc",
-                          label: __("ID (ASC)", "jalw"),
+                          label: __("ID (ASC)", "jquery-archive-list-widget"),
                         },
                         {
                           value: "id_desc",
-                          label: __("ID (DESC)", "jalw"),
+                          label: __("ID (DESC)", "jquery-archive-list-widget"),
                         },
                         {
                           value: "name_asc",
-                          label: __("Name (ASC)", "jalw"),
+                          label: __("Name (ASC)", "jquery-archive-list-widget"),
                         },
                         {
                           value: "name_desc",
-                          label: __("Name (DESC)", "jalw"),
+                          label: __("Name (DESC)", "jquery-archive-list-widget"),
                         },
                         {
                           value: "date_asc",
-                          label: __("Date (ASC)", "jalw"),
+                          label: __("Date (ASC)", "jquery-archive-list-widget"),
                         },
                         {
                           value: "date_desc",
-                          label: __("Date (DESC)", "jalw"),
+                          label: __("Date (DESC)", "jquery-archive-list-widget"),
                         },
                       ]}
                     />
@@ -244,20 +244,20 @@ export default function Edit({ attributes, setAttributes }) {
           </Panel>
           <Panel>
             <PanelBody
-              title={__("Category management", "jalw")}
+              title={__("Category management", "jquery-archive-list-widget")}
               initialOpen={false}
             >
               <PanelRow>
                 <RadioControl
-                  label={__("Include or exclude", "jalw")}
+                  label={__("Include or exclude", "jquery-archive-list-widget")}
                   selected={attributes.include_or_exclude}
                   options={[
                     {
-                      label: __("Include the following categories", "jalw"),
+                      label: __("Include the following categories", "jquery-archive-list-widget"),
                       value: "include",
                     },
                     {
-                      label: __("Exclude the following categories ", "jalw"),
+                      label: __("Exclude the following categories ", "jquery-archive-list-widget"),
                       value: "exclude",
                     },
                   ]}

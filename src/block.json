@@ -7,7 +7,7 @@
   "category": "widgets",
   "icon": "list-view",
   "description": "A block for displaying an archive list with some effects.",
-  "textdomain": "jalw_i18n",
+  "textdomain": "jquery-archive-list-widget",
   "editorScript": "file:index.js",
   "editorStyle": "file:index.css",
   "viewScript": "file:view.js",
