@@ -3,7 +3,7 @@
     "description": "jQuery Archive List WordPress plugin",
     "type": "wordpress-plugin",
     "require-dev": {
-        "phpunit/phpunit": "^13.0"
+        "phpunit/phpunit": "^9.0"
     },
     "scripts": {
         "composer:test": "@test:phpunit",
