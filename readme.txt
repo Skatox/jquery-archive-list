@@ -129,14 +129,11 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 
 == Changelog ==
 = 6.2.0 =
-* Fixed include parameter handling to avoid security risks.
+* Fixed unsafe deserialization of shortcode category filters by safely parsing serialized category IDs and rejecting object payloads.
 * Aligned text domain with the plugin slug across PHP, JS, and translation files.
 * Updated plugin/readme headers (requires, license, and license URI).
 * Added WordPress PHPUnit test suite setup docs and installer script.
 * Updated "Tested up to" to the latest WordPress release.
-
-= 6.1.8 =
-* Fixed unsafe deserialization of shortcode category filters by safely parsing serialized category IDs and rejecting object payloads.
 
 = 6.1.7 = 
 * Updating development libraries to be up to date.
