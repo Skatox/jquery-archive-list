@@ -1,0 +1,19 @@
+{
+    "name": "jquery-archive-list/jquery-archive-list",
+    "description": "jQuery Archive List WordPress plugin",
+    "type": "wordpress-plugin",
+    "require-dev": {
+        "phpunit/phpunit": "^13.0"
+    },
+    "scripts": {
+        "composer:test": "@test:phpunit",
+        "test:install": "tests/bin/install-wp-tests.sh",
+        "test:phpunit": "WP_TESTS_DIR=${WP_TESTS_DIR:-/tmp/wordpress-tests-lib} ./vendor/bin/phpunit -c phpunit.xml.dist",
+        "test": [
+            "@test:phpunit"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

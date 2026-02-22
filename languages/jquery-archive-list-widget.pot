@@ -1,18 +1,18 @@
-# Copyright (C) 2022 Miguel Angel Useche Castro
+# Copyright (C) 2023 Miguel Angel Useche Castro
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: JS Archive List Widget 5.0.1\n"
+"Project-Id-Version: JS Archive List Widget 6.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jquery-archive-list-widget\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-06T23:28:53+00:00\n"
+"POT-Creation-Date: 2023-04-28T19:42:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
-"X-Domain: jalw_i18n\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: jquery-archive-list-widget\n"
 
 #. Plugin Name of the plugin
 msgid "JS Archive List Widget"
@@ -35,119 +35,132 @@ msgstr ""
 msgid "https://migueluseche.com/"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:165
+#: classes/class-jq-archive-list-widget.php:173
 msgid "There are no post to show."
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:414
+#: classes/class-jq-archive-list-widget.php:440
 msgid "Title"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:422
+#: classes/class-jq-archive-list-widget.php:448
 msgid "Trigger Symbol"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:429
+#: classes/class-jq-archive-list-widget.php:455
 msgid "Empty Space"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:442
+#: classes/class-jq-archive-list-widget.php:468
 msgid "Effect"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:449
-#: classes/class-jq-archive-list-widget.php:486
+#: classes/class-jq-archive-list-widget.php:475
+#: classes/class-jq-archive-list-widget.php:512
 msgid "None"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:452
+#: classes/class-jq-archive-list-widget.php:478
 msgid "Slide( Accordion )"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:455
+#: classes/class-jq-archive-list-widget.php:481
 msgid "Fade"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:459
+#: classes/class-jq-archive-list-widget.php:485
 msgid "Month Format"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:467
+#: classes/class-jq-archive-list-widget.php:493
 msgid "Full Name( January )"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:471
+#: classes/class-jq-archive-list-widget.php:497
 msgid "Short Name( Jan )"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:475
+#: classes/class-jq-archive-list-widget.php:501
 msgid "Number( 01 )"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:479
+#: classes/class-jq-archive-list-widget.php:505
 msgid "Expand"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:489
+#: classes/class-jq-archive-list-widget.php:515
 msgid "All"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:493
+#: classes/class-jq-archive-list-widget.php:519
 msgid "Current or post date"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:497
+#: classes/class-jq-archive-list-widget.php:523
 msgid "Only post date"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:501
+#: classes/class-jq-archive-list-widget.php:527
 msgid "Only current date"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:506
+#: classes/class-jq-archive-list-widget.php:532
 msgid "Post type"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:523
+#: classes/class-jq-archive-list-widget.php:549
 msgid "Extra options"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:531
+#: classes/class-jq-archive-list-widget.php:557
 msgid "Show number of posts"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:541
+#: classes/class-jq-archive-list-widget.php:567
 msgid "Show posts under months"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:551
+#: classes/class-jq-archive-list-widget.php:577
 msgid "Show only post from selected category in a category page"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:562
+#: classes/class-jq-archive-list-widget.php:588
 msgid "Only expand / reduce by clicking the symbol"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:573
+#: classes/class-jq-archive-list-widget.php:599
 msgid "Only expand one at a the same time (accordion effect)"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:592
+#: classes/class-jq-archive-list-widget.php:618
 msgid "Include the following categories"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:604
+#: classes/class-jq-archive-list-widget.php:630
 msgid "Exclude the following categories"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:611
+#: classes/class-jq-archive-list-widget.php:637
 msgid "Exclude categories"
 msgstr ""
 
-#: classes/class-jq-archive-list-widget.php:628
+#: classes/class-jq-archive-list-widget.php:654
 msgid "Include categories"
 msgstr ""
 
-#: src/components/admin/CategoryPicker.js:17
-msgid "Loading categories..."
+#: build/index.js:1
+#: src/components/admin/CategoryPicker.js:24
+msgid "Loading categories…"
+msgstr ""
+
+#: build/block.json
+#: src/block.json
+msgctxt "block title"
+msgid "JS Archive List"
+msgstr ""
+
+#: build/block.json
+#: src/block.json
+msgctxt "block description"
+msgid "A widget for displaying an archive list with some effects."
 msgstr ""

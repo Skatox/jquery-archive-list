@@ -1,12 +1,8 @@
 <?xml version="1.0"?>
-<phpunit
-  bootstrap="tests/phpunit/bootstrap.php"
-  colors="true"
-  verbose="true"
->
+<phpunit bootstrap="tests/phpunit/bootstrap.php" colors="true" cacheDirectory=".phpunit.cache">
   <testsuites>
     <testsuite name="js-archive-list">
-      <directory suffix=".php">tests/phpunit</directory>
+      <directory suffix="Test.php">tests/phpunit</directory>
     </testsuite>
   </testsuites>
 </phpunit>

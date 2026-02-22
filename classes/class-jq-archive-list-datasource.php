@@ -56,7 +56,7 @@ class JQ_Archive_List_DataSource {
     protected function build_sql_join(): string {
         global $wpdb;
         $join = '';
-        if ($this->has_filtering_categories() || $this->only_show_cur_category()) {
+        if ($this->has_included_categories() || $this->only_show_cur_category()) {
             $join = sprintf(' LEFT JOIN %s ON(%s.ID = %s.object_id)',
                 $wpdb->term_relationships, $wpdb->posts, $wpdb->term_relationships
             );
@@ -74,6 +74,24 @@ class JQ_Archive_List_DataSource {
      */
     private function has_filtering_categories(): bool {
         return !empty($this->config['included']) || !empty($this->config['excluded']);
+    }
+
+    /**
+     * Check if user selected categories for inclusion.
+     *
+     * @return bool
+     */
+    private function has_included_categories(): bool {
+        return !empty($this->config['included']);
+    }
+
+    /**
+     * Check if user selected categories for exclusion.
+     *
+     * @return bool
+     */
+    private function has_excluded_categories(): bool {
+        return !empty($this->config['excluded']);
     }
 
     /**
@@ -110,14 +128,42 @@ class JQ_Archive_List_DataSource {
             $where_parts[] = 'MONTH(post_date) = %d';
             $prepare_args[] = $month;
         }
-        $ids_key = !empty($this->config['included']) ? 'included' : (!empty($this->config['excluded']) ? 'excluded' : null);
-        if ($ids_key) {
-            $ids = is_array($this->config[$ids_key]) ? $this->config[$ids_key] : explode(',', $this->config[$ids_key]);
-            $ids = array_map('intval', $ids);
-            $placeholders = implode(', ', array_fill(0, count($ids), '%d'));
-            $operator = $ids_key === 'included' ? 'IN' : 'NOT IN';
-            $where_parts[] = sprintf('%s.term_id %s (%s)', $wpdb->term_taxonomy, $operator, $placeholders);
-            $prepare_args = array_merge($prepare_args, $ids);
+        if ($this->has_included_categories()) {
+            $ids = is_array($this->config['included']) ? $this->config['included'] : explode(',', $this->config['included']);
+            $ids = array_values(array_filter(array_map('intval', $ids), static function ($id) {
+                return $id > 0;
+            }));
+
+            if (!empty($ids)) {
+                $placeholders = implode(', ', array_fill(0, count($ids), '%d'));
+                $where_parts[] = sprintf('%s.term_id IN (%s)', $wpdb->term_taxonomy, $placeholders);
+                $prepare_args = array_merge($prepare_args, $ids);
+            }
+        }
+
+        if ($this->has_excluded_categories()) {
+            $ids = is_array($this->config['excluded']) ? $this->config['excluded'] : explode(',', $this->config['excluded']);
+            $ids = array_values(array_filter(array_map('intval', $ids), static function ($id) {
+                return $id > 0;
+            }));
+
+            if (!empty($ids)) {
+                $placeholders = implode(', ', array_fill(0, count($ids), '%d'));
+                $where_parts[] = sprintf(
+                    '%s.ID NOT IN (
+                        SELECT tr.object_id
+                        FROM %s tr
+                        INNER JOIN %s tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                        WHERE tt.taxonomy = %%s AND tt.term_id IN (%s)
+                    )',
+                    $wpdb->posts,
+                    $wpdb->term_relationships,
+                    $wpdb->term_taxonomy,
+                    $placeholders
+                );
+                $prepare_args[] = 'category';
+                $prepare_args = array_merge($prepare_args, $ids);
+            }
         }
         if ($this->only_show_cur_category()) {
             $query_cat = get_query_var('cat');
@@ -130,7 +176,7 @@ class JQ_Archive_List_DataSource {
                 $prepare_args = array_merge($prepare_args, $categories_ids);
             }
         }
-        if ($this->has_filtering_categories() || $this->only_show_cur_category()) {
+        if ($this->has_included_categories() || $this->only_show_cur_category()) {
             $where_parts[] = $wpdb->term_taxonomy . '.taxonomy=%s';
             $prepare_args[] = 'category';
         }

@@ -1,4 +1,6 @@
-node_modules
-build/*
 .idea/*
-
+.phpunit*
+assets/public/*
+build/*
+node_modules
+vendor

@@ -21,7 +21,7 @@ const CategoryPicker = ({ selectedCats, onSelected }) => {
 	});
 
 	if (isLoading) {
-		return <h3>{__('Loading categories…', 'jalw_i18n')}</h3>;
+		return <h3>{__('Loading categories…', 'jquery-archive-list-widget')}</h3>;
 	}
 
 	if (categories === null) {

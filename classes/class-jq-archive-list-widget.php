@@ -37,7 +37,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct( 'jal_widget', 'JS Archive List Widget (Legacy)', [
 			'classname'             => 'widget_archive widget_jaw_widget',
-			'description'           => __( 'A widget for displaying an archive list with some effects.', 'jalw_i18n' ),
+			'description'           => __( 'A widget for displaying an archive list with some effects.', 'jquery-archive-list-widget' ),
 			'show_instance_in_rest' => true,
 		] );
 	}
@@ -61,7 +61,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		//add_filter( 'widget_types_to_hide_from_legacy_widget_block', [ $self, 'hide_jal_widget'] );
 
 		if ( function_exists( 'load_plugin_textdomain' ) ) {
-			load_plugin_textdomain( 'jalw_i18n', null, basename( dirname( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( 'jquery-archive-list-widget', null, basename( dirname( __FILE__ ) ) . '/languages' );
 			load_default_textdomain();
 		}
 
@@ -155,7 +155,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		);
 
 		if ( count( $years ) < 1 ) {
-			$html .= '<li>' . __( 'There are no post to show.', 'jalw_i18n' ) . '</li>';
+			$html .= '<li>' . __( 'There are no post to show.', 'jquery-archive-list-widget' ) . '</li>';
 		} else {
 			$html .= $this->html_years( $years );
 		}
@@ -445,7 +445,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 		$include_or_excluded = $instance['include-or-exclude'] ?? 'exclude';
 		?>
       <dl>
-        <dt><strong><?php _e( 'Title', 'jalw_i18n' ); ?></strong></dt>
+        <dt><strong><?php _e( 'Title', 'jquery-archive-list-widget' ); ?></strong></dt>
         <dd>
           <input
             name="<?php echo $this->get_field_name( 'title' ); ?>"
@@ -453,14 +453,14 @@ class JQ_Archive_List_Widget extends WP_Widget {
             value="<?php echo esc_attr( $instance['title'] ); ?>"
           />
         </dd>
-        <dt><strong><?php _e( 'Trigger Symbol', 'jalw_i18n' ); ?></strong></dt>
+        <dt><strong><?php _e( 'Trigger Symbol', 'jquery-archive-list-widget' ); ?></strong></dt>
         <dd>
           <select
             id="<?php echo $this->get_field_id( 'symbol' ); ?>"
             name="<?php echo $this->get_field_name( 'symbol' ); ?>"
           >
             <option value="0" <?php selected( $instance['symbol'], 0 ); ?> >
-				<?php _e( 'Empty Space', 'jalw_i18n' ); ?>
+				<?php _e( 'Empty Space', 'jquery-archive-list-widget' ); ?>
             </option>
             <option value="1" <?php selected( $instance['symbol'], 1 ); ?> >
               ► ▼
@@ -473,24 +473,24 @@ class JQ_Archive_List_Widget extends WP_Widget {
             </option>
           </select>
         </dd>
-        <dt><strong><?php _e( 'Effect', 'jalw_i18n' ); ?></strong></dt>
+        <dt><strong><?php _e( 'Effect', 'jquery-archive-list-widget' ); ?></strong></dt>
         <dd>
           <select
             id="<?php echo $this->get_field_id( 'effect' ); ?>"
             name="<?php echo $this->get_field_name( 'effect' ); ?>"
           >
             <option value="none" <?php selected( $instance['effect'], '' ); ?>>
-				<?php _e( 'None', 'jalw_i18n' ); ?>
+				<?php _e( 'None', 'jquery-archive-list-widget' ); ?>
             </option>
             <option value="slide" <?php selected( $instance['effect'], 'slide' ); ?> >
-				<?php _e( 'Slide( Accordion )', 'jalw_i18n' ); ?>
+				<?php _e( 'Slide( Accordion )', 'jquery-archive-list-widget' ); ?>
             </option>
             <option value="fade" <?php selected( $instance['effect'], 'fade' ); ?> >
-				<?php _e( 'Fade', 'jalw_i18n' ); ?>
+				<?php _e( 'Fade', 'jquery-archive-list-widget' ); ?>
             </option>
           </select>
         </dd>
-        <dt><strong><?php _e( 'Month Format', 'jalw_i18n' ); ?></strong></dt>
+        <dt><strong><?php _e( 'Month Format', 'jquery-archive-list-widget' ); ?></strong></dt>
         <dd>
           <select
             id="<?php echo $this->get_field_id( 'month_format' ); ?>"
@@ -498,46 +498,46 @@ class JQ_Archive_List_Widget extends WP_Widget {
           >
             <option
               value="full" <?php selected( $instance['month_format'], 'full' ); ?> >
-				<?php _e( 'Full Name( January )', 'jalw_i18n' ); ?>
+				<?php _e( 'Full Name( January )', 'jquery-archive-list-widget' ); ?>
             </option>
             <option
               value="short" <?php selected( $instance['month_format'], 'short' ); ?> >
-				<?php _e( 'Short Name( Jan )', 'jalw_i18n' ); ?>
+				<?php _e( 'Short Name( Jan )', 'jquery-archive-list-widget' ); ?>
             </option>
             <option
               value="number" <?php selected( $instance['month_format'], 'number' ); ?> >
-				<?php _e( 'Number( 01 )', 'jalw_i18n' ); ?>
+				<?php _e( 'Number( 01 )', 'jquery-archive-list-widget' ); ?>
             </option>
           </select>
         </dd>
-        <dt><strong><?php _e( 'Expand', 'jalw_i18n' ); ?></strong></dt>
+        <dt><strong><?php _e( 'Expand', 'jquery-archive-list-widget' ); ?></strong></dt>
         <dd>
           <select
             id="<?php echo $this->get_field_id( 'expand' ); ?>"
             name="<?php echo $this->get_field_name( 'expand' ); ?>"
           >
             <option value="" <?php selected( $instance['expand'], '' ); ?>>
-				<?php _e( 'None', 'jalw_i18n' ); ?>
+				<?php _e( 'None', 'jquery-archive-list-widget' ); ?>
             </option>
             <option value="all" <?php selected( $instance['expand'], 'all' ); ?> >
-				<?php _e( 'All', 'jalw_i18n' ); ?>
+				<?php _e( 'All', 'jquery-archive-list-widget' ); ?>
             </option>
             <option
               value="current" <?php selected( $instance['expand'], 'current' ); ?> >
-				<?php _e( 'Current or post date', 'jalw_i18n' ); ?>
+				<?php _e( 'Current or post date', 'jquery-archive-list-widget' ); ?>
             </option>
             <option
               value="current_post" <?php selected( $instance['expand'], 'current_post' ); ?> >
-				<?php _e( 'Only post date', 'jalw_i18n' ); ?>
+				<?php _e( 'Only post date', 'jquery-archive-list-widget' ); ?>
             </option>
             <option
               value="current_date" <?php selected( $instance['expand'], 'current_date' ); ?> >
-				<?php _e( 'Only current date', 'jalw_i18n' ); ?>
+				<?php _e( 'Only current date', 'jquery-archive-list-widget' ); ?>
             </option>
           </select>
         </dd>
 
-        <dt><strong><?php _e( 'Extra options', 'jalw_i18n' ); ?></strong></dt>
+        <dt><strong><?php _e( 'Extra options', 'jquery-archive-list-widget' ); ?></strong></dt>
         <dd>
           <input
             id="<?php echo $this->get_field_id( 'showcount' ); ?>"
@@ -546,7 +546,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
             value="1"
           />
           <label for="<?php echo $this->get_field_id( 'showcount' ); ?>">
-			  <?php _e( 'Show number of posts', 'jalw_i18n' ); ?>
+			  <?php _e( 'Show number of posts', 'jquery-archive-list-widget' ); ?>
           </label>
         </dd>
         <dd>
@@ -557,7 +557,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
             value="1"
           />
           <label for="<?php echo $this->get_field_id( 'showpost' ); ?>">
-			  <?php _e( 'Show posts under months', 'jalw_i18n' ); ?>
+			  <?php _e( 'Show posts under months', 'jquery-archive-list-widget' ); ?>
           </label>
         </dd>
         <dd>
@@ -568,7 +568,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
             value="1"
           />
           <label for="<?php echo $this->get_field_id( 'onlycategory' ); ?>">
-			  <?php _e( 'Show only post from selected category in a category page', 'jalw_i18n' ); ?>
+			  <?php _e( 'Show only post from selected category in a category page', 'jquery-archive-list-widget' ); ?>
           </label>
         </dd>
         <dd>
@@ -579,7 +579,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
             value="1" <?php echo $instance['only_sym_link'] ? 'checked="checked"' : ''; ?>
           />
           <label for="<?php echo $this->get_field_id( 'only_sym_link' ); ?>">
-			  <?php _e( 'Only expand / reduce by clicking the symbol', 'jalw_i18n' ); ?>
+			  <?php _e( 'Only expand / reduce by clicking the symbol', 'jquery-archive-list-widget' ); ?>
           </label>
         </dd>
         <dd>
@@ -590,7 +590,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
             value="1" <?php echo $instance['accordion'] ? 'checked="checked"' : ''; ?>
           />
           <label for="<?php echo $this->get_field_id( 'accordion' ); ?>">
-			  <?php _e( 'Only expand one at a the same time (accordion effect)', 'jalw_i18n' ); ?>
+			  <?php _e( 'Only expand one at a the same time (accordion effect)', 'jquery-archive-list-widget' ); ?>
           </label>
         </dd>
         <dt class="jaw-include-or-exclude">
@@ -608,7 +608,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
 			  <?php checked( $include_or_excluded, 'include' ); ?>
           />
           <label for="<?php echo $this->get_field_id( 'include-or-exclude' ); ?>-include">
-			  <?php _e( 'Include the following categories', 'jalw_i18n' ); ?>
+			  <?php _e( 'Include the following categories', 'jquery-archive-list-widget' ); ?>
           </label><br>
           <input
             id="<?php echo $this->get_field_id( 'include-or-exclude' ); ?>-exclude"
@@ -620,14 +620,14 @@ class JQ_Archive_List_Widget extends WP_Widget {
 			  <?php checked( $include_or_excluded, 'exclude' ) ?>
           />
           <label for="<?php echo $this->get_field_id( 'include-or-exclude' ); ?>-exclude">
-			  <?php _e( 'Exclude the following categories', 'jalw_i18n' ); ?>
+			  <?php _e( 'Exclude the following categories', 'jquery-archive-list-widget' ); ?>
           </label>
           <dl>
             <dt
               class="jaw-exclude <?php echo $this->get_field_id( 'excluded' ) ?>"
               style="display:<?php echo $includeCategories ? 'none' : 'block'; ?>"
             >
-              <strong><?php _e( 'Exclude categories', 'jalw_i18n' ); ?></strong>
+              <strong><?php _e( 'Exclude categories', 'jquery-archive-list-widget' ); ?></strong>
             </dt>
             <dd
               class="jaw-exclude <?php echo $this->get_field_id( 'excluded' ) ?>"
@@ -644,7 +644,7 @@ class JQ_Archive_List_Widget extends WP_Widget {
               class="jaw-include <?php echo $this->get_field_id( 'included' ) ?>"
               style="display:<?php echo ! $includeCategories ? 'none' : 'block'; ?>"
             >
-              <strong><?php _e( 'Include categories', 'jalw_i18n' ); ?></strong>
+              <strong><?php _e( 'Include categories', 'jquery-archive-list-widget' ); ?></strong>
             </dt>
             <dd
               class="jaw-include <?php echo $this->get_field_id( 'included' ) ?>"

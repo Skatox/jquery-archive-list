@@ -3,9 +3,10 @@ Contributors: skatox
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
-Tested up to: 7.0
-Stable Tag: 6.1.8
-License: GPLv2 or later
+Requires PHP: 7.4
+Tested up to: 6.9.1
+Stable Tag: 6.2.0
+License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 A JS widget (can be used in posts) for displaying an archive list with some effects.
@@ -127,6 +128,13 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+= 6.2.0 =
+* Fixed include parameter handling to avoid security risks.
+* Aligned text domain with the plugin slug across PHP, JS, and translation files.
+* Updated plugin/readme headers (requires, license, and license URI).
+* Added WordPress PHPUnit test suite setup docs and installer script.
+* Updated "Tested up to" to the latest WordPress release.
+
 = 6.1.8 =
 * Fixed unsafe deserialization of shortcode category filters by safely parsing serialized category IDs and rejecting object payloads.
 

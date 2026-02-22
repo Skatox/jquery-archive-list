@@ -5,22 +5,23 @@
  * @package js-archive-list
  */
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class Jalw_Test_Attack_Object {
 	public function __wakeup() {
 		$GLOBALS['jalw_attack_wakeup_triggered'] = true;
 	}
 }
 
-class Test_Js_Archive_List_Deserialization_Security extends WP_UnitTestCase {
+class ShortcodeDeserializationSecurityTest extends TestCase {
 
-	public function set_up(): void {
-		parent::set_up();
+	protected function setUp(): void {
+		parent::setUp();
 		$GLOBALS['jalw_attack_wakeup_triggered'] = false;
 	}
 
-	/**
-	 * @dataProvider legacy_serialized_included_provider
-	 */
+	#[DataProvider( 'legacy_serialized_included_provider' )]
 	public function test_accepts_legacy_serialized_arrays_of_ids( $included, $expected ) {
 		$config = $this->build_config( [
 			'included' => $included,
@@ -31,7 +32,7 @@ class Test_Js_Archive_List_Deserialization_Security extends WP_UnitTestCase {
 		$this->assertSame( $expected, $config['included'] );
 	}
 
-	public function legacy_serialized_included_provider() {
+	public static function legacy_serialized_included_provider() {
 		yield 'ints and numeric strings with duplicates and invalid ids' => [
 			'a:5:{i:0;i:5;i:1;s:1:"8";i:2;i:0;i:3;s:1:"5";i:4;s:2:"-1";}',
 			[ 5, 8 ],
@@ -43,9 +44,7 @@ class Test_Js_Archive_List_Deserialization_Security extends WP_UnitTestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider blocked_object_payload_provider
-	 */
+	#[DataProvider( 'blocked_object_payload_provider' )]
 	public function test_blocks_object_deserialization_payloads( $included, $expected ) {
 		$config = $this->build_config( [
 			'included' => $included,
@@ -57,7 +56,7 @@ class Test_Js_Archive_List_Deserialization_Security extends WP_UnitTestCase {
 		$this->assertFalse( $GLOBALS['jalw_attack_wakeup_triggered'] );
 	}
 
-	public function blocked_object_payload_provider() {
+	public static function blocked_object_payload_provider() {
 		yield 'serialized array with object payload' => [
 			serialize( [ 7, new Jalw_Test_Attack_Object() ] ),
 			[ 7 ],
@@ -69,9 +68,7 @@ class Test_Js_Archive_List_Deserialization_Security extends WP_UnitTestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider invalid_string_provider
-	 */
+	#[DataProvider( 'invalid_string_provider' )]
 	public function test_ignores_non_serialized_string_input( $included, $excluded ) {
 		$config = $this->build_config( [
 			'included' => $included,
@@ -84,7 +81,7 @@ class Test_Js_Archive_List_Deserialization_Security extends WP_UnitTestCase {
 		$this->assertSame( [], $config['excluded'] );
 	}
 
-	public function invalid_string_provider() {
+	public static function invalid_string_provider() {
 		yield 'comma-separated ids' => [
 			'10,11,12',
 			'not-serialized',
@@ -96,9 +93,7 @@ class Test_Js_Archive_List_Deserialization_Security extends WP_UnitTestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider array_normalization_provider
-	 */
+	#[DataProvider( 'array_normalization_provider' )]
 	public function test_normalizes_array_payloads( $included, $excluded, $expected_included, $expected_excluded ) {
 		$config = $this->build_config( [
 			'included' => $included,
@@ -111,7 +106,7 @@ class Test_Js_Archive_List_Deserialization_Security extends WP_UnitTestCase {
 		$this->assertSame( $expected_excluded, $config['excluded'] );
 	}
 
-	public function array_normalization_provider() {
+	public static function array_normalization_provider() {
 		yield 'mixed scalars and duplicates' => [
 			[ '4', 4, -3, 0, 'abc', 9 ],
 			[ '2', 2, 3 ],
