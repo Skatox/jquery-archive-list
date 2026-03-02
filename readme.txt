@@ -5,7 +5,7 @@ Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
 Requires PHP: 7.4
 Tested up to: 6.9.1
-Stable Tag: 6.2.0
+Stable Tag: 6.2.1
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,9 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+= 6.2.1 =
+* Fixed PHP 8.3 strict typing compatibility in `class-jq-archive-list-datasource.php` by normalizing values before `explode()` calls.
+
 = 6.2.0 =
 * Fixed unsafe deserialization of shortcode category filters by safely parsing serialized category IDs and rejecting object payloads.
 * Aligned text domain with the plugin slug across PHP, JS, and translation files.
