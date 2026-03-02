@@ -30,6 +30,24 @@ class JQ_Archive_List_DataSource {
     }
 
     /**
+     * Normalize config/query value into a list of string parts.
+     *
+     * @param mixed $value
+     * @return array
+     */
+    private function normalize_csv_or_array($value): array {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (is_scalar($value)) {
+            return explode(',', (string) $value);
+        }
+
+        return [];
+    }
+
+    /**
      * Get years and post counts
      *
      * @return array|null
@@ -129,7 +147,7 @@ class JQ_Archive_List_DataSource {
             $prepare_args[] = $month;
         }
         if ($this->has_included_categories()) {
-            $ids = is_array($this->config['included']) ? $this->config['included'] : explode(',', $this->config['included']);
+            $ids = $this->normalize_csv_or_array($this->config['included']);
             $ids = array_values(array_filter(array_map('intval', $ids), static function ($id) {
                 return $id > 0;
             }));
@@ -142,7 +160,7 @@ class JQ_Archive_List_DataSource {
         }
 
         if ($this->has_excluded_categories()) {
-            $ids = is_array($this->config['excluded']) ? $this->config['excluded'] : explode(',', $this->config['excluded']);
+            $ids = $this->normalize_csv_or_array($this->config['excluded']);
             $ids = array_values(array_filter(array_map('intval', $ids), static function ($id) {
                 return $id > 0;
             }));
@@ -168,7 +186,7 @@ class JQ_Archive_List_DataSource {
         if ($this->only_show_cur_category()) {
             $query_cat = get_query_var('cat');
             $categories_ids = empty($query_cat) ? $this->config['onlycategory'] : $query_cat;
-            $categories_ids = is_array($categories_ids) ? $categories_ids : explode(',', $categories_ids);
+            $categories_ids = $this->normalize_csv_or_array($categories_ids);
             $categories_ids = array_map('intval', $categories_ids);
             if (($this->legacy && is_category()) || !$this->legacy) {
                 $placeholders = implode(', ', array_fill(0, count($categories_ids), '%d'));
@@ -198,7 +216,7 @@ class JQ_Archive_List_DataSource {
             return null;
         }
         $sort = $this->config['sort'] ?? 'date_desc';
-        $order_by = explode('_', $sort);
+        $order_by = explode('_', is_scalar($sort) ? (string) $sort : 'date_desc');
         $order_direction = strtoupper($order_by[1] ?? 'DESC');
         if (!in_array($order_direction, ['ASC', 'DESC'], true)) {
             $order_direction = 'DESC';
