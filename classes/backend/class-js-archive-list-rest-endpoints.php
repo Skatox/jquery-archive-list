@@ -62,8 +62,9 @@ class JS_Archive_List_Rest_Endpoints {
 	/**
 	 * Builds the archive permalink used by the expandable year and month rows.
 	 *
-	 * WordPress only exposes built-in year/month archive links for the `post` post type,
-	 * so custom post types fall back to `#` while preserving the same expand/collapse UI.
+	 * WordPress only exposes built-in year/month archive links for the `post` post type.
+	 * For custom post types we fall back to the post type archive page when one exists,
+	 * which lets integrations like WooCommerce point archive rows to `/shop/` instead of `#`.
 	 *
 	 * @param string   $post_type Post type selected for the block.
 	 * @param int      $year      Archive year.
@@ -76,7 +77,14 @@ class JS_Archive_List_Rest_Endpoints {
 			return null === $month ? get_year_link( $year ) : get_month_link( $year, $month );
 		}
 
-		return '#';
+		$post_type_object = get_post_type_object( $post_type );
+		if ( ! $post_type_object || empty( $post_type_object->has_archive ) ) {
+			return '#';
+		}
+
+		$archive_link = get_post_type_archive_link( $post_type );
+
+		return $archive_link ? $archive_link : '#';
 	}
 
 	/**
