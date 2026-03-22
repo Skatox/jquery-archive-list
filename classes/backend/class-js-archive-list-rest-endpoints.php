@@ -33,13 +33,13 @@ class JS_Archive_List_Rest_Endpoints {
 	/**
 	 * Creates internal config from received parameters.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request $request Request object.
 	 */
 	private function build_config( $request ) {
 		$include_or_exclude = $request->get_param( 'exclusionType' ) ?? 'include';
 		$categories = $request->get_param( 'cats' ) ?? '';
 
-		if ( $include_or_exclude === 'include' ) {
+		if ( 'include' === $include_or_exclude ) {
 			$included = $categories;
 			$excluded = [];
 		} else {
@@ -49,13 +49,34 @@ class JS_Archive_List_Rest_Endpoints {
 
 		return [
 			'type'         => $request->get_param( 'type' ) ?? 'post',
-			'onlycategory' => $request->get_param( 'onlycats' ),
+			'taxonomy'     => $request->get_param( 'taxonomy' ) ?? 'category',
+			'onlycategory' => $request->get_param( 'onlyterms' ),
 			'expand'       => $request->get_param( 'expand' ),
 			'included'     => $included,
 			'excluded'     => $excluded,
 			'month_format' => $request->get_param( 'monthFormat' ) ?? 'number',
 			'sort'         => $request->get_param( 'sort' ) ?? 'id_asc',
 		];
+	}
+
+	/**
+	 * Builds the archive permalink used by the expandable year and month rows.
+	 *
+	 * WordPress only exposes built-in year/month archive links for the `post` post type,
+	 * so custom post types fall back to `#` while preserving the same expand/collapse UI.
+	 *
+	 * @param string   $post_type Post type selected for the block.
+	 * @param int      $year      Archive year.
+	 * @param int|null $month     Archive month.
+	 *
+	 * @return string
+	 */
+	private function get_archive_permalink( string $post_type, int $year, ?int $month = null ): string {
+		if ( 'post' === $post_type ) {
+			return null === $month ? get_year_link( $year ) : get_month_link( $year, $month );
+		}
+
+		return '#';
 	}
 
 	/**
@@ -70,23 +91,21 @@ class JS_Archive_List_Rest_Endpoints {
 		$data_source = new JQ_Archive_List_DataSource( $config );
 		$years = $data_source->get_years();
 
-		foreach ( $years as $key => $yearObject ) {
-			$years[ $key ]->permalink = get_year_link( $yearObject->year );
-			$years[ $key ]->expand = $data_source->year_should_be_expanded(
-				$yearObject->year,
+		foreach ( $years as $key => $year_object ) {
+			$years[ $key ]->permalink = $this->get_archive_permalink( $config['type'], (int) $year_object->year );
+			$years[ $key ]->expand    = $data_source->year_should_be_expanded(
+				$year_object->year,
 				$request->get_param( 'postYear' ),
 				$request->get_param( 'postMonth' ),
 				$config['expand']
 			);
 		}
 
-		return new WP_REST_Response( [
-			'years' => $years,
-		], 200 );
+		return new WP_REST_Response( [ 'years' => $years ], 200 );
 	}
 
 	/**
-	 * Get year's months with posts
+	 * Get year's months with posts.
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -94,48 +113,48 @@ class JS_Archive_List_Rest_Endpoints {
 	 */
 	public function get_months( $request ) {
 		$config = $this->build_config( $request );
-		$year = $request->get_param( 'year' ) ?? null;
+		$year   = $request->get_param( 'year' ) ?? null;
 
 		$data_source = new JQ_Archive_List_DataSource( $config );
-		$months = $data_source->get_months( $year );
+		$months      = $data_source->get_months( $year );
+		$formatter   = new JS_Archive_List_Frontend_Utils( $config );
 
-		$formatter = new JS_Archive_List_Frontend_Utils( $config );
-
-		foreach ( $months as $key => $monthObject ) {
-			$months[ $key ]->title = $formatter->format_month( $monthObject );
-			$months[ $key ]->permalink = get_month_link( $year, $monthObject->month );
-			$months[ $key ]->expand = $data_source->month_should_be_expanded(
+		foreach ( $months as $key => $month_object ) {
+			$months[ $key ]->title     = $formatter->format_month( $month_object );
+			$months[ $key ]->permalink = $this->get_archive_permalink( $config['type'], (int) $year, (int) $month_object->month );
+			$months[ $key ]->expand    = $data_source->month_should_be_expanded(
 				$year,
-				$monthObject,
+				$month_object,
 				$request->get_param( 'postYear' ),
 				$request->get_param( 'postMonth' ),
 				$config['expand']
 			);
 		}
 
-		return new WP_REST_Response( [
-			'months' => $months,
-		], 200 );
+		return new WP_REST_Response( [ 'months' => $months ], 200 );
 	}
 
+	/**
+	 * Get the posts in a given year/month archive bucket.
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response Request with the data.
+	 */
 	public function get_posts( $request ) {
-		$year = $request->get_param( 'year' );
-		$month = $request->get_param( 'month' );
-
+		$year   = $request->get_param( 'year' );
+		$month  = $request->get_param( 'month' );
 		$config = $this->build_config( $request );
+
 		$data_source = new JQ_Archive_List_DataSource( $config );
-		$posts = $data_source->get_posts( $year, $month );
+		$posts       = $data_source->get_posts( (int) $year, (int) $month );
 
 		foreach ( $posts as $key => $post ) {
-			$post->permalink = get_permalink( $post->ID );
+			$posts[ $key ]->permalink = get_permalink( $post->ID );
 		}
 
-		return new WP_REST_Response( [
-			'posts' => $posts,
-		], 200 );
+		return new WP_REST_Response( [ 'posts' => $posts ], 200 );
 	}
-
-
 }
 
 $jalw_endpoints = new JS_Archive_List_Rest_Endpoints();

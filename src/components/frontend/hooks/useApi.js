@@ -14,20 +14,25 @@ export default function useApi(url) {
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 
-	/* global jalwCurrentCat, jalwCurrentPost */
+	/* global jalwCurrentTerm, jalwCurrentPost */
 	const apiClient = async function (config) {
 		setLoading(true);
 
 		const params = new URLSearchParams({
 			monthFormat: config.month_format,
 			expand: config.expand,
+			type: config.post_type || config.type || 'post',
 		});
 
-		if (typeof jalwCurrentCat !== 'undefined' && config.onlycategory > 0) {
-			params.append('onlycats', jalwCurrentCat);
+		if (config.taxonomy) {
+			params.append('taxonomy', config.taxonomy);
 		}
 
-		if (config.categories) {
+		if (typeof jalwCurrentTerm !== 'undefined' && config.onlycategory > 0) {
+			params.append('onlyterms', jalwCurrentTerm);
+		}
+
+		if (config.categories && String(config.categories).length > 0) {
 			params.append('exclusionType', config.include_or_exclude);
 			params.append('cats', config.categories);
 		}
@@ -42,7 +47,6 @@ export default function useApi(url) {
 			}
 		}
 
-		// Checks if it's a post list request.
 		if (config.showpost === true && /\/archive\/\d+\/\d+/.test(url)) {
 			params.append('sort', config.sortpost);
 		}

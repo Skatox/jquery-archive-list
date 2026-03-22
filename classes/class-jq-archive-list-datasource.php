@@ -67,7 +67,11 @@ class JQ_Archive_List_DataSource {
     }
 
     /**
-     * Build SQL JOIN clause
+     * Build SQL JOIN clause.
+     *
+     * Term joins are only required for inclusion filters or for filtering by the
+     * currently queried term. Exclusion uses a subquery instead to avoid removing
+     * posts that match one excluded term but also belong to a permitted term.
      *
      * @return string
      */
@@ -86,16 +90,7 @@ class JQ_Archive_List_DataSource {
     }
 
     /**
-     * Check if user selected categories for inclusion or exclusion.
-     *
-     * @return bool
-     */
-    private function has_filtering_categories(): bool {
-        return !empty($this->config['included']) || !empty($this->config['excluded']);
-    }
-
-    /**
-     * Check if user selected categories for inclusion.
+     * Check if user selected terms for inclusion.
      *
      * @return bool
      */
@@ -113,16 +108,31 @@ class JQ_Archive_List_DataSource {
     }
 
     /**
-     * Returns if the option to show only current categories was selected and current page is a category page.
+     * Returns if the option to show only the currently queried term was selected.
      *
      * @return bool
      */
     private function only_show_cur_category(): bool {
-        return !empty($this->config['onlycategory']);
+        return ! empty( $this->config['onlycategory'] );
     }
 
     /**
-     * Build SQL WHERE clause
+     * Get taxonomy used to filter terms.
+     *
+     * @return string
+     */
+    private function get_filter_taxonomy(): string {
+        $taxonomy = $this->config['taxonomy'] ?? 'category';
+
+        return is_string( $taxonomy ) && taxonomy_exists( $taxonomy ) ? $taxonomy : 'category';
+    }
+
+    /**
+     * Build SQL WHERE clause.
+     *
+     * The block frontend can send a custom post type and taxonomy, so this WHERE
+     * builder keeps the post type restriction while swapping the taxonomy used for
+     * include/exclude/current-term filtering.
      *
      * @param int|null $year
      * @param int|null $month
@@ -179,13 +189,12 @@ class JQ_Archive_List_DataSource {
                     $wpdb->term_taxonomy,
                     $placeholders
                 );
-                $prepare_args[] = 'category';
+                $prepare_args[] = $this->get_filter_taxonomy();
                 $prepare_args = array_merge($prepare_args, $ids);
             }
         }
         if ($this->only_show_cur_category()) {
-            $query_cat = get_query_var('cat');
-            $categories_ids = empty($query_cat) ? $this->config['onlycategory'] : $query_cat;
+            $categories_ids = $this->config['onlycategory'];
             $categories_ids = $this->normalize_csv_or_array($categories_ids);
             $categories_ids = array_map('intval', $categories_ids);
             if (($this->legacy && is_category()) || !$this->legacy) {
@@ -196,7 +205,7 @@ class JQ_Archive_List_DataSource {
         }
         if ($this->has_included_categories() || $this->only_show_cur_category()) {
             $where_parts[] = $wpdb->term_taxonomy . '.taxonomy=%s';
-            $prepare_args[] = 'category';
+            $prepare_args[] = $this->get_filter_taxonomy();
         }
         $where_clause_fragment = implode(' AND ', $where_parts);
         $where_clause_fragment = apply_filters('getarchives_where', $where_clause_fragment, []);

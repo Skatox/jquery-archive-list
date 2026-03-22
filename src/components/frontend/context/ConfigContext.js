@@ -11,6 +11,8 @@ export const defaultConfig = {
 	month_format: 'full',
 	expand: 'none',
 	type: 'post',
+	post_type: 'post',
+	taxonomy: 'category',
 	showcount: false,
 	showpost: false,
 	sortpost: 'id_asc',

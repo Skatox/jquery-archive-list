@@ -95,6 +95,14 @@
       "type": "boolean",
       "default": false
     },
+    "post_type": {
+      "type": "string",
+      "default": "post"
+    },
+    "taxonomy": {
+      "type": "string",
+      "default": "category"
+    },
     "onlycategory": {
       "type": "boolean",
       "default": false
