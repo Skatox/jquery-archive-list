@@ -64,7 +64,7 @@ class JS_Archive_List_Rest_Endpoints {
 	 *
 	 * WordPress only exposes built-in year/month archive links for the `post` post type.
 	 * For custom post types we fall back to the post type archive page when one exists,
-	 * which lets integrations like WooCommerce point archive rows to `/shop/` instead of `#`.
+	 * which lets integrations like WooCommerce point archive rows to `/shop/`.
 	 *
 	 * @param string   $post_type Post type selected for the block.
 	 * @param int      $year      Archive year.
@@ -79,12 +79,12 @@ class JS_Archive_List_Rest_Endpoints {
 
 		$post_type_object = get_post_type_object( $post_type );
 		if ( ! $post_type_object || empty( $post_type_object->has_archive ) ) {
-			return '#';
+			return '';
 		}
 
 		$archive_link = get_post_type_archive_link( $post_type );
 
-		return $archive_link ? $archive_link : '#';
+		return $archive_link ? $archive_link : '';
 	}
 
 	/**

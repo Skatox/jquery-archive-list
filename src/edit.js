@@ -70,14 +70,38 @@ export default function Edit({ attributes, setAttributes }) {
 		return postTypes
 			.filter(
 				(postType) =>
-					postType.viewable &&
+					postType.slug &&
+					postType.show_in_rest !== false &&
+					postType.visibility?.show_ui !== false &&
+					(postType.slug === 'post' ||
+						postType.slug === 'page' ||
+						(!postType._builtin && !postType.slug.startsWith('wp_'))) &&
 					postType.slug !== 'attachment' &&
 					postType.slug !== 'wp_block'
 			)
 			.map((postType) => ({
 				label: postType.labels?.singular_name || postType.name,
 				value: postType.slug,
-			}));
+			}))
+			.sort((a, b) => {
+				if (a.value === 'post') {
+					return -1;
+				}
+
+				if (b.value === 'post') {
+					return 1;
+				}
+
+				if (a.value === 'page') {
+					return -1;
+				}
+
+				if (b.value === 'page') {
+					return 1;
+				}
+
+				return a.label.localeCompare(b.label);
+			});
 	}, [postTypes]);
 
 	const taxonomyOptions = useMemo(() => {
@@ -135,12 +159,6 @@ export default function Edit({ attributes, setAttributes }) {
 								label={__('Title', 'jquery-archive-list-widget')}
 								value={attributes.title}
 								onChange={(val) => setAttributes({ title: val })}
-							/>
-							<SelectControl
-								label={__('Post type', 'jquery-archive-list-widget')}
-								value={attributes.post_type || 'post'}
-								onChange={handlePostTypeChange}
-								options={postTypeOptions}
 							/>
 							<SelectControl
 								label={__('Trigger Symbol', 'jquery-archive-list-widget')}
@@ -216,6 +234,13 @@ export default function Edit({ attributes, setAttributes }) {
 								value={attributes.hide_from_year}
 								onChange={(val) => setAttributes({ hide_from_year: val })}
 								placeholder={__('Leave empty to show all years', 'jquery-archive-list-widget')}
+							/>
+							<SelectControl
+								label={__('Post type (Beta)', 'jquery-archive-list-widget')}
+								value={attributes.post_type || 'post'}
+								onChange={handlePostTypeChange}
+								options={postTypeOptions}
+								help={__('Only Post is shown from default WordPress post types.', 'jquery-archive-list-widget')}
 							/>
 						</PanelBody>
 					</Panel>

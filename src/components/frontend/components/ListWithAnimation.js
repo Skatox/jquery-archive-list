@@ -42,6 +42,7 @@ const ListWithAnimation = ({
 	const liClass = expand ? 'expanded' : '';
 	const loopItems = Array.isArray(items) || !items ? items : [];
 	const hasItems = loopItems && loopItems.length && loopItems.length > 0;
+	const hasLink = !!link.href;
 
 	useEffect(() => {
 		if (listElement && !!initialExpand) {
@@ -72,10 +73,17 @@ const ListWithAnimation = ({
 			) : (
 				''
 			)}
-			<a href={link.href} title={link.title} onClick={link.onClick}>
-				{link.content}
-				<Loading loading={loading} />
-			</a>
+			{hasLink ? (
+				<a href={link.href} title={link.title} onClick={link.onClick}>
+					{link.content}
+					<Loading loading={loading} />
+				</a>
+			) : (
+				<span>
+					{link.content}
+					<Loading loading={loading} />
+				</span>
+			)}
 			{hasItems ? (
 				<ul className={subListCustomClass + ' jal-hide'}>
 					{loopItems.map((item, index) => children(item, index))}
