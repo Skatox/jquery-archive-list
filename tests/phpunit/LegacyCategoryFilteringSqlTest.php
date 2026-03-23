@@ -28,6 +28,24 @@ class LegacyCategoryFilteringSqlTest extends TestCase {
 			'term_relationships' => 'wp_term_relationships',
 			'term_taxonomy'      => 'wp_term_taxonomy',
 		];
+
+		if ( ! function_exists( 'apply_filters' ) ) {
+			function apply_filters( $hook_name, $value ) {
+				return $value;
+			}
+		}
+
+		if ( ! function_exists( 'taxonomy_exists' ) ) {
+			function taxonomy_exists( $taxonomy ) {
+				return in_array( $taxonomy, [ 'category', 'genre' ], true );
+			}
+		}
+
+		if ( ! function_exists( 'is_category' ) ) {
+			function is_category() {
+				return false;
+			}
+		}
 	}
 
 	public function test_excluded_categories_use_post_level_subquery() {
@@ -65,5 +83,24 @@ class LegacyCategoryFilteringSqlTest extends TestCase {
 		$this->assertStringContainsString( 'LEFT JOIN wp_term_relationships', $join );
 		$this->assertStringContainsString( 'LEFT JOIN wp_term_taxonomy', $join );
 		$this->assertSame( [ '', 'post', 'publish', 2, 5, 'category' ], $args );
+	}
+
+	public function test_custom_taxonomy_is_used_for_custom_post_type_filters() {
+		$data_source = new Jalw_Testable_DataSource(
+			[
+				'type'         => 'book',
+				'taxonomy'     => 'genre',
+				'included'     => [ 11, 13 ],
+				'onlycategory' => [ 17 ],
+			],
+			false
+		);
+
+		[ $where, $args ] = $data_source->exposed_build_sql_where();
+
+		$this->assertStringContainsString( 'post_type = %s', $where );
+		$this->assertStringContainsString( 'wp_term_taxonomy.term_id IN (%d, %d)', $where );
+		$this->assertStringContainsString( 'wp_term_taxonomy.taxonomy=%s', $where );
+		$this->assertSame( [ '', 'book', 'publish', 11, 13, 17, 'genre' ], $args );
 	}
 }

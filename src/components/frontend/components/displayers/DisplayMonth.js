@@ -101,7 +101,7 @@ const groupPostsByDay = (config, posts) => {
 			acc[day] = {
 				ID: day,
 				title: day,
-				permalink: '#',
+				permalink: '',
 				expand: config.expand === 'all',
 				posts: [],
 				onClick: () => false,

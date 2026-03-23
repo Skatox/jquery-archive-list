@@ -26,6 +26,19 @@ const BulletWithSymbol = ({
 		return '';
 	}
 
+	if (!permalink) {
+		return (
+			<button
+				type="button"
+				title={title}
+				className={`${expandedClass} jaw_symbol`}
+				onClick={onToggle}
+			>
+				{symbol}
+			</button>
+		);
+	}
+
 	return (
 		<a
 			href={permalink}

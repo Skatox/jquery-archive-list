@@ -5,7 +5,7 @@ Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
 Requires PHP: 7.4
 Tested up to: 6.9.1
-Stable Tag: 6.2.1
+Stable Tag: 6.3.0
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,12 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+= 6.3.0 =
+* Added block-only support for archive lists of custom post types via a new post type selector in the block settings.
+* Added taxonomy-aware term selection in the block editor and clear saved terms when the post type or taxonomy changes.
+* Updated the dynamic block frontend, REST API, and datasource to render the same expandable archive UI for selected custom post types and hierarchical taxonomies.
+* Improved automated test coverage for custom taxonomy filtering and refreshed the PHPUnit toolchain for current development environments.
+
 = 6.2.1 =
 * Fixed PHP 8.3 strict typing compatibility in `class-jq-archive-list-datasource.php` by normalizing values before `explode()` calls.
 

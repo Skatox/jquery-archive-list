@@ -27,7 +27,10 @@ class JS_Archive_List_Frontend_Widget {
 	}
 
 	/**
-	 * Registers current post's month and year as JS variable so frontend can access it
+	 * Registers current post's month and year as JS variable so frontend can access it.
+	 *
+	 * It also exposes the currently queried term ID when the visitor is on a category
+	 * or custom taxonomy archive so the block can optionally limit itself to that term.
 	 *
 	 * @return void
 	 */
@@ -43,13 +46,13 @@ class JS_Archive_List_Frontend_Widget {
 			}
 		}
 
-		// If page is a category page, it prints the category list to send it the backend.
-		if ( is_category() ) {
-			$category_id = get_queried_object_id();
-			if ( $category_id ) {
+		// If page is a category or taxonomy page, print the term ID for the block frontend.
+		if ( is_category() || is_tax() ) {
+			$term_id = get_queried_object_id();
+			if ( $term_id ) {
 				printf(
-					'<script type="text/javascript">var jalwCurrentCat="%s";</script>',
-					(int) $category_id
+					'<script type="text/javascript">var jalwCurrentTerm="%s";</script>',
+					(int) $term_id
 				);
 			}
 		}
@@ -62,7 +65,7 @@ class JS_Archive_List_Frontend_Widget {
 	}
 
 	/**
-	 * Builds widget's HTML markup so react can be mounted there.
+	 * Builds widget's HTML markup so React can be mounted there.
 	 *
 	 * @param array $attributes Block's settings.
 	 *
@@ -84,8 +87,7 @@ class JS_Archive_List_Frontend_Widget {
 	}
 
 	/**
-	 * Prints widget's attributes in HTML attributes so
-	 * the React component can take use it.
+	 * Prints widget's attributes in HTML data attributes so the React component can use them.
 	 *
 	 * @return string The HTML attributes.
 	 */
@@ -99,6 +101,13 @@ class JS_Archive_List_Frontend_Widget {
 		return $buffer;
 	}
 
+	/**
+	 * Normalizes block attributes before they are exposed to the frontend app.
+	 *
+	 * @param array $block_attributes Raw block attributes.
+	 *
+	 * @return void
+	 */
 	private function set_attributes( $block_attributes = [] ) {
 		$categories = $block_attributes['categories'] ?? '';
 		if ( is_string( $categories ) ) {
@@ -121,6 +130,8 @@ class JS_Archive_List_Frontend_Widget {
 			'effect'             => $block_attributes['effect'] ?? 'none',
 			'month_format'       => $block_attributes['month_format'] ?? 'full',
 			'expand'             => $block_attributes['expand'] ?? '',
+			'post_type'          => $block_attributes['post_type'] ?? 'post',
+			'taxonomy'           => $block_attributes['taxonomy'] ?? 'category',
 			'showcount'          => (int) ( $block_attributes['showcount'] ?? 0 ),
 			'showpost'           => (int) ( $block_attributes['showpost'] ?? 0 ),
 			'sortpost'           => $block_attributes['sortpost'] ?? 'id_asc',
@@ -136,6 +147,6 @@ class JS_Archive_List_Frontend_Widget {
 	}
 }
 
-// Adds current post's date to the JS variable so widget can check it.
+// Adds current post data and queried term data to JS variables so the block can react to context.
 $jalw_frontend = JS_Archive_List_Frontend_Widget::instance();
 add_action( 'wp_footer', [ $jalw_frontend, 'inject_post_data' ] );
