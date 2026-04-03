@@ -140,6 +140,7 @@ class JS_Archive_List_Frontend_Widget {
 			'hide_from_year'     => $block_attributes['hide_from_year'] ?? '',
 			'onlycategory'       => (int) ( $block_attributes['onlycategory'] ?? 0 ),
 			'only_sym_link'      => (int) ( $block_attributes['only_sym_link'] ?? 0 ),
+			'open_links_new_tab' => (int) ( $block_attributes['open_links_new_tab'] ?? 0 ),
 			'accordion'          => (int) ( $block_attributes['accordion'] ?? 0 ),
 			'include_or_exclude' => $block_attributes['include_or_exclude'] ?? 'include',
 			'categories'         => ! empty( $categories ) ? implode( ',', $categories ) : '',

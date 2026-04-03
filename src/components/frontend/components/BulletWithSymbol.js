@@ -43,6 +43,8 @@ const BulletWithSymbol = ({
 		<a
 			href={permalink}
 			title={title}
+			target={config.open_links_new_tab ? '_blank' : undefined}
+			rel={config.open_links_new_tab ? 'noopener noreferrer' : undefined}
 			className={`${expandedClass} jaw_symbol`}
 			onClick={onToggle}
 		>

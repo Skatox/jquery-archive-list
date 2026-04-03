@@ -52,5 +52,47 @@ describe('ListWithAnimation', () => {
 		expect(getByText(mockItems[1].title)).toBeInTheDocument();
 	});
 
+	test('opens links in a new tab when enabled in config', () => {
+		const mockLink = {
+			href: 'https://example.com/archive',
+			title: 'Archive Link',
+			content: 'Archive Link Content',
+			onClick: jest.fn(),
+		};
+
+		const mockRootLink = {
+			expand: false,
+			title: 'Root Link',
+			onClick: jest.fn(),
+		};
+
+		const configWithNewTab = {
+			...defaultConfig,
+			open_links_new_tab: true,
+		};
+
+		const { getByRole } = render(
+			<ConfigContext.Provider
+				value={{ config: configWithNewTab, animationFunction }}
+			>
+				<ListWithAnimation
+					items={[]}
+					expand={false}
+					link={mockLink}
+					loading={false}
+					rootLink={mockRootLink}
+					showToggleSymbol={true}
+					subListCustomClass="custom-class"
+				>
+					{() => null}
+				</ListWithAnimation>
+			</ConfigContext.Provider>
+		);
+
+		const archiveLink = getByRole('link', { name: mockLink.content });
+		expect(archiveLink).toHaveAttribute('target', '_blank');
+		expect(archiveLink).toHaveAttribute('rel', 'noopener noreferrer');
+	});
+
 	// You can add more tests for other scenarios, such as testing props, callbacks, etc.
 });

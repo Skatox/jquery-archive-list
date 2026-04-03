@@ -288,6 +288,13 @@ export default function Edit({ attributes, setAttributes }) {
 							</PanelRow>
 							<PanelRow>
 								<CheckboxControl
+									label={__('Open links in a new tab', 'jquery-archive-list-widget')}
+									checked={attributes.open_links_new_tab}
+									onChange={(val) => setAttributes({ open_links_new_tab: val })}
+								/>
+							</PanelRow>
+							<PanelRow>
+								<CheckboxControl
 									label={__('Only expand one at a the same time (accordion effect)', 'jquery-archive-list-widget')}
 									checked={attributes.accordion}
 									onChange={(val) => setAttributes({ accordion: val })}

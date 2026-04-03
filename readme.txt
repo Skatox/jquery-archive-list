@@ -5,7 +5,7 @@ Tags: javascript, archive, list, gutenberg, block
 Requires at least: 4.7
 Requires PHP: 7.4
 Tested up to: 6.9.1
-Stable Tag: 6.3.0
+Stable Tag: 6.3.1
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
 * Show number of posts: display how many post are published in the year or in the month.
 * Show only posts from selected category: show only posts from the selected category when visiting a category page.
 * Only expand/reduce by clicking the symbol: select if animations start when click the link or just the bullet.
+* Open links in a new tab: opens archive and post links in a new browser tab/window.
 * Only expand one at the same time: select if you want to have only one expanded at the same time.
 * Show posts under months:  show post's title under months.
 * Show post date next to post title: show post's date next to post title.
@@ -128,6 +129,12 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 3. Block options to configure the list.
 
 == Changelog ==
+= 6.3.1 =
+* Added a new block setting to open archive and post links in a new tab/window.
+* Updated the frontend link rendering so year, month, and post links include `target="_blank"` when the option is enabled.
+* Added unit tests for the new "open links in a new tab" behavior.
+* Updated translation template with the new block setting label.
+
 = 6.3.0 =
 * Added block-only support for archive lists of custom post types via a new post type selector in the block settings.
 * Added taxonomy-aware term selection in the block editor and clear saved terms when the post type or taxonomy changes.

@@ -27,7 +27,7 @@ const ListWithAnimation = ({
 	showToggleSymbol,
 	subListCustomClass,
 }) => {
-	const { animationFunction } = useContext(ConfigContext);
+	const { animationFunction, config } = useContext(ConfigContext);
 	const listElement = useRef(null);
 	const [isExpanded, setIsExpanded] = useState(expand);
 
@@ -74,7 +74,13 @@ const ListWithAnimation = ({
 				''
 			)}
 			{hasLink ? (
-				<a href={link.href} title={link.title} onClick={link.onClick}>
+				<a
+					href={link.href}
+					title={link.title}
+					target={config.open_links_new_tab ? '_blank' : undefined}
+					rel={config.open_links_new_tab ? 'noopener noreferrer' : undefined}
+					onClick={link.onClick}
+				>
 					{link.content}
 					<Loading loading={loading} />
 				</a>
