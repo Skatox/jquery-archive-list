@@ -111,6 +111,10 @@
       "type": "boolean",
       "default": false
     },
+    "open_links_new_tab": {
+      "type": "boolean",
+      "default": false
+    },
     "include_or_exclude": {
       "type": "string",
       "enum": [

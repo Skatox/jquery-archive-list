@@ -14,7 +14,12 @@ const DisplayPost = ({ post }) => {
 	const dateSettings = getSettings();
 
 	return (
-		<a href={post.permalink} title={post.post_title}>
+		<a
+			href={post.permalink}
+			title={post.post_title}
+			target={config.open_links_new_tab ? '_blank' : undefined}
+			rel={config.open_links_new_tab ? 'noopener noreferrer' : undefined}
+		>
 			{post.post_title}
 			{config.show_post_date ? (
 				<span className="post-date">

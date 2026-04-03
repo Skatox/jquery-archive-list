@@ -69,4 +69,20 @@ describe('Post', () => {
 
 		expect(queryByText(post.post_date)).not.toBeInTheDocument();
 	});
+
+	test('should open post links in a new tab when enabled', () => {
+		const config = { ...defaultConfig, open_links_new_tab: true };
+
+		render(
+			<ConfigContext.Provider value={{ config, animationFunction }}>
+				<DisplayPost post={post} />
+			</ConfigContext.Provider>
+		);
+
+		const postLinkElement = screen.getByRole('link', {
+			name: post.post_title,
+		});
+		expect(postLinkElement).toHaveAttribute('target', '_blank');
+		expect(postLinkElement).toHaveAttribute('rel', 'noopener noreferrer');
+	});
 });

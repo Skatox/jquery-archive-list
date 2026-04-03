@@ -21,6 +21,7 @@ export const defaultConfig = {
 	hide_from_year: null,
 	onlycategory: null,
 	only_sym_link: false,
+	open_links_new_tab: false,
 	accordion: false,
 	include_or_exclude: 'include',
 	categories: [],
@@ -46,6 +47,9 @@ export const ConfigProvider = ({ attributes, children }) => {
 		parsedConfig.showpost = !!Number(parsedConfig.showpost);
 		parsedConfig.show_post_date = !!Number(parsedConfig.show_post_date);
 		parsedConfig.only_sym_link = !!Number(parsedConfig.only_sym_link);
+		parsedConfig.open_links_new_tab = !!Number(
+			parsedConfig.open_links_new_tab
+		);
 		parsedConfig.show_day_archive = !!Number(parsedConfig.show_day_archive);
 
 		updateContextConfig((prevState) => ({ ...prevState, ...parsedConfig }));
